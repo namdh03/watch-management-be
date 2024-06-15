@@ -1,11 +1,12 @@
 import express from 'express'
 import { create } from 'express-handlebars'
 import databaseService from './services/database.service'
-import serverRoutes from './routes/server'
+import webMemberRoutes from './routes/web/member'
 
 const app = express()
 const hbs = create({
   extname: '.hbs',
+  defaultLayout: `${__dirname}/views/member/layouts/main.hbs`,
   runtimeOptions: {
     allowProtoPropertiesByDefault: true,
     allowProtoMethodsByDefault: true
@@ -20,6 +21,6 @@ app.enable('view cache')
 app.use(express.static(`${__dirname}/public`))
 
 // Routes
-serverRoutes(app)
+webMemberRoutes(app)
 
 app.listen(3000)

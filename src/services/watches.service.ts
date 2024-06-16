@@ -1,4 +1,4 @@
-import Watch from '~/models/schemas/watch.schema'
+import Watch from '~/models/schemas/Watch.schema'
 
 class WatchesService {
   async getWatches() {

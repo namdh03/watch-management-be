@@ -6,16 +6,16 @@ export const commentSchema = new Schema(
       type: Number,
       min: 1,
       max: 3,
-      require: true
+      required: true
     },
     content: {
       type: String,
-      require: true
+      required: true
     },
     author: {
       type: Schema.Types.ObjectId,
       ref: 'Members',
-      require: true
+      required: true
     }
   },
   {

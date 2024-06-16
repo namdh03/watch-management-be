@@ -5,15 +5,15 @@ const watchSchema = new Schema(
   {
     watchName: {
       type: String,
-      require: true
+      required: true
     },
     image: {
       type: String,
-      require: true
+      required: true
     },
     price: {
       type: Number,
-      require: true
+      required: true
     },
     automatic: {
       type: Boolean,
@@ -21,19 +21,20 @@ const watchSchema = new Schema(
     },
     watchDescription: {
       type: String,
-      require: true
+      required: true
     },
     comments: [commentSchema],
     brand: {
       type: Schema.Types.ObjectId,
       ref: 'Brands',
-      require: true
+      required: true
     }
   },
   {
     timestamps: true
   }
 )
+
 const Watch = model('Watch', watchSchema)
 
 export default Watch

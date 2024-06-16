@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import watchController from '~/controllers/web/watch.controller'
+import watchController from '~/controllers/web/watch.controllers'
 
 const watchRouter = Router()
 

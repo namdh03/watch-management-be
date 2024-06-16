@@ -4,11 +4,11 @@ const memberSchema = new Schema(
   {
     memberName: {
       type: String,
-      require: true
+      required: true
     },
     password: {
       type: String,
-      require: true
+      required: true
     },
     isAdmin: {
       type: Boolean,

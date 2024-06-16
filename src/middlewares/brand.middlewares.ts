@@ -34,3 +34,33 @@ export const createBrandValidator = validate(
     ['body']
   )
 )
+
+export const checkExistedBrandNameValidator = validate(
+  checkSchema(
+    {
+      brandName: {
+        notEmpty: {
+          errorMessage: BRAND_MESSAGES.BRAND_NAME_IS_REQUIRED
+        },
+        isString: {
+          errorMessage: BRAND_MESSAGES.BRAND_NAME_MUST_BE_A_STRING
+        },
+        trim: true,
+        custom: {
+          options: async (value) => {
+            const result = await brandService.checkExistedBrandName({ brandName: value })
+
+            if (!result)
+              throw new ErrorWithStatus({
+                status: HTTP_STATUS.NOT_FOUND,
+                message: BRAND_MESSAGES.BRAND_NAME_DOES_NOT_EXIST
+              })
+
+            return true
+          }
+        }
+      }
+    },
+    ['params']
+  )
+)

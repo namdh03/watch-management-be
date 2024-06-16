@@ -7,11 +7,20 @@ class BrandService {
   }
 
   async checkExistedBrandName({ brandName }: Pick<BrandReqBody, 'brandName'>) {
-    return await Brand.exists({ brandName })
+    return await Brand.exists({
+      brandName: {
+        $regex: brandName,
+        $options: 'i'
+      }
+    })
   }
 
   async createBrand(body: BrandReqBody) {
     return await Brand.create(body)
+  }
+
+  async getBrandByName({ brandName }: Pick<BrandReqBody, 'brandName'>) {
+    return await Brand.findOne({ brandName })
   }
 }
 

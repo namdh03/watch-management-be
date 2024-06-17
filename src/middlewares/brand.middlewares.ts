@@ -56,16 +56,16 @@ export const checkExistedBrandNameValidator = validate(
         ...brandSchema,
         custom: {
           options: async (value, { req }) => {
-            const result = await brandService.getBrandByName({ brandName: value })
+            const brand = await brandService.getBrandByName({ brandName: value })
 
-            if (!result) {
+            if (!brand) {
               throw new ErrorWithStatus({
                 status: HTTP_STATUS.NOT_FOUND,
                 message: BRAND_MESSAGES.BRAND_NAME_DOES_NOT_EXIST
               })
             }
 
-            ;(req as Request).brand = result
+            ;(req as Request).brand = brand
 
             return true
           }
@@ -91,9 +91,9 @@ export const checkExistedBrandIdValidator = validate(
       brandId: {
         custom: {
           options: async (value, { req }) => {
-            if (!isValidObjectId(value)) {
-              ;(req as Request).page = '/admin/brand'
+            ;(req as Request).page = '/admin/brand'
 
+            if (!isValidObjectId(value)) {
               throw new ErrorWithStatus({
                 status: HTTP_STATUS.BAD_REQUEST,
                 message: BRAND_MESSAGES.BRAND_ID_MUST_BE_A_VALID_ID

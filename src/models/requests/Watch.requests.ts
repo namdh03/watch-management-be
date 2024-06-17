@@ -1,4 +1,4 @@
-import { Request } from 'express'
+import { ParamsDictionary } from 'express-serve-static-core'
 
 export interface WatchReqBody {
   watchName: string
@@ -7,4 +7,8 @@ export interface WatchReqBody {
   automatic: boolean
   watchDescription: string
   brandId: string
+}
+
+export interface UpdateWatchReqParams extends ParamsDictionary {
+  watchId: string
 }

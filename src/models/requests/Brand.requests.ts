@@ -4,7 +4,7 @@ export interface BrandReqBody {
   brandName: string
 }
 
-export interface DeleteBrandReqParams extends ParamsDictionary {
+export interface UpdateBrandReqParams extends ParamsDictionary {
   brandName: string
 }
 

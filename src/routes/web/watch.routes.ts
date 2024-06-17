@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import watchController from '~/controllers/web/watch.controllers'
-import { checkExistedWatchIdValidator, createWatchValidator } from '~/middlewares/watch.middlewares'
+import { checkExistedWatchIdValidator, watchValidator } from '~/middlewares/watch.middlewares'
 import { wrapRequestHandler } from '~/utils/handlers'
 
 const watchRouter = Router()
@@ -32,13 +32,25 @@ watchRouter.get('/create', watchController.createWatchView)
  *  brandId: string
  * }
  * */
-watchRouter.post('/create', createWatchValidator, wrapRequestHandler(watchController.createWatch))
+watchRouter.post('/create', watchValidator, wrapRequestHandler(watchController.createWatch))
 
 /**
- * Description. Create update watch page
+ * Description. Get update watch page
  * Path: /admin/watch/update/:watchId
  * Method: GET
  * */
 watchRouter.get('/update/:watchId', checkExistedWatchIdValidator, wrapRequestHandler(watchController.updateWatchView))
+
+/**
+ * Description. Update watch
+ * Path: /admin/watch/update/:watchId
+ * Method: PUT
+ * */
+watchRouter.put(
+  '/update/:watchId',
+  checkExistedWatchIdValidator,
+  watchValidator,
+  wrapRequestHandler(watchController.updateWatch)
+)
 
 export default watchRouter

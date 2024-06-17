@@ -20,7 +20,19 @@ class WatchService {
   }
 
   async getWatchById(watchId: string) {
-    return await Watch.findById(watchId)
+    return await Watch.findById(watchId).populate('brand', 'brandName')
+  }
+
+  async updateWatch(watchId: string, body: WatchReqBody) {
+    return await Watch.updateOne(
+      {
+        _id: watchId
+      },
+      {
+        ...body,
+        brand: body.brandId
+      }
+    )
   }
 }
 

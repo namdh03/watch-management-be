@@ -32,5 +32,7 @@ export const WATCH_MESSAGES = {
   WATCH_DESCRIPTION_MUST_BE_A_STRING: 'Watch description must be a string',
   WATCH_DESCRIPTION_LENGTH_MUST_BE_BETWEEN_1_AND_500: 'Watch description length must be between 1 and 500',
   WATCH_ID_MUST_BE_A_VALID_ID: 'Watch id must be a valid id',
-  WATCH_ID_DOES_NOT_EXIST: 'Watch id does not exist'
+  WATCH_ID_DOES_NOT_EXIST: 'Watch id does not exist',
+  CREATE_WATCH_SUCCESSFULLY: 'Create watch successfully',
+  UPDATE_WATCH_SUCCESSFULLY: 'Update watch successfully'
 }

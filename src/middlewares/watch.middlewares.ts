@@ -8,7 +8,7 @@ import brandService from '~/services/brand.service'
 import watchService from '~/services/watch.service'
 import validate from '~/utils/validate'
 
-export const createWatchValidator = validate(
+export const watchValidator = validate(
   checkSchema({
     watchName: {
       notEmpty: {
@@ -107,9 +107,9 @@ export const checkExistedWatchIdValidator = validate(
       watchId: {
         custom: {
           options: async (value, { req }) => {
-            if (!isValidObjectId(value)) {
-              ;(req as Request).page = '/admin/watch'
+            ;(req as Request).page = '/admin/watch'
 
+            if (!isValidObjectId(value)) {
               throw new ErrorWithStatus({
                 status: HTTP_STATUS.BAD_REQUEST,
                 message: WATCH_MESSAGES.WATCH_ID_MUST_BE_A_VALID_ID
@@ -117,14 +117,15 @@ export const checkExistedWatchIdValidator = validate(
             }
 
             const watch = await watchService.getWatchById(value)
-            if (!watch) {
-              ;(req as Request).page = '/admin/watch'
 
+            if (!watch) {
               throw new ErrorWithStatus({
                 status: HTTP_STATUS.NOT_FOUND,
                 message: WATCH_MESSAGES.WATCH_ID_DOES_NOT_EXIST
               })
             }
+
+            ;(req as Request).watch = watch
 
             return true
           }

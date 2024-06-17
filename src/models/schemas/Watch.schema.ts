@@ -26,7 +26,7 @@ const watchSchema = new Schema(
     comments: [commentSchema],
     brand: {
       type: Schema.Types.ObjectId,
-      ref: 'Brands',
+      ref: 'Brand',
       required: true
     }
   },

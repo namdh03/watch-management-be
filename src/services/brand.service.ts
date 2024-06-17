@@ -26,10 +26,10 @@ class BrandService {
     })
   }
 
-  async updateBrand(id: string, body: BrandReqBody) {
+  async updateBrand(brandId: string, body: BrandReqBody) {
     return await Brand.updateOne(
       {
-        _id: id
+        _id: brandId
       },
       {
         ...body

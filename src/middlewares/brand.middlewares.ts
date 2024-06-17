@@ -5,17 +5,21 @@ import { ErrorWithStatus } from '~/models/errors'
 import brandService from '~/services/brand.service'
 import validate from '~/utils/validate'
 
+const brandSchema = {
+  notEmpty: {
+    errorMessage: BRAND_MESSAGES.BRAND_NAME_IS_REQUIRED
+  },
+  isString: {
+    errorMessage: BRAND_MESSAGES.BRAND_NAME_MUST_BE_A_STRING
+  },
+  trim: true
+}
+
 export const createBrandValidator = validate(
   checkSchema(
     {
       brandName: {
-        notEmpty: {
-          errorMessage: BRAND_MESSAGES.BRAND_NAME_IS_REQUIRED
-        },
-        isString: {
-          errorMessage: BRAND_MESSAGES.BRAND_NAME_MUST_BE_A_STRING
-        },
-        trim: true,
+        ...brandSchema,
         custom: {
           options: async (value) => {
             const result = await brandService.checkExistedBrandName({ brandName: value })
@@ -39,13 +43,7 @@ export const checkExistedBrandNameValidator = validate(
   checkSchema(
     {
       brandName: {
-        notEmpty: {
-          errorMessage: BRAND_MESSAGES.BRAND_NAME_IS_REQUIRED
-        },
-        isString: {
-          errorMessage: BRAND_MESSAGES.BRAND_NAME_MUST_BE_A_STRING
-        },
-        trim: true,
+        ...brandSchema,
         custom: {
           options: async (value) => {
             const result = await brandService.checkExistedBrandName({ brandName: value })

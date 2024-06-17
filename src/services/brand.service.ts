@@ -20,7 +20,12 @@ class BrandService {
   }
 
   async getBrandByName({ brandName }: Pick<BrandReqBody, 'brandName'>) {
-    return await Brand.findOne({ brandName })
+    return await Brand.findOne({
+      brandName: {
+        $regex: brandName,
+        $options: 'i'
+      }
+    })
   }
 }
 

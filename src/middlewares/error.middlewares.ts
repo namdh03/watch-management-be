@@ -7,9 +7,10 @@ import getBaseRoute from '~/utils/getBaseRoute'
 
 export const webDefaultErrorHandler = (err: Error, req: Request, res: Response, _next: NextFunction) => {
   try {
+    console.log('webDefaultErrorHandler', err)
     if (err instanceof ErrorWithStatus) {
       if (err.status === HTTP_STATUS.NOT_FOUND) {
-        return res.status(HTTP_STATUS.NOT_FOUND).render('404', {
+        return res.status(err.status).render('404', {
           message: SERVER_MESSAGES.PAGE_NOT_FOUND,
           error: err
         })
@@ -20,7 +21,7 @@ export const webDefaultErrorHandler = (err: Error, req: Request, res: Response, 
         const view = errorPageMappings[baseRoute]
         if (view) return res.render(view, { error: err })
       } else {
-        return res.status(err.status).render('error', {
+        return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).render('error', {
           message: SERVER_MESSAGES.INTERNAL_SERVER_ERROR,
           error: err
         })

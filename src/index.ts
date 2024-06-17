@@ -1,5 +1,6 @@
 import express from 'express'
 import { create } from 'express-handlebars'
+import { HelperOptions } from 'handlebars'
 import databaseService from './services/database.service'
 import webRoutes from './routes/web'
 
@@ -9,6 +10,11 @@ const hbs = create({
   runtimeOptions: {
     allowProtoPropertiesByDefault: true,
     allowProtoMethodsByDefault: true
+  },
+  helpers: {
+    ifEquals: function (arg1: unknown, arg2: unknown, options: HelperOptions) {
+      return arg1 == arg2 ? options.fn(this) : options.inverse(this)
+    }
   }
 })
 

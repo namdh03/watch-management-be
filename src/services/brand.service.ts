@@ -27,7 +27,7 @@ class BrandService {
   }
 
   async updateBrand(id: string, body: BrandReqBody) {
-    return await Brand.findByIdAndUpdate(
+    return await Brand.updateOne(
       {
         _id: id
       },
@@ -35,6 +35,12 @@ class BrandService {
         ...body
       }
     )
+  }
+
+  async deleteBrand(brandId: string) {
+    return await Brand.deleteOne({
+      _id: brandId
+    })
   }
 }
 

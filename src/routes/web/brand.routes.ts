@@ -3,7 +3,8 @@ import brandControllers from '~/controllers/web/brand.controllers'
 import {
   createBrandValidator,
   checkExistedBrandNameValidator,
-  updateBrandValidator
+  updateBrandValidator,
+  checkExistedBrandIdValidator
 } from '~/middlewares/brand.middlewares'
 import { wrapRequestHandler } from '~/utils/handlers'
 
@@ -58,5 +59,15 @@ brandRouter.put(
   checkExistedBrandNameValidator,
   wrapRequestHandler(brandControllers.updateBrand)
 )
+
+/**
+ * Description. Delete brand
+ * Path: /admin/brand/delete/:brandId
+ * Method: DELETE
+ * Params: {
+ *  id: string
+ * }
+ */
+brandRouter.delete('/delete/:brandId', checkExistedBrandIdValidator, wrapRequestHandler(brandControllers.deleteBrand))
 
 export default brandRouter

@@ -15,7 +15,7 @@ export const webDefaultErrorHandler = (err: Error, req: Request, res: Response, 
 
       res.flash('error', JSON.stringify(err))
 
-      res.redirect(req.originalUrl)
+      res.redirect(req.page || req.originalUrl)
     }
   } catch (error) {
     return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).render('error', {

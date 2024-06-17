@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { BRAND_MESSAGES } from '~/constants/messages'
 import { TypedRequestBody, TypedRequestParams, TypedRequestParamsBody } from '~/models/requests'
-import { BrandReqBody, BrandReqParams } from '~/models/requests/Brand.requests'
+import { BrandReqBody, DeleteBrandReqParams } from '~/models/requests/Brand.requests'
 import brandService from '~/services/brand.service'
 
 // [GET] /admin/brand
@@ -23,16 +23,29 @@ const createBrand = async (req: TypedRequestBody<BrandReqBody>, res: Response) =
 }
 
 // [GET] /admin/brand/update/:brandName
-const updateBrandView = async (req: TypedRequestParams<BrandReqParams>, res: Response) => {
+const updateBrandView = async (req: TypedRequestParams<DeleteBrandReqParams>, res: Response) => {
   const brand = req.brand
   res.render('update-brand', { brand })
 }
 
 // [PUT] /admin/brand/update/:brandName
-const updateBrand = async (req: TypedRequestParamsBody<BrandReqParams, BrandReqBody>, res: Response) => {
-  const brand = req.brand
-  await brandService.updateBrand(brand._id, req.body)
+const updateBrand = async (req: TypedRequestParamsBody<DeleteBrandReqParams, BrandReqBody>, res: Response) => {
+  await brandService.updateBrand(req.brand._id, req.body)
   res.flash('success', BRAND_MESSAGES.UPDATE_BRAND_SUCCESSFULLY)
+  res.redirect('/admin/brand')
+}
+
+// [DELETE] /admin/brand/delete/:brandId
+const deleteBrand = async (req: TypedRequestParams<DeleteBrandReqParams>, res: Response) => {
+  const { brandId } = req.params
+  const result = await brandService.deleteBrand(brandId)
+
+  if (!result.deletedCount) {
+    res.flash('error', BRAND_MESSAGES.BRAND_ID_DOES_NOT_EXIST)
+    return res.redirect('/admin/brand')
+  }
+
+  res.flash('success', BRAND_MESSAGES.DELETE_BRAND_SUCCESSFULLY)
   res.redirect('/admin/brand')
 }
 
@@ -41,5 +54,6 @@ export default {
   createBrandView,
   createBrand,
   updateBrandView,
-  updateBrand
+  updateBrand,
+  deleteBrand
 }

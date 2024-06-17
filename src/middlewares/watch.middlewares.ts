@@ -1,7 +1,11 @@
+import { Request } from 'express'
 import { checkSchema } from 'express-validator'
 import { isValidObjectId } from 'mongoose'
+import HTTP_STATUS from '~/constants/httpStatus'
 import { BRAND_MESSAGES, WATCH_MESSAGES } from '~/constants/messages'
+import { ErrorWithStatus } from '~/models/errors'
 import brandService from '~/services/brand.service'
+import watchService from '~/services/watch.service'
 import validate from '~/utils/validate'
 
 export const createWatchValidator = validate(
@@ -95,4 +99,38 @@ export const createWatchValidator = validate(
       }
     }
   })
+)
+
+export const checkExistedWatchIdValidator = validate(
+  checkSchema(
+    {
+      watchId: {
+        custom: {
+          options: async (value, { req }) => {
+            if (!isValidObjectId(value)) {
+              ;(req as Request).page = '/admin/watch'
+
+              throw new ErrorWithStatus({
+                status: HTTP_STATUS.BAD_REQUEST,
+                message: WATCH_MESSAGES.WATCH_ID_MUST_BE_A_VALID_ID
+              })
+            }
+
+            const watch = await watchService.getWatchById(value)
+            if (!watch) {
+              ;(req as Request).page = '/admin/watch'
+
+              throw new ErrorWithStatus({
+                status: HTTP_STATUS.NOT_FOUND,
+                message: WATCH_MESSAGES.WATCH_ID_DOES_NOT_EXIST
+              })
+            }
+
+            return true
+          }
+        }
+      }
+    },
+    ['params']
+  )
 )

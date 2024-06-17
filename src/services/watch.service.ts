@@ -18,6 +18,10 @@ class WatchService {
       brand: body.brandId
     })
   }
+
+  async getWatchById(watchId: string) {
+    return await Watch.findById(watchId)
+  }
 }
 
 const watchService = new WatchService()

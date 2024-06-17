@@ -22,8 +22,14 @@ const createWatch = async (req: TypedRequestBody<WatchReqBody>, res: Response) =
   res.redirect('/admin/watch')
 }
 
+// [GET] /admin/watch/update/:watchId
+const updateWatchView = async (req: Request, res: Response) => {
+  res.render('update-watch')
+}
+
 export default {
   watchesView,
   createWatchView,
-  createWatch
+  createWatch,
+  updateWatchView
 }

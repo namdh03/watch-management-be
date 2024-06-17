@@ -34,6 +34,12 @@ class WatchService {
       }
     )
   }
+
+  async deleteWatch(watchId: string) {
+    return await Watch.deleteOne({
+      _id: watchId
+    })
+  }
 }
 
 const watchService = new WatchService()

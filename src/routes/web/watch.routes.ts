@@ -53,4 +53,11 @@ watchRouter.put(
   wrapRequestHandler(watchController.updateWatch)
 )
 
+/**
+ * Description. Delete watch
+ * Path: /admin/watch/delete/:watchId
+ * Method: DELETE
+ * */
+watchRouter.delete('/delete/:watchId', checkExistedWatchIdValidator, wrapRequestHandler(watchController.deleteWatch))
+
 export default watchRouter

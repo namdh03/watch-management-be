@@ -10,4 +10,11 @@ const authRouter = Router()
  */
 authRouter.get('/sign-in', authControllers.signInView)
 
+/**
+ * Description. Get sign up page
+ * Path: /sign-up
+ * Method: GET
+ */
+authRouter.get('/sign-up', authControllers.signUpView)
+
 export default authRouter

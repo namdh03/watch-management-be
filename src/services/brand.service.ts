@@ -42,6 +42,10 @@ class BrandService {
       _id: brandId
     })
   }
+
+  async getBrandById(brandId: string) {
+    return await Brand.findById(brandId)
+  }
 }
 
 const brandService = new BrandService()

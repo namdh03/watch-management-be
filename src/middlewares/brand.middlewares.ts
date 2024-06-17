@@ -14,7 +14,14 @@ const brandSchema: ParamSchema = {
   isString: {
     errorMessage: BRAND_MESSAGES.BRAND_NAME_MUST_BE_A_STRING
   },
-  trim: true
+  trim: true,
+  isLength: {
+    options: {
+      min: 1,
+      max: 50
+    },
+    errorMessage: BRAND_MESSAGES.BRAND_NAME_LENGTH_MUST_BE_BETWEEN_1_AND_50
+  }
 }
 
 export const createBrandValidator = validate(
@@ -86,6 +93,7 @@ export const checkExistedBrandIdValidator = validate(
           options: async (value, { req }) => {
             if (!isValidObjectId(value)) {
               ;(req as Request).page = '/admin/brand'
+
               throw new ErrorWithStatus({
                 status: HTTP_STATUS.BAD_REQUEST,
                 message: BRAND_MESSAGES.BRAND_ID_MUST_BE_A_VALID_ID

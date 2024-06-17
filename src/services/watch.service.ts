@@ -13,7 +13,10 @@ class WatchService {
   }
 
   async createWatch(body: WatchReqBody) {
-    return await Watch.create(body)
+    return await Watch.create({
+      ...body,
+      brand: body.brandId
+    })
   }
 }
 

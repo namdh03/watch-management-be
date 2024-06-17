@@ -1,5 +1,7 @@
 import { Router } from 'express'
 import watchController from '~/controllers/web/watch.controllers'
+import { createWatchValidator } from '~/middlewares/watch.middlewares'
+import { wrapRequestHandler } from '~/utils/handlers'
 
 const watchRouter = Router()
 
@@ -22,9 +24,14 @@ watchRouter.get('/create', watchController.createWatchView)
  * Path: /admin/watch/create
  * Method: POST
  * Body: {
- *
+ *  watchName: string
+ *  image: string
+ *  price: number
+ *  automatic: boolean
+ *  watchDescription: string
+ *  brandId: string
  * }
  * */
-watchRouter.post('/create', watchController.createWatch)
+watchRouter.post('/create', createWatchValidator, wrapRequestHandler(watchController.createWatch))
 
 export default watchRouter

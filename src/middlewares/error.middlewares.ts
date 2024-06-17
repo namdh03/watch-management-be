@@ -5,6 +5,7 @@ import { ErrorWithStatus } from '~/models/errors'
 
 export const webDefaultErrorHandler = (err: Error, req: Request, res: Response, _next: NextFunction) => {
   try {
+    console.log('webDefaultErrorHandler', err)
     if (err instanceof ErrorWithStatus) {
       if (err.status === HTTP_STATUS.NOT_FOUND) {
         return res.status(err.status).render('404', {
@@ -16,6 +17,11 @@ export const webDefaultErrorHandler = (err: Error, req: Request, res: Response, 
       res.flash('error', JSON.stringify(err))
 
       res.redirect(req.page || req.originalUrl)
+    } else {
+      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).render('error', {
+        message: SERVER_MESSAGES.INTERNAL_SERVER_ERROR,
+        error: err
+      })
     }
   } catch (error) {
     return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).render('error', {

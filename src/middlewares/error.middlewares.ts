@@ -7,6 +7,17 @@ export const webDefaultErrorHandler = (err: Error, req: Request, res: Response, 
   try {
     console.log('webDefaultErrorHandler', err)
     if (err instanceof ErrorWithStatus) {
+      if (err.status === HTTP_STATUS.BAD_REQUEST) {
+        return res.status(err.status).render('400', {
+          message: SERVER_MESSAGES.BAD_REQUEST,
+          error: err
+        })
+      }
+
+      if (err.status === HTTP_STATUS.UNAUTHORIZED) {
+        return res.redirect('/sign-in')
+      }
+
       if (err.status === HTTP_STATUS.NOT_FOUND) {
         return res.status(err.status).render('404', {
           message: SERVER_MESSAGES.PAGE_NOT_FOUND,

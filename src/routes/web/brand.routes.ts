@@ -6,7 +6,6 @@ import {
   updateBrandValidator,
   checkExistedBrandIdValidator
 } from '~/middlewares/brand.middlewares'
-import { wrapRequestHandler } from '~/utils/handlers'
 
 const brandRouter = Router()
 
@@ -32,18 +31,14 @@ brandRouter.get('/create', brandControllers.createBrandView)
  *  brandName: string
  * }
  */
-brandRouter.post('/create', createBrandValidator, wrapRequestHandler(brandControllers.createBrand))
+brandRouter.post('/create', createBrandValidator, brandControllers.createBrand)
 
 /**
  * Description. Get update brand page
  * Path: /admin/brand/update/:brandName
  * Method: GET
  */
-brandRouter.get(
-  '/update/:brandName',
-  checkExistedBrandNameValidator,
-  wrapRequestHandler(brandControllers.updateBrandView)
-)
+brandRouter.get('/update/:brandName', checkExistedBrandNameValidator, brandControllers.updateBrandView)
 
 /**
  * Description. Update brand
@@ -57,7 +52,7 @@ brandRouter.put(
   '/update/:brandName',
   updateBrandValidator,
   checkExistedBrandNameValidator,
-  wrapRequestHandler(brandControllers.updateBrand)
+  brandControllers.updateBrand
 )
 
 /**
@@ -68,6 +63,6 @@ brandRouter.put(
  *  id: string
  * }
  */
-brandRouter.delete('/delete/:brandId', checkExistedBrandIdValidator, wrapRequestHandler(brandControllers.deleteBrand))
+brandRouter.delete('/delete/:brandId', checkExistedBrandIdValidator, brandControllers.deleteBrand)
 
 export default brandRouter

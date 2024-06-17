@@ -1,5 +1,6 @@
 export const SERVER_MESSAGES = {
   VALIDATION_ERROR: 'Validation error',
+  BAD_REQUEST: 'Bad request',
   PAGE_NOT_FOUND: 'Page not found',
   INTERNAL_SERVER_ERROR: 'Internal server error'
 }
@@ -35,4 +36,16 @@ export const WATCH_MESSAGES = {
   WATCH_ID_DOES_NOT_EXIST: 'Watch id does not exist',
   CREATE_WATCH_SUCCESSFULLY: 'Create watch successfully',
   UPDATE_WATCH_SUCCESSFULLY: 'Update watch successfully'
+}
+
+export const USER_MESSAGES = {
+  MEMBER_NAME_IS_REQUIRED: 'Member name is required',
+  MEMBER_NAME_MUST_BE_A_STRING: 'Member name must be a string',
+  MEMBER_NAME_LENGTH_MUST_BE_BETWEEN_1_AND_20: 'Member name length must be between 1 and 20',
+  PASSWORD_IS_REQUIRED: 'Password is required',
+  PASSWORD_MUST_BE_A_STRING: 'Password must be a string',
+  PASSWORD_LENGTH_MUST_BE_BETWEEN_6_AND_50: 'Password length must be between 6 and 50',
+  PASSWORD_MUST_BE_STRONG: 'Password must be strong',
+  MEMBER_NAME_ALREADY_EXISTS: 'Member name already exists',
+  ACCESS_TOKEN_IS_REQUIRED: 'Access token is required'
 }

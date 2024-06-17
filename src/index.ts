@@ -2,9 +2,11 @@ import express from 'express'
 import { create } from 'express-handlebars'
 import session from 'express-session'
 import flash from 'express-flash-message'
+import cookieParser from 'cookie-parser'
 import databaseService from './services/database.service'
 import webRoutes from './routes/web'
 import registerHelperHbs from './utils/registerHelperHbs'
+import { PORT } from './constants/env'
 
 const app = express()
 const hbs = create({
@@ -22,6 +24,7 @@ app.set('view engine', '.hbs')
 app.set('views', `${__dirname}/views`)
 app.enable('view cache')
 app.use(express.json())
+app.use(cookieParser())
 app.use(express.static(`${__dirname}/public`))
 
 // setup express-session
@@ -50,4 +53,4 @@ app.use(
 // Routes
 webRoutes(app)
 
-app.listen(3000)
+app.listen(PORT)

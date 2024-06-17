@@ -8,7 +8,9 @@ const registerHelperHbs = {
     return arg1 == arg2 ? options.fn(this) : options.inverse(this)
   },
   parseJSON: function (context: string) {
-    return JSON.parse(context)
+    if (context.length > 0) {
+      return JSON.parse(context)
+    }
   }
 }
 

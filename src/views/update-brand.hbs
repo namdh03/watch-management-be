@@ -1,5 +1,16 @@
 {{setVar 'res' (parseJSON (getFlashMessages 'error'))}}
+{{setVar 'brandNameMsg' res.error.brandName.msg}}
 
 <h1>Update Brand Page</h1>
 
-<p>{{res.error.brandName.msg}}</p>
+{{#if brand.brandName}}
+  <span>{{brand.brandName}}</span>
+{{/if}}
+
+{{#if brandNameMsg}}
+  <p>{{brandNameMsg}}</p>
+{{/if}}
+
+{{#ifEquals res.status 400}}
+  <p>{{res.message}}</p>
+{{/ifEquals}}

@@ -9,8 +9,7 @@ class BrandService {
   async checkExistedBrandName({ brandName }: Pick<BrandReqBody, 'brandName'>) {
     return await Brand.exists({
       brandName: {
-        $regex: brandName,
-        $options: 'i'
+        $regex: new RegExp(`^${brandName}$`, 'i')
       }
     })
   }
@@ -22,10 +21,20 @@ class BrandService {
   async getBrandByName({ brandName }: Pick<BrandReqBody, 'brandName'>) {
     return await Brand.findOne({
       brandName: {
-        $regex: brandName,
-        $options: 'i'
+        $regex: new RegExp(`^${brandName}$`, 'i')
       }
     })
+  }
+
+  async updateBrand(id: string, body: BrandReqBody) {
+    return await Brand.findByIdAndUpdate(
+      {
+        _id: id
+      },
+      {
+        ...body
+      }
+    )
   }
 }
 

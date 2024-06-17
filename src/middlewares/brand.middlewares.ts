@@ -1,3 +1,4 @@
+import { Request } from 'express'
 import { ParamSchema, checkSchema } from 'express-validator'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { BRAND_MESSAGES } from '~/constants/messages'
@@ -24,11 +25,12 @@ export const createBrandValidator = validate(
           options: async (value) => {
             const result = await brandService.checkExistedBrandName({ brandName: value })
 
-            if (result)
+            if (result) {
               throw new ErrorWithStatus({
                 status: HTTP_STATUS.BAD_REQUEST,
                 message: BRAND_MESSAGES.BRAND_NAME_ALREADY_EXISTS
               })
+            }
 
             return true
           }
@@ -45,14 +47,17 @@ export const checkExistedBrandNameValidator = validate(
       brandName: {
         ...brandSchema,
         custom: {
-          options: async (value) => {
-            const result = await brandService.checkExistedBrandName({ brandName: value })
+          options: async (value, { req }) => {
+            const result = await brandService.getBrandByName({ brandName: value })
 
-            if (!result)
+            if (!result) {
               throw new ErrorWithStatus({
                 status: HTTP_STATUS.NOT_FOUND,
                 message: BRAND_MESSAGES.BRAND_NAME_DOES_NOT_EXIST
               })
+            }
+
+            ;(req as Request).brand = result
 
             return true
           }

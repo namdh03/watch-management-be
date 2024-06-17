@@ -1,11 +1,11 @@
-import { checkSchema } from 'express-validator'
+import { ParamSchema, checkSchema } from 'express-validator'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { BRAND_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/errors'
 import brandService from '~/services/brand.service'
 import validate from '~/utils/validate'
 
-const brandSchema = {
+const brandSchema: ParamSchema = {
   notEmpty: {
     errorMessage: BRAND_MESSAGES.BRAND_NAME_IS_REQUIRED
   },
@@ -60,5 +60,14 @@ export const checkExistedBrandNameValidator = validate(
       }
     },
     ['params']
+  )
+)
+
+export const updateBrandValidator = validate(
+  checkSchema(
+    {
+      brandName: brandSchema
+    },
+    ['body']
   )
 )

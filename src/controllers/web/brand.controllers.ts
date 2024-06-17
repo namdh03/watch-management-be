@@ -20,16 +20,24 @@ const createBrand = async (req: TypedRequestBody<BrandReqBody>, res: Response) =
   res.redirect('/admin/brand')
 }
 
-// [GET] /admin/brand/update/:id
+// [GET] /admin/brand/update/:brandName
 const updateBrandView = async (req: Request, res: Response) => {
   const { brandName } = req.params
   const brand = await brandService.getBrandByName({ brandName })
   res.render('update-brand', { brand })
 }
 
+// [PUT] /admin/brand/update/:brandName
+const updateBrand = async (req: Request, res: Response) => {
+  console.log(req.body)
+  console.log(req.params)
+  res.render('update-brand')
+}
+
 export default {
   brandsView,
   createBrandView,
   createBrand,
-  updateBrandView
+  updateBrandView,
+  updateBrand
 }

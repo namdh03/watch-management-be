@@ -1,6 +1,10 @@
 import { Router } from 'express'
 import brandControllers from '~/controllers/web/brand.controllers'
-import { createBrandValidator, checkExistedBrandNameValidator } from '~/middlewares/brand.middlewares'
+import {
+  createBrandValidator,
+  checkExistedBrandNameValidator,
+  updateBrandValidator
+} from '~/middlewares/brand.middlewares'
 import { wrapRequestHandler } from '~/utils/handlers'
 
 const brandRouter = Router()
@@ -38,6 +42,21 @@ brandRouter.get(
   '/update/:brandName',
   checkExistedBrandNameValidator,
   wrapRequestHandler(brandControllers.updateBrandView)
+)
+
+/**
+ * Description. Update brand
+ * Path: /admin/brand/update/:brandName
+ * Method: PUT
+ * Body: {
+ *  brandName: string
+ * }
+ */
+brandRouter.put(
+  '/update/:brandName',
+  updateBrandValidator,
+  checkExistedBrandNameValidator,
+  wrapRequestHandler(brandControllers.updateBrand)
 )
 
 export default brandRouter

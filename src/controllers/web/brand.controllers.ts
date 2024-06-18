@@ -1,7 +1,12 @@
 import { Request, Response } from 'express'
 import { BRAND_MESSAGES } from '~/constants/messages'
 import { TypedRequestBody, TypedRequestParams, TypedRequestParamsBody } from '~/models/requests'
-import { BrandReqBody, DeleteBrandReqParams, BrandNameReqParams } from '~/models/requests/Brand.requests'
+import {
+  BrandReqBody,
+  DeleteBrandReqParams,
+  UpdateBrandReqParams,
+  ViewBrandReqParams
+} from '~/models/requests/Brand.requests'
 import brandService from '~/services/brand.service'
 
 // [GET] /admin/brand
@@ -23,14 +28,14 @@ const createBrand = async (req: TypedRequestBody<BrandReqBody>, res: Response) =
 }
 
 // [GET] /admin/brand/update/:brandName
-const updateBrandView = async (req: TypedRequestParams<BrandNameReqParams>, res: Response) => {
+const updateBrandView = async (req: TypedRequestParams<ViewBrandReqParams>, res: Response) => {
   const brand = await brandService.getBrandByName({ brandName: req.params.brandName })
   res.render('update-brand', { brand })
 }
 
-// [PUT] /admin/brand/update/:brandName
-const updateBrand = async (req: TypedRequestParamsBody<BrandNameReqParams, BrandReqBody>, res: Response) => {
-  await brandService.updateBrand(req.brand._id, req.body)
+// [PUT] /admin/brand/update/:brandId
+const updateBrand = async (req: TypedRequestParamsBody<UpdateBrandReqParams, BrandReqBody>, res: Response) => {
+  await brandService.updateBrand(req.params.brandId, req.body)
   res.flash('success', BRAND_MESSAGES.UPDATE_BRAND_SUCCESSFULLY)
   res.redirect('/admin/brand')
 }

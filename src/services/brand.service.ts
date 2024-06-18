@@ -10,15 +10,11 @@ class BrandService {
   }
 
   async checkExistedBrandName({ brandName }: Pick<BrandReqBody, 'brandName'>) {
-    return await Brand.exists({
+    const isExisted = await Brand.exists({
       brandName: {
         $regex: new RegExp(`^${brandName}$`, 'i')
       }
     })
-  }
-
-  async createBrand(body: BrandReqBody) {
-    const isExisted = await brandService.checkExistedBrandName({ brandName: body.brandName })
 
     if (isExisted) {
       throw new ErrorWithStatus({
@@ -27,6 +23,13 @@ class BrandService {
       })
     }
 
+    return isExisted
+  }
+
+  async createBrand(body: BrandReqBody) {
+    await this.checkExistedBrandName({
+      brandName: body.brandName
+    })
     return await Brand.create(body)
   }
 
@@ -48,12 +51,15 @@ class BrandService {
   }
 
   async updateBrand(brandId: string, body: BrandReqBody) {
+    await this.checkExistedBrandName({
+      brandName: body.brandName
+    })
     return await Brand.updateOne(
       {
         _id: brandId
       },
       {
-        ...body
+        $set: body
       }
     )
   }

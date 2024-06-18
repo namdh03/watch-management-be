@@ -1,10 +1,8 @@
-import { Request } from 'express'
 import { ParamSchema, checkSchema } from 'express-validator'
 import { isValidObjectId } from 'mongoose'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { BRAND_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/errors'
-import brandService from '~/services/brand.service'
 import validate from '~/utils/validate'
 
 const brandNameSchema: ParamSchema = {
@@ -33,7 +31,7 @@ export const bodyBrandValidator = validate(
   )
 )
 
-export const paramsBrandValidator = validate(
+export const brandNameValidator = validate(
   checkSchema(
     {
       brandName: brandNameSchema
@@ -42,12 +40,25 @@ export const paramsBrandValidator = validate(
   )
 )
 
-export const updateBrandValidator = validate(
+export const brandIdValidator = validate(
   checkSchema(
     {
-      brandName: brandNameSchema
+      brandId: {
+        custom: {
+          options: async (value) => {
+            if (!isValidObjectId(value)) {
+              throw new ErrorWithStatus({
+                status: HTTP_STATUS.BAD_REQUEST,
+                message: BRAND_MESSAGES.BRAND_ID_MUST_BE_A_VALID_ID
+              })
+            }
+
+            return true
+          }
+        }
+      }
     },
-    ['body']
+    ['params']
   )
 )
 
@@ -56,9 +67,7 @@ export const checkExistedBrandIdValidator = validate(
     {
       brandId: {
         custom: {
-          options: async (value, { req }) => {
-            ;(req as Request).page = '/admin/brand'
-
+          options: async (value) => {
             if (!isValidObjectId(value)) {
               throw new ErrorWithStatus({
                 status: HTTP_STATUS.BAD_REQUEST,

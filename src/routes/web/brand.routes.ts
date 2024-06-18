@@ -2,9 +2,9 @@ import { Router } from 'express'
 import brandControllers from '~/controllers/web/brand.controllers'
 import {
   bodyBrandValidator,
-  paramsBrandValidator,
-  updateBrandValidator,
-  checkExistedBrandIdValidator
+  brandNameValidator,
+  checkExistedBrandIdValidator,
+  brandIdValidator
 } from '~/middlewares/brand.middlewares'
 import { wrapRequestHandler } from '~/utils/handlers'
 
@@ -39,17 +39,22 @@ brandRouter.post('/create', bodyBrandValidator, wrapRequestHandler(brandControll
  * Path: /admin/brand/update/:brandName
  * Method: GET
  */
-brandRouter.get('/update/:brandName', paramsBrandValidator, wrapRequestHandler(brandControllers.updateBrandView))
+brandRouter.get('/update/:brandName', brandNameValidator, wrapRequestHandler(brandControllers.updateBrandView))
 
 /**
  * Description. Update brand
- * Path: /admin/brand/update/:brandName
+ * Path: /admin/brand/update/:brandId
  * Method: PUT
  * Body: {
  *  brandName: string
  * }
  */
-brandRouter.put('/update/:brandName', updateBrandValidator, paramsBrandValidator, brandControllers.updateBrand)
+brandRouter.put(
+  '/update/:brandId',
+  brandIdValidator,
+  bodyBrandValidator,
+  wrapRequestHandler(brandControllers.updateBrand)
+)
 
 /**
  * Description. Delete brand

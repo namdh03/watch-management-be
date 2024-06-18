@@ -13,7 +13,7 @@ const signIn = async (req: TypedRequestBody<AuthReqBody>, res: Response) => {
   const { accessToken, refreshToken } = await userService.signIn(req.body)
   res.cookie('accessToken', accessToken, { httpOnly: true })
   res.cookie('refreshToken', refreshToken, { httpOnly: true })
-  res.render('home')
+  res.redirect('/')
 }
 
 // [GET] /sign-up
@@ -26,7 +26,7 @@ const signUp = async (req: TypedRequestBody<AuthReqBody>, res: Response) => {
   const { accessToken, refreshToken } = await userService.signUp(req.body)
   res.cookie('accessToken', accessToken, { httpOnly: true })
   res.cookie('refreshToken', refreshToken, { httpOnly: true })
-  res.render('home')
+  res.redirect('/')
 }
 
 export default {

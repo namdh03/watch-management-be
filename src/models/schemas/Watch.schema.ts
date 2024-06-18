@@ -1,5 +1,15 @@
-import { Schema, model } from 'mongoose'
+import { Document, Schema, model } from 'mongoose'
 import { commentSchema } from './Comment.schema'
+
+export interface WatchDocument extends Document {
+  watchName: string
+  image: string
+  price: number
+  automatic: boolean
+  watchDescription: string
+  comments: Schema.Types.ObjectId[]
+  brand: Schema.Types.ObjectId
+}
 
 const watchSchema = new Schema(
   {
@@ -35,6 +45,6 @@ const watchSchema = new Schema(
   }
 )
 
-const Watch = model('Watch', watchSchema)
+const Watch = model<WatchDocument>('Watch', watchSchema)
 
 export default Watch

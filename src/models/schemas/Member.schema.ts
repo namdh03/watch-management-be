@@ -1,4 +1,10 @@
-import { Schema, model } from 'mongoose'
+import { Document, Schema, model } from 'mongoose'
+
+export interface MemberDocument extends Document {
+  memberName: string
+  password: string
+  isAdmin: boolean
+}
 
 const memberSchema = new Schema(
   {
@@ -19,6 +25,6 @@ const memberSchema = new Schema(
     timestamps: true
   }
 )
-const Member = model('Member', memberSchema)
+const Member = model<MemberDocument>('Member', memberSchema)
 
 export default Member

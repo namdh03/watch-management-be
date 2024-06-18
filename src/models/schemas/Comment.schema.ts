@@ -1,4 +1,10 @@
-import { Schema, model } from 'mongoose'
+import { Document, Schema, model } from 'mongoose'
+
+export interface CommentDocument extends Document {
+  rating: number
+  content: string
+  author: Schema.Types.ObjectId
+}
 
 export const commentSchema = new Schema(
   {
@@ -22,6 +28,6 @@ export const commentSchema = new Schema(
     timestamps: true
   }
 )
-const Comment = model('Comment', commentSchema)
+const Comment = model<CommentDocument>('Comment', commentSchema)
 
 export default Comment

@@ -136,6 +136,10 @@ class UserService {
       userId: member.id
     })
   }
+
+  async getUserById(userId: string) {
+    return Member.findById(userId)
+  }
 }
 
 const userService = new UserService()

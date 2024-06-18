@@ -1,4 +1,12 @@
-import { Schema, model } from 'mongoose'
+import { Document, Schema, model } from 'mongoose'
+
+export interface RefreshTokenDocument extends Document {
+  token: string
+  createdAt: Date
+  userId: Schema.Types.ObjectId
+  iat: Date
+  exp: Date
+}
 
 const refreshTokenSchema = new Schema({
   token: {
@@ -22,11 +30,11 @@ const refreshTokenSchema = new Schema({
     type: Date,
     required: true,
     index: {
-      expires: 0
+      expireAfterSeconds: 0
     }
   }
 })
 
-const RefreshToken = model('RefreshToken', refreshTokenSchema)
+const RefreshToken = model<RefreshTokenDocument>('RefreshToken', refreshTokenSchema)
 
 export default RefreshToken

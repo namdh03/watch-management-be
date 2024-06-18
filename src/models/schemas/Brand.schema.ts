@@ -1,4 +1,8 @@
-import { Schema, model } from 'mongoose'
+import { Document, Schema, model } from 'mongoose'
+
+export interface BrandDocument extends Document {
+  brandName: string
+}
 
 export const brandSchema = new Schema(
   {
@@ -8,6 +12,6 @@ export const brandSchema = new Schema(
     timestamps: true
   }
 )
-const Brand = model('Brand', brandSchema)
+const Brand = model<BrandDocument>('Brand', brandSchema)
 
 export default Brand

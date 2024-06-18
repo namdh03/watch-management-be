@@ -9,7 +9,7 @@ class BrandService {
     return await Brand.find({})
   }
 
-  async checkExistedBrandName({ brandName }: Pick<BrandReqBody, 'brandName'>) {
+  async checkExistedBrandName(brandName: string) {
     const isExisted = await Brand.exists({
       brandName: {
         $regex: new RegExp(`^${brandName}$`, 'i')
@@ -27,13 +27,11 @@ class BrandService {
   }
 
   async createBrand(body: BrandReqBody) {
-    await this.checkExistedBrandName({
-      brandName: body.brandName
-    })
+    await this.checkExistedBrandName(body.brandName)
     return await Brand.create(body)
   }
 
-  async getBrandByName({ brandName }: Pick<BrandReqBody, 'brandName'>) {
+  async getBrandByName(brandName: string) {
     const brand = await Brand.findOne({
       brandName: {
         $regex: new RegExp(`^${brandName}$`, 'i')
@@ -51,9 +49,7 @@ class BrandService {
   }
 
   async updateBrand(brandId: string, body: BrandReqBody) {
-    await this.checkExistedBrandName({
-      brandName: body.brandName
-    })
+    await this.checkExistedBrandName(body.brandName)
     return await Brand.updateOne(
       {
         _id: brandId

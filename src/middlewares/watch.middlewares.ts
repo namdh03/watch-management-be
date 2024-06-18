@@ -4,11 +4,10 @@ import { isValidObjectId } from 'mongoose'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { BRAND_MESSAGES, WATCH_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/errors'
-import brandService from '~/services/brand.service'
 import watchService from '~/services/watch.service'
 import validate from '~/utils/validate'
 
-export const watchValidator = validate(
+export const bodyWatchValidator = validate(
   checkSchema(
     {
       watchName: {
@@ -88,11 +87,6 @@ export const watchValidator = validate(
           options: async (value) => {
             if (!isValidObjectId(value)) {
               throw new Error(BRAND_MESSAGES.BRAND_ID_MUST_BE_A_VALID_ID)
-            }
-
-            const brand = await brandService.getBrandById(value)
-            if (!brand) {
-              throw new Error(BRAND_MESSAGES.BRAND_ID_DOES_NOT_EXIST)
             }
 
             return true

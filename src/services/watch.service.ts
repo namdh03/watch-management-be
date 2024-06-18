@@ -1,5 +1,9 @@
 import { WatchReqBody } from '~/models/requests/Watch.requests'
 import Watch from '~/models/schemas/Watch.schema'
+import brandService from './brand.service'
+import { BRAND_MESSAGES } from '~/constants/messages'
+import { ErrorWithStatus } from '~/models/errors'
+import HTTP_STATUS from '~/constants/httpStatus'
 
 class WatchService {
   async getWatches() {
@@ -13,6 +17,15 @@ class WatchService {
   }
 
   async createWatch(body: WatchReqBody) {
+    const brand = await brandService.getBrandById(body.brandId)
+
+    if (!brand) {
+      throw new ErrorWithStatus({
+        status: HTTP_STATUS.BAD_REQUEST,
+        message: BRAND_MESSAGES.BRAND_ID_DOES_NOT_EXIST
+      })
+    }
+
     return await Watch.create({
       ...body,
       brand: body.brandId

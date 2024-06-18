@@ -10,7 +10,7 @@ const webRoutes = (app: Application) => {
   app.use(authRouter)
   app.use(homeRouter)
   app.use('/admin/brand', verifyAccessToken, brandRouter)
-  app.use('/admin/watch', watchRouter)
+  app.use('/admin/watch', verifyAccessToken, watchRouter)
   app.use(webDefaultErrorHandler)
 }
 

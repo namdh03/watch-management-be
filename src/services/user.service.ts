@@ -5,17 +5,21 @@ import {
   JWT_SECRET_REFRESH_TOKEN,
   REFRESH_TOKEN_EXPIRES_IN
 } from '~/constants/env'
+import HTTP_STATUS from '~/constants/httpStatus'
+import { USER_MESSAGES } from '~/constants/messages'
+import { ErrorWithStatus } from '~/models/errors'
 import { AuthReqBody } from '~/models/requests/Auth.requests'
 import Member from '~/models/schemas/Member.schema'
-import { hashPassword } from '~/utils/bcrypt'
-import { signToken } from '~/utils/jwt'
+import RefreshToken from '~/models/schemas/RefreshToken.schema'
+import { comparePassword, hashPassword } from '~/utils/bcrypt'
+import { signToken, verifyToken } from '~/utils/jwt'
 
 class UserService {
-  private signAccessToken({ user_id }: { user_id: string }) {
+  private signAccessToken({ userId }: { userId: string }) {
     return signToken({
       payload: {
-        user_id,
-        token_type: TokenType.AccessToken
+        userId,
+        tokenType: TokenType.AccessToken
       },
       privateKey: JWT_SECRET_ACCESS_TOKEN,
       options: {
@@ -24,11 +28,11 @@ class UserService {
     })
   }
 
-  private signRefreshToken({ user_id, exp }: { user_id: string; exp?: number }) {
+  private signRefreshToken({ userId, exp }: { userId: string; exp?: number }) {
     const token = {
       payload: {
-        user_id,
-        token_type: TokenType.RefreshToken
+        userId,
+        tokenType: TokenType.RefreshToken
       },
       privateKey: JWT_SECRET_REFRESH_TOKEN
     }
@@ -51,30 +55,33 @@ class UserService {
     })
   }
 
-  private signAccessAndRefreshTokens({ user_id, exp }: { user_id: string; exp?: number }) {
+  private signAccessAndRefreshTokens({ userId, exp }: { userId: string; exp?: number }) {
     return Promise.all([
       this.signAccessToken({
-        user_id
+        userId
       }),
       this.signRefreshToken({
-        user_id,
+        userId,
         exp
       })
     ])
   }
 
-  async checkExistedMemberName(memberName: string) {
-    return await Member.findOne({ memberName })
+  private decodeRefreshToken(refreshToken: string) {
+    return verifyToken({
+      token: refreshToken,
+      secretOrPublicKey: JWT_SECRET_REFRESH_TOKEN
+    })
   }
 
-  async registerUser(body: AuthReqBody) {
+  async signUp(body: AuthReqBody) {
     const member = await Member.create({
       ...body,
       password: hashPassword(body.password),
       isAdmin: false
     })
     const [accessToken, refreshToken] = await this.signAccessAndRefreshTokens({
-      user_id: member.id
+      userId: member.id
     })
 
     return {
@@ -83,9 +90,37 @@ class UserService {
     }
   }
 
-  async loginUser(memberId: string) {
+  async signIn(body: AuthReqBody) {
+    // Check if member is not found
+    const member = await Member.findOne({
+      memberName: body.memberName
+    })
+    if (!member) {
+      throw new ErrorWithStatus({
+        status: HTTP_STATUS.UNAUTHORIZED,
+        message: USER_MESSAGES.MEMBER_NAME_OR_PASSWORD_IS_INCORRECT
+      })
+    }
+
+    // Check if password is incorrect
+    const isCorrectPassword = comparePassword(body.password, member.password)
+    if (!isCorrectPassword) {
+      throw new ErrorWithStatus({
+        status: HTTP_STATUS.UNAUTHORIZED,
+        message: USER_MESSAGES.MEMBER_NAME_OR_PASSWORD_IS_INCORRECT
+      })
+    }
+
+    // Sign access and refresh tokens
     const [accessToken, refreshToken] = await this.signAccessAndRefreshTokens({
-      user_id: memberId
+      userId: member.id
+    })
+    const { iat, exp } = await this.decodeRefreshToken(refreshToken)
+    await RefreshToken.create({
+      token: refreshToken,
+      userId: member.id,
+      iat,
+      exp
     })
 
     return {

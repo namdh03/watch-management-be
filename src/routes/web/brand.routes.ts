@@ -2,7 +2,7 @@ import { Router } from 'express'
 import brandControllers from '~/controllers/web/brand.controllers'
 import {
   bodyBrandValidator,
-  checkExistedBrandNameValidator,
+  paramsBrandValidator,
   updateBrandValidator,
   checkExistedBrandIdValidator
 } from '~/middlewares/brand.middlewares'
@@ -39,7 +39,7 @@ brandRouter.post('/create', bodyBrandValidator, wrapRequestHandler(brandControll
  * Path: /admin/brand/update/:brandName
  * Method: GET
  */
-brandRouter.get('/update/:brandName', checkExistedBrandNameValidator, brandControllers.updateBrandView)
+brandRouter.get('/update/:brandName', paramsBrandValidator, wrapRequestHandler(brandControllers.updateBrandView))
 
 /**
  * Description. Update brand
@@ -49,12 +49,7 @@ brandRouter.get('/update/:brandName', checkExistedBrandNameValidator, brandContr
  *  brandName: string
  * }
  */
-brandRouter.put(
-  '/update/:brandName',
-  updateBrandValidator,
-  checkExistedBrandNameValidator,
-  brandControllers.updateBrand
-)
+brandRouter.put('/update/:brandName', updateBrandValidator, paramsBrandValidator, brandControllers.updateBrand)
 
 /**
  * Description. Delete brand

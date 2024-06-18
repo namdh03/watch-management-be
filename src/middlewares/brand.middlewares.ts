@@ -33,28 +33,10 @@ export const bodyBrandValidator = validate(
   )
 )
 
-export const checkExistedBrandNameValidator = validate(
+export const paramsBrandValidator = validate(
   checkSchema(
     {
-      brandName: {
-        ...brandNameSchema,
-        custom: {
-          options: async (value, { req }) => {
-            const brand = await brandService.getBrandByName({ brandName: value })
-
-            if (!brand) {
-              throw new ErrorWithStatus({
-                status: HTTP_STATUS.NOT_FOUND,
-                message: BRAND_MESSAGES.BRAND_NAME_DOES_NOT_EXIST
-              })
-            }
-
-            ;(req as Request).brand = brand
-
-            return true
-          }
-        }
-      }
+      brandName: brandNameSchema
     },
     ['params']
   )

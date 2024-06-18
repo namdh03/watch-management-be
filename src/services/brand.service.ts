@@ -31,11 +31,20 @@ class BrandService {
   }
 
   async getBrandByName({ brandName }: Pick<BrandReqBody, 'brandName'>) {
-    return await Brand.findOne({
+    const brand = await Brand.findOne({
       brandName: {
         $regex: new RegExp(`^${brandName}$`, 'i')
       }
     })
+
+    if (!brand) {
+      throw new ErrorWithStatus({
+        status: HTTP_STATUS.NOT_FOUND,
+        message: BRAND_MESSAGES.BRAND_NAME_DOES_NOT_EXIST
+      })
+    }
+
+    return brand
   }
 
   async updateBrand(brandId: string, body: BrandReqBody) {

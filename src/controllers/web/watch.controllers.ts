@@ -32,9 +32,7 @@ const updateWatchView = async (req: TypedRequestParams<UpdateWatchReqParams>, re
 
 // [PUT] /admin/watch/update/:watchId
 const updateWatch = async (req: TypedRequestParamsBody<UpdateWatchReqParams, WatchReqBody>, res: Response) => {
-  const watchId = req.params.watchId
-  const watch = req.body
-  await watchService.updateWatch(watchId, watch)
+  await watchService.updateWatch(req.params.watchId, req.body)
   res.flash('success', WATCH_MESSAGES.UPDATE_WATCH_SUCCESSFULLY)
   res.redirect('/admin/watch')
 }

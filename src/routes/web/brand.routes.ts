@@ -55,9 +55,6 @@ brandRouter.put(
  * Description. Delete brand
  * Path: /admin/brand/delete/:brandId
  * Method: DELETE
- * Params: {
- *  id: string
- * }
  */
 brandRouter.delete('/delete/:brandId', brandIdValidator, wrapRequestHandler(brandControllers.deleteBrand))
 

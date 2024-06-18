@@ -80,7 +80,7 @@ class BrandService {
 
     if (!brand) {
       throw new ErrorWithStatus({
-        status: HTTP_STATUS.BAD_REQUEST,
+        status: HTTP_STATUS.NOT_FOUND,
         message: BRAND_MESSAGES.BRAND_ID_DOES_NOT_EXIST
       })
     }

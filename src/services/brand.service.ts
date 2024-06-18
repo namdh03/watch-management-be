@@ -76,7 +76,16 @@ class BrandService {
   }
 
   async getBrandById(brandId: string) {
-    return await Brand.findById(brandId)
+    const brand = await Brand.findById(brandId)
+
+    if (!brand) {
+      throw new ErrorWithStatus({
+        status: HTTP_STATUS.BAD_REQUEST,
+        message: BRAND_MESSAGES.BRAND_ID_DOES_NOT_EXIST
+      })
+    }
+
+    return brand
   }
 }
 

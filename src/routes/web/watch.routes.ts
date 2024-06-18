@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import watchController from '~/controllers/web/watch.controllers'
-import { checkExistedWatchIdValidator, bodyWatchValidator } from '~/middlewares/watch.middlewares'
+import { watchIdValidator, bodyWatchValidator } from '~/middlewares/watch.middlewares'
 import { wrapRequestHandler } from '~/utils/handlers'
 
 const watchRouter = Router()
@@ -39,7 +39,7 @@ watchRouter.post('/create', bodyWatchValidator, wrapRequestHandler(watchControll
  * Path: /admin/watch/update/:watchId
  * Method: GET
  * */
-watchRouter.get('/update/:watchId', checkExistedWatchIdValidator, wrapRequestHandler(watchController.updateWatchView))
+watchRouter.get('/update/:watchId', wrapRequestHandler(watchController.updateWatchView))
 
 /**
  * Description. Update watch
@@ -48,7 +48,7 @@ watchRouter.get('/update/:watchId', checkExistedWatchIdValidator, wrapRequestHan
  * */
 watchRouter.put(
   '/update/:watchId',
-  checkExistedWatchIdValidator,
+  watchIdValidator,
   bodyWatchValidator,
   wrapRequestHandler(watchController.updateWatch)
 )
@@ -58,6 +58,6 @@ watchRouter.put(
  * Path: /admin/watch/delete/:watchId
  * Method: DELETE
  * */
-watchRouter.delete('/delete/:watchId', checkExistedWatchIdValidator, wrapRequestHandler(watchController.deleteWatch))
+watchRouter.delete('/delete/:watchId', watchIdValidator, wrapRequestHandler(watchController.deleteWatch))
 
 export default watchRouter

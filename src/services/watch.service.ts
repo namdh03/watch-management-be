@@ -1,7 +1,7 @@
 import { WatchReqBody } from '~/models/requests/Watch.requests'
 import Watch from '~/models/schemas/Watch.schema'
 import brandService from './brand.service'
-import { BRAND_MESSAGES, WATCH_MESSAGES } from '~/constants/messages'
+import { WATCH_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/errors'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { isValidObjectId } from 'mongoose'
@@ -62,9 +62,18 @@ class WatchService {
   }
 
   async deleteWatch(watchId: string) {
-    return await Watch.deleteOne({
+    const result = await Watch.deleteOne({
       _id: watchId
     })
+
+    if (!result.deletedCount) {
+      throw new ErrorWithStatus({
+        status: HTTP_STATUS.BAD_REQUEST,
+        message: WATCH_MESSAGES.WATCH_ID_DOES_NOT_EXIST
+      })
+    }
+
+    return result
   }
 }
 

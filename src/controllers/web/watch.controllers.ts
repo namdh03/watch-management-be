@@ -39,8 +39,7 @@ const updateWatch = async (req: TypedRequestParamsBody<UpdateWatchReqParams, Wat
 
 // [DELETE] /admin/watch/delete/:watchId
 const deleteWatch = async (req: TypedRequestParams<UpdateWatchReqParams>, res: Response) => {
-  const watchId = req.params.watchId
-  await watchService.deleteWatch(watchId)
+  await watchService.deleteWatch(req.params.watchId)
   res.redirect('/admin/watch')
 }
 

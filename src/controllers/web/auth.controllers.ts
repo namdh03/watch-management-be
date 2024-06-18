@@ -8,6 +8,16 @@ const signInView = async (_req: Request, res: Response) => {
   res.render('sign-in')
 }
 
+// [POST] /sign-in
+const signIn = async (req: TypedRequestBody<AuthReqBody>, res: Response) => {
+  const member = req.member
+  const { accessToken, refreshToken } = await userService.loginUser(member._id)
+
+  res.cookie('accessToken', accessToken, { httpOnly: true })
+  res.cookie('refreshToken', refreshToken, { httpOnly: true })
+  res.render('home')
+}
+
 // [GET] /sign-up
 const signUpView = async (_req: Request, res: Response) => {
   res.render('sign-up')
@@ -24,6 +34,7 @@ const signUp = async (req: TypedRequestBody<AuthReqBody>, res: Response) => {
 
 export default {
   signInView,
+  signIn,
   signUpView,
   signUp
 }

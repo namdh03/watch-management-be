@@ -1,6 +1,8 @@
+import { Request } from 'express'
 import { ParamSchema, checkSchema } from 'express-validator'
 import { USER_MESSAGES } from '~/constants/messages'
 import userService from '~/services/user.service'
+import { comparePassword, hashPassword } from '~/utils/bcrypt'
 import validate from '~/utils/validate'
 
 const memberNameSchema: ParamSchema = {
@@ -68,4 +70,30 @@ export const registerValidator = validate(
     },
     ['body']
   )
+)
+
+export const loginValidator = validate(
+  checkSchema({
+    memberName: {
+      ...memberNameSchema,
+      custom: {
+        options: async (value, { req }) => {
+          const member = await userService.checkExistedMemberName(value)
+          if (!member) {
+            throw new Error(USER_MESSAGES.MEMBER_NAME_OR_PASSWORD_IS_INCORRECT)
+          }
+
+          const isCorrectPassword = comparePassword(req.body.password, member.password)
+          if (!isCorrectPassword) {
+            throw new Error(USER_MESSAGES.MEMBER_NAME_OR_PASSWORD_IS_INCORRECT)
+          }
+
+          ;(req as Request).member = member
+
+          return true
+        }
+      }
+    },
+    password: passwordSchema
+  })
 )

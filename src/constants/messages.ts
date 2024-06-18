@@ -47,5 +47,6 @@ export const USER_MESSAGES = {
   PASSWORD_LENGTH_MUST_BE_BETWEEN_6_AND_50: 'Password length must be between 6 and 50',
   PASSWORD_MUST_BE_STRONG: 'Password must be strong',
   MEMBER_NAME_ALREADY_EXISTS: 'Member name already exists',
-  ACCESS_TOKEN_IS_REQUIRED: 'Access token is required'
+  ACCESS_TOKEN_IS_REQUIRED: 'Access token is required',
+  MEMBER_NAME_OR_PASSWORD_IS_INCORRECT: 'Member name or password is incorrect'
 }

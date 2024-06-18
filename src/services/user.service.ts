@@ -63,6 +63,10 @@ class UserService {
     ])
   }
 
+  async checkExistedMemberName(memberName: string) {
+    return await Member.findOne({ memberName })
+  }
+
   async registerUser(body: AuthReqBody) {
     const member = await Member.create({
       ...body,
@@ -79,8 +83,15 @@ class UserService {
     }
   }
 
-  async checkExistedMemberName(memberName: string) {
-    return await Member.findOne({ memberName })
+  async loginUser(memberId: string) {
+    const [accessToken, refreshToken] = await this.signAccessAndRefreshTokens({
+      user_id: memberId
+    })
+
+    return {
+      accessToken,
+      refreshToken
+    }
   }
 }
 

@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import authControllers from '~/controllers/web/auth.controllers'
-import { registerValidator } from '~/middlewares/user.middlewares'
+import { loginValidator, registerValidator } from '~/middlewares/user.middlewares'
 
 const authRouter = Router()
 
@@ -10,6 +10,13 @@ const authRouter = Router()
  * Method: GET
  */
 authRouter.get('/sign-in', authControllers.signInView)
+
+/**
+ * Description. Sign in
+ * Path: /sign-in
+ * Method: POST
+ */
+authRouter.post('/sign-in', loginValidator, authControllers.signIn)
 
 /**
  * Description. Get sign up page

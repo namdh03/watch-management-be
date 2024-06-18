@@ -65,9 +65,18 @@ class BrandService {
   }
 
   async deleteBrand(brandId: string) {
-    return await Brand.deleteOne({
+    const result = await Brand.deleteOne({
       _id: brandId
     })
+
+    if (!result.deletedCount) {
+      throw new ErrorWithStatus({
+        status: HTTP_STATUS.BAD_REQUEST,
+        message: BRAND_MESSAGES.BRAND_ID_DOES_NOT_EXIST
+      })
+    }
+
+    return result
   }
 
   async getBrandById(brandId: string) {

@@ -61,25 +61,3 @@ export const brandIdValidator = validate(
     ['params']
   )
 )
-
-export const checkExistedBrandIdValidator = validate(
-  checkSchema(
-    {
-      brandId: {
-        custom: {
-          options: async (value) => {
-            if (!isValidObjectId(value)) {
-              throw new ErrorWithStatus({
-                status: HTTP_STATUS.BAD_REQUEST,
-                message: BRAND_MESSAGES.BRAND_ID_MUST_BE_A_VALID_ID
-              })
-            }
-
-            return true
-          }
-        }
-      }
-    },
-    ['params']
-  )
-)

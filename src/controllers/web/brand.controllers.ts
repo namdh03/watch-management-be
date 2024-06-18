@@ -42,14 +42,7 @@ const updateBrand = async (req: TypedRequestParamsBody<UpdateBrandReqParams, Bra
 
 // [DELETE] /admin/brand/delete/:brandId
 const deleteBrand = async (req: TypedRequestParams<DeleteBrandReqParams>, res: Response) => {
-  const { brandId } = req.params
-  const result = await brandService.deleteBrand(brandId)
-
-  if (!result.deletedCount) {
-    res.flash('error', BRAND_MESSAGES.BRAND_ID_DOES_NOT_EXIST)
-    return res.redirect('/admin/brand')
-  }
-
+  await brandService.deleteBrand(req.params.brandId)
   res.flash('success', BRAND_MESSAGES.DELETE_BRAND_SUCCESSFULLY)
   res.redirect('/admin/brand')
 }

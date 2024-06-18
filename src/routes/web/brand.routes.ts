@@ -1,11 +1,6 @@
 import { Router } from 'express'
 import brandControllers from '~/controllers/web/brand.controllers'
-import {
-  bodyBrandValidator,
-  brandNameValidator,
-  checkExistedBrandIdValidator,
-  brandIdValidator
-} from '~/middlewares/brand.middlewares'
+import { bodyBrandValidator, brandNameValidator, brandIdValidator } from '~/middlewares/brand.middlewares'
 import { wrapRequestHandler } from '~/utils/handlers'
 
 const brandRouter = Router()
@@ -64,6 +59,6 @@ brandRouter.put(
  *  id: string
  * }
  */
-brandRouter.delete('/delete/:brandId', checkExistedBrandIdValidator, brandControllers.deleteBrand)
+brandRouter.delete('/delete/:brandId', brandIdValidator, wrapRequestHandler(brandControllers.deleteBrand))
 
 export default brandRouter

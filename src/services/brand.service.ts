@@ -1,3 +1,6 @@
+import HTTP_STATUS from '~/constants/httpStatus'
+import { BRAND_MESSAGES } from '~/constants/messages'
+import { ErrorWithStatus } from '~/models/errors'
 import { BrandReqBody } from '~/models/requests/Brand.requests'
 import Brand from '~/models/schemas/Brand.schema'
 
@@ -15,6 +18,15 @@ class BrandService {
   }
 
   async createBrand(body: BrandReqBody) {
+    const isExisted = await brandService.checkExistedBrandName({ brandName: body.brandName })
+
+    if (isExisted) {
+      throw new ErrorWithStatus({
+        status: HTTP_STATUS.BAD_REQUEST,
+        message: BRAND_MESSAGES.BRAND_NAME_ALREADY_EXISTS
+      })
+    }
+
     return await Brand.create(body)
   }
 

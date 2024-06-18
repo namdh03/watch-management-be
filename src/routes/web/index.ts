@@ -4,13 +4,12 @@ import homeRouter from './home.routes'
 import watchRouter from './watch.routes'
 import brandRouter from './brand.routes'
 import { webDefaultErrorHandler } from '~/middlewares/error.middlewares'
-import { wrapRequestHandler } from '~/utils/handlers'
 import { verifyAccessToken } from '~/middlewares/auth.middlewares'
 
 const webRoutes = (app: Application) => {
   app.use(authRouter)
   app.use(homeRouter)
-  app.use('/admin/brand', verifyAccessToken, wrapRequestHandler(brandRouter))
+  app.use('/admin/brand', verifyAccessToken, brandRouter)
   app.use('/admin/watch', watchRouter)
   app.use(webDefaultErrorHandler)
 }

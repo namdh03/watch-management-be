@@ -24,26 +24,10 @@ const brandNameSchema: ParamSchema = {
   }
 }
 
-export const createBrandValidator = validate(
+export const bodyBrandValidator = validate(
   checkSchema(
     {
-      brandName: {
-        ...brandNameSchema,
-        custom: {
-          options: async (value) => {
-            const result = await brandService.checkExistedBrandName({ brandName: value })
-
-            if (result) {
-              throw new ErrorWithStatus({
-                status: HTTP_STATUS.BAD_REQUEST,
-                message: BRAND_MESSAGES.BRAND_NAME_ALREADY_EXISTS
-              })
-            }
-
-            return true
-          }
-        }
-      }
+      brandName: brandNameSchema
     },
     ['body']
   )

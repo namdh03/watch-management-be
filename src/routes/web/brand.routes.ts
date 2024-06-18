@@ -1,11 +1,12 @@
 import { Router } from 'express'
 import brandControllers from '~/controllers/web/brand.controllers'
 import {
-  createBrandValidator,
+  bodyBrandValidator,
   checkExistedBrandNameValidator,
   updateBrandValidator,
   checkExistedBrandIdValidator
 } from '~/middlewares/brand.middlewares'
+import { wrapRequestHandler } from '~/utils/handlers'
 
 const brandRouter = Router()
 
@@ -31,7 +32,7 @@ brandRouter.get('/create', brandControllers.createBrandView)
  *  brandName: string
  * }
  */
-brandRouter.post('/create', createBrandValidator, brandControllers.createBrand)
+brandRouter.post('/create', bodyBrandValidator, wrapRequestHandler(brandControllers.createBrand))
 
 /**
  * Description. Get update brand page

@@ -65,11 +65,12 @@ class UserService {
       })
     ])
     const { iat, exp } = await this.decodeRefreshToken(refreshToken)
+    console.log('iat', iat, 'exp', exp)
     await RefreshToken.create({
       token: refreshToken,
       userId,
-      iat,
-      exp
+      iat: new Date(iat * 1000),
+      exp: new Date(exp * 1000)
     })
 
     return {
@@ -139,6 +140,10 @@ class UserService {
 
   async getUserById(userId: string) {
     return Member.findById(userId)
+  }
+
+  async getMembers() {
+    return Member.find({})
   }
 }
 

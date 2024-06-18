@@ -55,19 +55,30 @@ class UserService {
     })
   }
 
-  private signAccessAndRefreshTokens({ userId, exp }: { userId: string; exp?: number }) {
-    return Promise.all([
+  private async signAccessAndRefreshTokens({ userId }: { userId: string }) {
+    const [accessToken, refreshToken] = await Promise.all([
       this.signAccessToken({
         userId
       }),
       this.signRefreshToken({
-        userId,
-        exp
+        userId
       })
     ])
+    const { iat, exp } = await this.decodeRefreshToken(refreshToken)
+    await RefreshToken.create({
+      token: refreshToken,
+      userId,
+      iat,
+      exp
+    })
+
+    return {
+      accessToken,
+      refreshToken
+    }
   }
 
-  private decodeRefreshToken(refreshToken: string) {
+  private async decodeRefreshToken(refreshToken: string) {
     return verifyToken({
       token: refreshToken,
       secretOrPublicKey: JWT_SECRET_REFRESH_TOKEN
@@ -75,19 +86,28 @@ class UserService {
   }
 
   async signUp(body: AuthReqBody) {
-    const member = await Member.create({
+    // Check if member name already exists
+    const member = await Member.findOne({
+      memberName: body.memberName
+    })
+    if (member) {
+      throw new ErrorWithStatus({
+        status: HTTP_STATUS.CONFLICT,
+        message: USER_MESSAGES.MEMBER_NAME_ALREADY_EXISTS
+      })
+    }
+
+    // Create member
+    const data = await Member.create({
       ...body,
       password: hashPassword(body.password),
       isAdmin: false
     })
-    const [accessToken, refreshToken] = await this.signAccessAndRefreshTokens({
-      userId: member.id
-    })
 
-    return {
-      accessToken,
-      refreshToken
-    }
+    // Sign access and refresh tokens
+    return await this.signAccessAndRefreshTokens({
+      userId: data.id
+    })
   }
 
   async signIn(body: AuthReqBody) {
@@ -112,21 +132,9 @@ class UserService {
     }
 
     // Sign access and refresh tokens
-    const [accessToken, refreshToken] = await this.signAccessAndRefreshTokens({
+    return await this.signAccessAndRefreshTokens({
       userId: member.id
     })
-    const { iat, exp } = await this.decodeRefreshToken(refreshToken)
-    await RefreshToken.create({
-      token: refreshToken,
-      userId: member.id,
-      iat,
-      exp
-    })
-
-    return {
-      accessToken,
-      refreshToken
-    }
   }
 }
 

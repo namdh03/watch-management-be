@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import authControllers from '~/controllers/web/auth.controllers'
-import { loginValidator, registerValidator } from '~/middlewares/user.middlewares'
+import { authBodyValidator } from '~/middlewares/user.middlewares'
 import { wrapRequestHandler } from '~/utils/handlers'
 
 const authRouter = Router()
@@ -17,7 +17,7 @@ authRouter.get('/sign-in', authControllers.signInView)
  * Path: /sign-in
  * Method: POST
  */
-authRouter.post('/sign-in', loginValidator, wrapRequestHandler(authControllers.signIn))
+authRouter.post('/sign-in', authBodyValidator, wrapRequestHandler(authControllers.signIn))
 
 /**
  * Description. Get sign up page
@@ -31,6 +31,6 @@ authRouter.get('/sign-up', authControllers.signUpView)
  * Path: /sign-up
  * Method: POST
  */
-authRouter.post('/sign-up', registerValidator, wrapRequestHandler(authControllers.signUp))
+authRouter.post('/sign-up', authBodyValidator, wrapRequestHandler(authControllers.signUp))
 
 export default authRouter

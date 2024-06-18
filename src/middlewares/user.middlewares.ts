@@ -46,32 +46,9 @@ const passwordSchema: ParamSchema = {
   }
 }
 
-export const loginValidator = validate(
+export const authBodyValidator = validate(
   checkSchema({
     memberName: memberNameSchema,
     password: passwordSchema
   })
-)
-
-export const registerValidator = validate(
-  checkSchema(
-    {
-      memberName: {
-        ...memberNameSchema
-        // custom: {
-        //   options: async (value) => {
-        //     const member = await userService.checkExistedMemberName(value)
-
-        //     if (member) {
-        //       throw new Error(USER_MESSAGES.MEMBER_NAME_ALREADY_EXISTS)
-        //     }
-
-        //     return true
-        //   }
-        // }
-      },
-      password: passwordSchema
-    },
-    ['body']
-  )
 )

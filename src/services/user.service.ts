@@ -12,6 +12,7 @@ import { AuthReqBody } from '~/models/requests/Auth.requests'
 import Member from '~/models/schemas/Member.schema'
 import RefreshToken from '~/models/schemas/RefreshToken.schema'
 import { comparePassword, hashPassword } from '~/utils/bcrypt'
+import convertEpochToDateWithOffset from '~/utils/convertEpochToDateWithOffset'
 import { signToken, verifyToken } from '~/utils/jwt'
 
 class UserService {
@@ -65,12 +66,11 @@ class UserService {
       })
     ])
     const { iat, exp } = await this.decodeRefreshToken(refreshToken)
-    console.log('iat', iat, 'exp', exp)
     await RefreshToken.create({
       token: refreshToken,
       userId,
-      iat: new Date(iat * 1000),
-      exp: new Date(exp * 1000)
+      iat: convertEpochToDateWithOffset(iat),
+      exp: convertEpochToDateWithOffset(exp)
     })
 
     return {

@@ -3,6 +3,7 @@ import { BRAND_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/errors'
 import { BrandReqBody } from '~/models/requests/Brand.requests'
 import Brand from '~/models/schemas/Brand.schema'
+import watchService from './watch.service'
 
 class BrandService {
   async getBrands() {
@@ -61,6 +62,15 @@ class BrandService {
   }
 
   async deleteBrand(brandId: string) {
+    const isBrandUsed = await watchService.checkExistedWatchByBrandId(brandId)
+
+    if (isBrandUsed) {
+      throw new ErrorWithStatus({
+        status: HTTP_STATUS.BAD_REQUEST,
+        message: BRAND_MESSAGES.CAN_NOT_DELETE_USED_BRAND
+      })
+    }
+
     const result = await Brand.deleteOne({
       _id: brandId
     })

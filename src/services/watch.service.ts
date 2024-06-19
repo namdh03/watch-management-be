@@ -111,6 +111,12 @@ class WatchService {
       totalPages
     }
   }
+
+  async checkExistedWatchByBrandId(brandId: string) {
+    return await Watch.exists({
+      brand: brandId
+    })
+  }
 }
 
 const watchService = new WatchService()

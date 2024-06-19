@@ -21,7 +21,8 @@ export const BRAND_MESSAGES = {
   UPDATE_BRAND_SUCCESSFULLY: 'Update brand successfully',
   DELETE_BRAND_SUCCESSFULLY: 'Delete brand successfully',
   BRAND_ID_MUST_BE_A_VALID_ID: 'Brand id must be a valid id',
-  BRAND_ID_DOES_NOT_EXIST: 'Brand id does not exist'
+  BRAND_ID_DOES_NOT_EXIST: 'Brand id does not exist',
+  CAN_NOT_DELETE_USED_BRAND: 'Can not delete used brand'
 }
 
 export const WATCH_MESSAGES = {

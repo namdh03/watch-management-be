@@ -3,7 +3,6 @@ import watchService from './watch.service'
 import { ErrorWithStatus } from '~/models/errors'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { WATCH_MESSAGES } from '~/constants/messages'
-import Watch from '~/models/schemas/Watch.schema'
 
 class CommentService {
   async commentOnWatch(authorId: string, body: CommentReqBody) {
@@ -16,19 +15,7 @@ class CommentService {
       })
     }
 
-    const watch = await Watch.findByIdAndUpdate(
-      {
-        _id: body.watchId
-      },
-      {
-        $push: {
-          comments: {
-            ...body,
-            author: authorId
-          }
-        }
-      }
-    )
+    const watch = await watchService.findByIdAndAddComment(body.watchId, authorId, body)
 
     if (!watch) {
       throw new ErrorWithStatus({

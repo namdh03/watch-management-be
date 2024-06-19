@@ -1,6 +1,11 @@
 import { Router } from 'express'
 import userControllers from '~/controllers/web/user.controllers'
-import { isOwnerMemberNameValidator, memberNameValidator, updateMemberValidator } from '~/middlewares/user.middlewares'
+import {
+  changePasswordValidator,
+  isOwnerMemberNameValidator,
+  memberNameValidator,
+  updateMemberValidator
+} from '~/middlewares/user.middlewares'
 import { wrapRequestHandler } from '~/utils/handlers'
 
 const userRouter = Router()
@@ -26,5 +31,17 @@ userRouter.get(
  * }
  */
 userRouter.put('/', updateMemberValidator, wrapRequestHandler(userControllers.updateUser))
+
+/**
+ * Description. Change password
+ * Path: /change-password
+ * Method: PUT
+ * Body: {
+ *   oldPassword: string,
+ *   password: string,
+ *   confirmPassword: string
+ * }
+ */
+userRouter.put('/change-password', changePasswordValidator, wrapRequestHandler(userControllers.changePassword))
 
 export default userRouter

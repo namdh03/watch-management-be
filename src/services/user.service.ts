@@ -9,7 +9,7 @@ import HTTP_STATUS from '~/constants/httpStatus'
 import { USER_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/errors'
 import { AuthReqBody } from '~/models/requests/Auth.requests'
-import { MemberReqBody } from '~/models/requests/Member.requests'
+import { ChangePasswordReqBody, MemberReqBody } from '~/models/requests/Member.requests'
 import Member from '~/models/schemas/Member.schema'
 import RefreshToken from '~/models/schemas/RefreshToken.schema'
 import { comparePassword, hashPassword } from '~/utils/bcrypt'
@@ -175,6 +175,37 @@ class UserService {
       },
       {
         $set: body
+      }
+    )
+  }
+
+  async changePassword(id: string, body: ChangePasswordReqBody) {
+    // Check if member is not found
+    const member = await Member.findById(id)
+    if (!member) {
+      throw new ErrorWithStatus({
+        status: HTTP_STATUS.NOT_FOUND,
+        message: USER_MESSAGES.USER_NOT_FOUND
+      })
+    }
+
+    // Check if password is incorrect
+    const isCorrectPassword = comparePassword(body.oldPassword, member.password)
+    if (!isCorrectPassword) {
+      throw new ErrorWithStatus({
+        status: HTTP_STATUS.BAD_REQUEST,
+        message: USER_MESSAGES.CURRENT_PASSWORD_IS_INCORRECT
+      })
+    }
+
+    return Member.updateOne(
+      {
+        _id: id
+      },
+      {
+        $set: {
+          password: hashPassword(body.password)
+        }
       }
     )
   }

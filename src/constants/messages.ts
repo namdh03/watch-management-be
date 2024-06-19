@@ -53,5 +53,13 @@ export const USER_MESSAGES = {
   MEMBER_NAME_OR_PASSWORD_IS_INCORRECT: 'Member name or password is incorrect',
   USER_NOT_FOUND: 'User not found',
   MEMBER_NAME_MUST_BE_DIFFERENT: 'Member name must be different',
-  MEMBER_NAME_MUST_NOT_CONTAIN_SPACES: 'Member name must not contain spaces'
+  MEMBER_NAME_MUST_NOT_CONTAIN_SPACES: 'Member name must not contain spaces',
+  CONFIRM_PASSWORD_IS_REQUIRED: 'Confirm password is required',
+  CONFIRM_PASSWORD_MUST_BE_A_STRING: 'Confirm password must be a string',
+  CONFIRM_PASSWORD_LENGTH_MUST_BE_BETWEEN_6_AND_50: 'Confirm password length must be between 6 and 50',
+  CONFIRM_PASSWORD_MUST_BE_STRONG: 'Confirm password must be strong',
+  PASSWORDS_DO_NOT_MATCH: 'Passwords do not match',
+  CURRENT_PASSWORD_IS_INCORRECT: 'Current password is incorrect',
+  UPDATE_PROFILE_SUCCESS: 'Update profile successfully',
+  CHANGE_PASSWORD_SUCCESS: 'Change password successfully'
 }

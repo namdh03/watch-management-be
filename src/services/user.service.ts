@@ -140,17 +140,18 @@ class UserService {
   }
 
   async getUserById(userId: string) {
-    return Member.findById(userId)
+    return Member.findById(userId, {
+      password: 0
+    })
   }
 
   async getMembers() {
-    return Member.find({})
-  }
-
-  async getMemberByName(memberName: string) {
-    return Member.findOne({
-      memberName
-    })
+    return Member.find(
+      {},
+      {
+        password: 0
+      }
+    )
   }
 
   async checkExistMemberName(memberName: string) {

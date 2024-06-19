@@ -13,7 +13,7 @@ const signIn = async (req: TypedRequestBody<AuthReqBody>, res: Response) => {
   const { accessToken, refreshToken } = await userService.signIn(req.body)
   res.cookie('accessToken', accessToken, { httpOnly: true })
   res.cookie('refreshToken', refreshToken, { httpOnly: true })
-  res.redirect('/')
+  res.redirect('back')
 }
 
 // [GET] /sign-up

@@ -99,7 +99,18 @@ export const verifyAccessToken = async (req: Request, _res: Response, next: Next
 export const memberNameValidator = validate(
   checkSchema(
     {
-      memberName: memberNameSchema
+      memberName: {
+        ...memberNameSchema,
+        custom: {
+          options: (value: string) => {
+            // Custom validation function to disallow spaces
+            if (/\s/.test(value)) {
+              throw new Error(USER_MESSAGES.MEMBER_NAME_MUST_NOT_CONTAIN_SPACES)
+            }
+            return true
+          }
+        }
+      }
     },
     ['params']
   )
@@ -120,3 +131,30 @@ export const isOwnerMemberNameValidator = (req: Request, _res: Response, next: N
 
   next()
 }
+
+export const updateMemberValidator = validate(
+  checkSchema(
+    {
+      memberName: {
+        ...memberNameSchema,
+        custom: {
+          options: async (value, { req }) => {
+            const user = (req as Request).user as MemberDocument
+
+            // Custom validation function to disallow spaces
+            if (/\s/.test(value)) {
+              throw new Error(USER_MESSAGES.MEMBER_NAME_MUST_NOT_CONTAIN_SPACES)
+            }
+
+            if (user.memberName === value) {
+              throw new Error(USER_MESSAGES.MEMBER_NAME_MUST_BE_DIFFERENT)
+            }
+
+            return true
+          }
+        }
+      }
+    },
+    ['body']
+  )
+)

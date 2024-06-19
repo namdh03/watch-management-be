@@ -9,6 +9,7 @@ import HTTP_STATUS from '~/constants/httpStatus'
 import { USER_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/errors'
 import { AuthReqBody } from '~/models/requests/Auth.requests'
+import { MemberReqBody } from '~/models/requests/Member.requests'
 import Member from '~/models/schemas/Member.schema'
 import RefreshToken from '~/models/schemas/RefreshToken.schema'
 import { comparePassword, hashPassword } from '~/utils/bcrypt'
@@ -150,6 +151,32 @@ class UserService {
     return Member.findOne({
       memberName
     })
+  }
+
+  async checkExistMemberName(memberName: string) {
+    return Member.exists({
+      memberName
+    })
+  }
+
+  async updateMember(memberName: string, body: MemberReqBody) {
+    const isExisted = await this.checkExistMemberName(body.memberName)
+
+    if (isExisted) {
+      throw new ErrorWithStatus({
+        status: HTTP_STATUS.BAD_REQUEST,
+        message: USER_MESSAGES.MEMBER_NAME_ALREADY_EXISTS
+      })
+    }
+
+    return Member.updateOne(
+      {
+        memberName
+      },
+      {
+        $set: body
+      }
+    )
   }
 }
 

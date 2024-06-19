@@ -22,3 +22,8 @@ export interface TypedRequestParamsBody<T extends ParamsDictionary, U> extends R
   body: U
   params: T
 }
+
+export type PaginationQuery = {
+  page?: string
+  limit?: string
+}

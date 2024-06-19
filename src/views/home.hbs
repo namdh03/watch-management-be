@@ -2,10 +2,12 @@
   Đây là Home Page
 </h1>
 
+<p>{{totalPages}}</p>
+
 <ul>
   {{#each watches}}
     <li>
-      <img src={{this.image}} alt='' />
+      <span>{{this.watchName}}</span>
     </li>
   {{/each}}
 </ul>

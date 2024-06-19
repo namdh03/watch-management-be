@@ -5,16 +5,25 @@ import { WATCH_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/errors'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { isValidObjectId } from 'mongoose'
+import { SearchWatchQuery } from '~/models/requests/Search.requests'
+import { Pagination } from '~/constants/enum'
 
 class WatchService {
   async getWatches() {
-    return await Watch.find(
+    const watches = await Watch.find(
       {},
       {
         comments: 0,
         watchDescription: 0
       }
     )
+      .skip((Pagination.DefaultPage - 1) * Pagination.DefaultLimit)
+      .limit(Pagination.DefaultLimit)
+      .populate('brand', 'brandName')
+    const total = await Watch.countDocuments()
+    const totalPages = Math.ceil(total / Pagination.DefaultLimit)
+
+    return { watches, totalPages }
   }
 
   async createWatch(body: WatchReqBody) {
@@ -74,6 +83,33 @@ class WatchService {
     }
 
     return result
+  }
+
+  async searchWatch({ name, brand, page, limit }: SearchWatchQuery) {
+    const brandId = brand && (await brandService.getBrandIdByName(brand))
+    const query = {
+      ...(name && {
+        watchName: {
+          $regex: name,
+          $options: 'i'
+        }
+      }),
+      ...(brand && {
+        brand: brandId
+      })
+    }
+
+    const watches = await Watch.find(query)
+      .skip(((Number(page) || Pagination.DefaultPage) - 1) * Number(limit || Pagination.DefaultLimit))
+      .limit(Number(limit || Pagination.DefaultLimit))
+      .populate('brand', 'brandName')
+    const total = await Watch.countDocuments(query)
+    const totalPages = Math.ceil(total / Number(limit || Pagination.DefaultLimit))
+
+    return {
+      watches,
+      totalPages
+    }
   }
 }
 

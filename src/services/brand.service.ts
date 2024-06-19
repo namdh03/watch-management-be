@@ -87,6 +87,14 @@ class BrandService {
 
     return brand
   }
+
+  async getBrandIdByName(brandName: string) {
+    return await Brand.exists({
+      brandName: {
+        $regex: new RegExp(`^${brandName}$`, 'i')
+      }
+    })
+  }
 }
 
 const brandService = new BrandService()

@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { Pagination } from '~/constants/enum'
 import { WATCH_MESSAGES } from '~/constants/messages'
 import { TypedRequestBody, TypedRequestParams, TypedRequestParamsBody } from '~/models/requests'
 import { UpdateWatchReqParams, WatchReqBody } from '~/models/requests/Watch.requests'
@@ -7,8 +8,8 @@ import watchService from '~/services/watch.service'
 
 // [GET] /admin/watches
 const watchesView = async (_req: Request, res: Response) => {
-  const watches = await watchService.getWatches()
-  res.render('watches', { watches })
+  const { watches, totalPages } = await watchService.getWatches()
+  res.render('watches', { watches, page: Pagination.DefaultPage, limit: Pagination.DefaultLimit, totalPages })
 }
 
 // [GET] /admin/watches/create

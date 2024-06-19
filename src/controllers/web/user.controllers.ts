@@ -1,6 +1,7 @@
 import { Response } from 'express'
-import { TypedRequestParams, TypedRequestParamsBody } from '~/models/requests'
+import { TypedRequestBody, TypedRequestParams } from '~/models/requests'
 import { MemberReqBody, MemberReqParams } from '~/models/requests/Member.requests'
+import { MemberDocument } from '~/models/schemas/Member.schema'
 import userService from '~/services/user.service'
 
 // [GET] /:memberName
@@ -9,10 +10,11 @@ const userView = async (req: TypedRequestParams<MemberReqParams>, res: Response)
   res.render('user', { member })
 }
 
-// [PUT] /:memberName
-const updateUser = async (req: TypedRequestParamsBody<MemberReqParams, MemberReqBody>, res: Response) => {
-  await userService.updateMember(req.params.memberName, req.body)
-  res.redirect(`/${req.body.memberName}`)
+// [PUT] /
+const updateUser = async (req: TypedRequestBody<MemberReqBody>, res: Response) => {
+  const user = req.user as MemberDocument
+  await userService.updateMember(user.id, req.body)
+  res.redirect(`/user/${req.body.memberName}`)
 }
 
 export default {

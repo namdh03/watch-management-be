@@ -19,18 +19,12 @@ userRouter.get(
 
 /**
  * Description. Update user
- * Path: /:memberName
+ * Path: /
  * Method: PUT
  * Body: {
  *  memberName: string
  * }
  */
-userRouter.put(
-  '/:memberName',
-  memberNameValidator,
-  updateMemberValidator,
-  isOwnerMemberNameValidator,
-  wrapRequestHandler(userControllers.updateUser)
-)
+userRouter.put('/', updateMemberValidator, wrapRequestHandler(userControllers.updateUser))
 
 export default userRouter

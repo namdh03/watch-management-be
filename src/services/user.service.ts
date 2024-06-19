@@ -159,7 +159,7 @@ class UserService {
     })
   }
 
-  async updateMember(memberName: string, body: MemberReqBody) {
+  async updateMember(id: string, body: MemberReqBody) {
     const isExisted = await this.checkExistMemberName(body.memberName)
 
     if (isExisted) {
@@ -171,7 +171,7 @@ class UserService {
 
     return Member.updateOne(
       {
-        memberName
+        _id: id
       },
       {
         $set: body

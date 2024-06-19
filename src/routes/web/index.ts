@@ -12,7 +12,7 @@ import { webDefaultErrorHandler } from '~/middlewares/error.middlewares'
 const webRoutes = (app: Application) => {
   app.use(authRouter)
   app.use(homeRouter)
-  app.use(verifyAccessToken, authMiddleware, userRouter)
+  app.use('/user', verifyAccessToken, authMiddleware, userRouter)
   app.use('/admin/members', verifyAccessToken, authMiddleware, isAdminMiddleware, memberRouter)
   app.use('/admin/brands', verifyAccessToken, authMiddleware, isAdminMiddleware, brandRouter)
   app.use('/admin/watches', verifyAccessToken, authMiddleware, isAdminMiddleware, watchRouter)

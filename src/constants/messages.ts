@@ -67,7 +67,8 @@ export const USER_MESSAGES = {
   PASSWORDS_DO_NOT_MATCH: 'Passwords do not match',
   CURRENT_PASSWORD_IS_INCORRECT: 'Current password is incorrect',
   UPDATE_PROFILE_SUCCESS: 'Update profile successfully',
-  CHANGE_PASSWORD_SUCCESS: 'Change password successfully'
+  CHANGE_PASSWORD_SUCCESS: 'Change password successfully',
+  REFRESH_TOKEN_IS_REQUIRED: 'Refresh token is required'
 }
 
 export const COMMENT_MESSAGES = {

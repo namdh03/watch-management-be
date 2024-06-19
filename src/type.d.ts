@@ -5,6 +5,7 @@ import { MemberDocument } from '!/models/schemas/Member.schema'
 declare module 'express' {
   interface Request {
     decodeAuthorization?: TokenPayload
+    decodeRefreshToken?: TokenPayload
     user?: MemberDocument
   }
 }

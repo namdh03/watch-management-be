@@ -1,11 +1,12 @@
 import { NextFunction, Request, Response } from 'express'
 import { ParamSchema, checkSchema } from 'express-validator'
-import { JsonWebTokenError } from 'jsonwebtoken'
-import { JWT_SECRET_ACCESS_TOKEN } from '~/constants/env'
+import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken'
+import { JWT_SECRET_ACCESS_TOKEN, JWT_SECRET_REFRESH_TOKEN } from '~/constants/env'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { USER_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/errors'
 import { MemberDocument } from '~/models/schemas/Member.schema'
+import userService from '~/services/user.service'
 import { verifyToken } from '~/utils/jwt'
 import validate from '~/utils/validate'
 
@@ -94,7 +95,59 @@ export const authBodyValidator = validate(
   )
 )
 
-export const verifyAccessToken = async (req: Request, _res: Response, next: NextFunction) => {
+export const refreshTokenValidator = async (req: Request, res: Response, next: NextFunction) => {
+  const { refreshToken } = req.cookies
+  if (!refreshToken) {
+    return next(
+      new ErrorWithStatus({
+        status: HTTP_STATUS.UNAUTHORIZED,
+        message: USER_MESSAGES.REFRESH_TOKEN_IS_REQUIRED
+      })
+    )
+  }
+
+  try {
+    const isExistedRefreshToken = await userService.checkExistedRefreshToken(refreshToken)
+    if (!isExistedRefreshToken) {
+      return next(
+        new ErrorWithStatus({
+          status: HTTP_STATUS.UNAUTHORIZED,
+          message: USER_MESSAGES.REFRESH_TOKEN_IS_REQUIRED
+        })
+      )
+    }
+
+    const { userId, exp } = await verifyToken({
+      token: refreshToken,
+      secretOrPublicKey: JWT_SECRET_REFRESH_TOKEN
+    })
+    const { accessToken: newAccessToken, refreshToken: newRefreshToken } = await userService.refreshToken({
+      userId,
+      refreshToken,
+      exp
+    })
+    const decodeAuthorization = await verifyToken({
+      token: newAccessToken,
+      secretOrPublicKey: JWT_SECRET_ACCESS_TOKEN
+    })
+
+    console.log('New access token:', newAccessToken, 'New refresh token:', newRefreshToken)
+
+    req.decodeAuthorization = decodeAuthorization
+    res.cookie('accessToken', newAccessToken, { httpOnly: true })
+    res.cookie('refreshToken', newRefreshToken, { httpOnly: true })
+    next()
+  } catch (error) {
+    if (error instanceof TokenExpiredError) {
+      res.clearCookie('accessToken')
+      res.clearCookie('refreshToken')
+    }
+
+    return next(error)
+  }
+}
+
+export const accessTokenValidator = async (req: Request, res: Response, next: NextFunction) => {
   const { accessToken } = req.cookies
 
   if (!accessToken) {
@@ -116,6 +169,10 @@ export const verifyAccessToken = async (req: Request, _res: Response, next: Next
     next()
   } catch (error) {
     if (error instanceof JsonWebTokenError) {
+      if (error instanceof TokenExpiredError) {
+        return refreshTokenValidator(req, res, next)
+      }
+
       return next(
         new ErrorWithStatus({
           status: HTTP_STATUS.UNAUTHORIZED,

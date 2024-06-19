@@ -57,13 +57,14 @@ class UserService {
     })
   }
 
-  private async signAccessAndRefreshTokens({ userId }: { userId: string }) {
+  private async signAccessAndRefreshTokens({ userId, expires }: { userId: string; expires?: number }) {
     const [accessToken, refreshToken] = await Promise.all([
       this.signAccessToken({
         userId
       }),
       this.signRefreshToken({
-        userId
+        userId,
+        exp: expires
       })
     ])
     const { iat, exp } = await this.decodeRefreshToken(refreshToken)
@@ -209,6 +210,23 @@ class UserService {
         }
       }
     )
+  }
+
+  async checkExistedRefreshToken(token: string) {
+    return RefreshToken.exists({
+      token
+    })
+  }
+
+  async refreshToken({ refreshToken, userId, exp }: { refreshToken: string; userId: string; exp: number }) {
+    await RefreshToken.deleteOne({
+      token: refreshToken
+    })
+
+    return await this.signAccessAndRefreshTokens({
+      userId,
+      expires: exp
+    })
   }
 }
 

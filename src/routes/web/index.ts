@@ -1,5 +1,5 @@
 import { Application } from 'express'
-import { verifyAccessToken } from '~/middlewares/user.middlewares'
+import { accessTokenValidator } from '~/middlewares/user.middlewares'
 import { authMiddleware, isAdminMiddleware } from '~/middlewares/auth.middlewares'
 import { webDefaultErrorHandler } from '~/middlewares/error.middlewares'
 import authRouter from './auth.routes'
@@ -17,11 +17,11 @@ const webRoutes = (app: Application) => {
   app.use(homeRouter)
   app.use(detailRouter)
   app.use('/search', searchRouter)
-  app.use('/user', verifyAccessToken, authMiddleware, userRouter)
-  app.use('/comment', verifyAccessToken, authMiddleware, commentRouter)
-  app.use('/admin/members', verifyAccessToken, authMiddleware, isAdminMiddleware, memberRouter)
-  app.use('/admin/brands', verifyAccessToken, authMiddleware, isAdminMiddleware, brandRouter)
-  app.use('/admin/watches', verifyAccessToken, authMiddleware, isAdminMiddleware, watchRouter)
+  app.use('/user', accessTokenValidator, authMiddleware, userRouter)
+  app.use('/comment', accessTokenValidator, authMiddleware, commentRouter)
+  app.use('/admin/members', accessTokenValidator, authMiddleware, isAdminMiddleware, memberRouter)
+  app.use('/admin/brands', accessTokenValidator, authMiddleware, isAdminMiddleware, brandRouter)
+  app.use('/admin/watches', accessTokenValidator, authMiddleware, isAdminMiddleware, watchRouter)
   app.use(webDefaultErrorHandler)
 }
 

@@ -5,6 +5,7 @@ import { JWT_SECRET_ACCESS_TOKEN } from '~/constants/env'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { USER_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/errors'
+import { MemberDocument } from '~/models/schemas/Member.schema'
 import { verifyToken } from '~/utils/jwt'
 import validate from '~/utils/validate'
 
@@ -53,10 +54,13 @@ const passwordSchema: ParamSchema = {
 }
 
 export const authBodyValidator = validate(
-  checkSchema({
-    memberName: memberNameSchema,
-    password: passwordSchema
-  })
+  checkSchema(
+    {
+      memberName: memberNameSchema,
+      password: passwordSchema
+    },
+    ['body']
+  )
 )
 
 export const verifyAccessToken = async (req: Request, _res: Response, next: NextFunction) => {
@@ -90,4 +94,29 @@ export const verifyAccessToken = async (req: Request, _res: Response, next: Next
     }
     return next(error)
   }
+}
+
+export const memberNameValidator = validate(
+  checkSchema(
+    {
+      memberName: memberNameSchema
+    },
+    ['params']
+  )
+)
+
+export const isOwnerMemberNameValidator = (req: Request, _res: Response, next: NextFunction) => {
+  const user = req.user as MemberDocument
+  const memberName = req.params.memberName
+
+  if (user.memberName !== memberName) {
+    return next(
+      new ErrorWithStatus({
+        status: HTTP_STATUS.NOT_FOUND,
+        message: USER_MESSAGES.USER_NOT_FOUND
+      })
+    )
+  }
+
+  next()
 }

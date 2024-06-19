@@ -145,6 +145,12 @@ class UserService {
   async getMembers() {
     return Member.find({})
   }
+
+  async getMemberByName(memberName: string) {
+    return Member.findOne({
+      memberName
+    })
+  }
 }
 
 const userService = new UserService()

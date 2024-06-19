@@ -4,7 +4,7 @@ import brandService from './brand.service'
 import { WATCH_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/errors'
 import HTTP_STATUS from '~/constants/httpStatus'
-import { isValidObjectId } from 'mongoose'
+import { Types, isValidObjectId } from 'mongoose'
 import { SearchWatchQuery } from '~/models/requests/Search.requests'
 import { Pagination } from '~/constants/enum'
 import { CommentReqBody } from '~/models/requests/Comment.requests'
@@ -119,8 +119,9 @@ class WatchService {
     })
   }
 
-  async checkExistedWatchByAuthorId(authorId: string) {
+  async checkExistedWatchByAuthorId(watchId: string, authorId: string) {
     return await Watch.exists({
+      _id: watchId,
       'comments.author': authorId
     })
   }
@@ -141,6 +142,35 @@ class WatchService {
     )
 
     return watch
+  }
+
+  async findByIdAndDeleteComment(commentId: string, authorId: string) {
+    // Ensure commentId and authorId are of type ObjectId
+    const commentObjectId = new Types.ObjectId(commentId)
+    const authorObjectId = new Types.ObjectId(authorId)
+
+    const watch = await Watch.updateOne(
+      {
+        'comments._id': commentObjectId,
+        'comments.author': authorObjectId
+      },
+      {
+        $pull: {
+          comments: {
+            _id: commentObjectId
+          }
+        }
+      }
+    )
+
+    return watch
+  }
+
+  async checkExistedCommentByAuthorId(commentId: string, authorId: string) {
+    return await Watch.exists({
+      'comments._id': commentId,
+      'comments.author': authorId
+    })
   }
 }
 

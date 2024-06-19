@@ -2,11 +2,11 @@ import { CommentReqBody } from '~/models/requests/Comment.requests'
 import watchService from './watch.service'
 import { ErrorWithStatus } from '~/models/errors'
 import HTTP_STATUS from '~/constants/httpStatus'
-import { WATCH_MESSAGES } from '~/constants/messages'
+import { COMMENT_MESSAGES, WATCH_MESSAGES } from '~/constants/messages'
 
 class CommentService {
   async commentOnWatch(authorId: string, body: CommentReqBody) {
-    const isWatchExistByAuthorId = await watchService.checkExistedWatchByAuthorId(authorId)
+    const isWatchExistByAuthorId = await watchService.checkExistedWatchByAuthorId(body.watchId, authorId)
 
     if (isWatchExistByAuthorId) {
       throw new ErrorWithStatus({
@@ -23,6 +23,21 @@ class CommentService {
         message: WATCH_MESSAGES.WATCH_ID_DOES_NOT_EXIST
       })
     }
+
+    return watch
+  }
+
+  async deleteCommentOnWatch(authorId: string, commentId: string) {
+    const isCommentExistByAuthorId = await watchService.checkExistedCommentByAuthorId(commentId, authorId)
+
+    if (!isCommentExistByAuthorId) {
+      throw new ErrorWithStatus({
+        status: HTTP_STATUS.BAD_REQUEST,
+        message: COMMENT_MESSAGES.COMMENT_DOES_NOT_EXIST
+      })
+    }
+
+    const watch = await watchService.findByIdAndDeleteComment(commentId, authorId)
 
     return watch
   }

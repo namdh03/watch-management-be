@@ -1,7 +1,7 @@
 import { checkSchema } from 'express-validator'
 import { isValidObjectId } from 'mongoose'
 import HTTP_STATUS from '~/constants/httpStatus'
-import { WATCH_MESSAGES } from '~/constants/messages'
+import { COMMENT_MESSAGES, WATCH_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/errors'
 import validate from '~/utils/validate'
 
@@ -30,14 +30,14 @@ export const commentOnWatchValidator = validate(
     },
     rating: {
       notEmpty: {
-        errorMessage: WATCH_MESSAGES.RATING_IS_REQUIRED
+        errorMessage: COMMENT_MESSAGES.RATING_IS_REQUIRED
       },
       isInt: {
         options: {
           min: 1,
           max: 3
         },
-        errorMessage: WATCH_MESSAGES.RATING_MUST_BE_A_NUMBER_BETWEEN_1_AND_3
+        errorMessage: COMMENT_MESSAGES.RATING_MUST_BE_A_NUMBER_BETWEEN_1_AND_3
       }
     },
     content: {
@@ -53,7 +53,7 @@ export const commentOnWatchValidator = validate(
           min: 1,
           max: 500
         },
-        errorMessage: WATCH_MESSAGES.WATCH_CONTENT_LENGTH_MUST_BE_BETWEEN_1_AND_500
+        errorMessage: COMMENT_MESSAGES.WATCH_CONTENT_LENGTH_MUST_BE_BETWEEN_1_AND_500
       }
     }
   })

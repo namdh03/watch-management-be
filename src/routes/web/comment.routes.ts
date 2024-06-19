@@ -17,4 +17,11 @@ const commentRouter = Router()
  */
 commentRouter.post('/watch', commentOnWatchValidator, wrapRequestHandler(commentControllers.commentOnWatch))
 
+/**
+ * Description. Delete a comment on a watch
+ * Path: /watch/:commentId
+ * Method: DELETE
+ */
+commentRouter.delete('/watch/:commentId', wrapRequestHandler(commentControllers.deleteCommentOnWatch))
+
 export default commentRouter

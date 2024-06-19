@@ -7,21 +7,21 @@ const brandRouter = Router()
 
 /**
  * Description. Get brands page
- * Path: /admin/watch
+ * Path: /admin/brands
  * Method: GET
  */
 brandRouter.get('/', brandControllers.brandsView)
 
 /**
  * Description. Get create brand page
- * Path: /admin/brand/create
+ * Path: /admin/brands/create
  * Method: GET
  */
 brandRouter.get('/create', brandControllers.createBrandView)
 
 /**
  * Description. Create brand
- * Path: /admin/brand/create
+ * Path: /admin/brands/create
  * Method: POST
  * Body: {
  *  brandName: string
@@ -31,14 +31,14 @@ brandRouter.post('/create', bodyBrandValidator, wrapRequestHandler(brandControll
 
 /**
  * Description. Get update brand page
- * Path: /admin/brand/update/:brandName
+ * Path: /admin/brands/update/:brandName
  * Method: GET
  */
 brandRouter.get('/update/:brandName', brandNameValidator, wrapRequestHandler(brandControllers.updateBrandView))
 
 /**
  * Description. Update brand
- * Path: /admin/brand/update/:brandId
+ * Path: /admin/brands/update/:brandId
  * Method: PUT
  * Body: {
  *  brandName: string
@@ -53,7 +53,7 @@ brandRouter.put(
 
 /**
  * Description. Delete brand
- * Path: /admin/brand/delete/:brandId
+ * Path: /admin/brands/delete/:brandId
  * Method: DELETE
  */
 brandRouter.delete('/delete/:brandId', brandIdValidator, wrapRequestHandler(brandControllers.deleteBrand))

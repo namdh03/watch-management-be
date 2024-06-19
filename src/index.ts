@@ -35,7 +35,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+      maxAge: 0 // 0 means session cookie, when you close the browser, the cookie will be removed
       // secure: true, // becareful set this option, check here: https://www.npmjs.com/package/express-session#cookiesecure. In local, if you set this to true, you won't receive flash as you are using `http` in local, but http is not secure
     }
   })

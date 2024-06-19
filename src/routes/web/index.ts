@@ -11,9 +11,9 @@ import memberRouter from './member.routes'
 const webRoutes = (app: Application) => {
   app.use(authRouter)
   app.use(homeRouter)
-  app.use('/admin/member', verifyAccessToken, authMiddleware, isAdminMiddleware, memberRouter)
-  app.use('/admin/brand', verifyAccessToken, authMiddleware, isAdminMiddleware, brandRouter)
-  app.use('/admin/watch', verifyAccessToken, authMiddleware, isAdminMiddleware, watchRouter)
+  app.use('/admin/members', verifyAccessToken, authMiddleware, isAdminMiddleware, memberRouter)
+  app.use('/admin/brands', verifyAccessToken, authMiddleware, isAdminMiddleware, brandRouter)
+  app.use('/admin/watches', verifyAccessToken, authMiddleware, isAdminMiddleware, watchRouter)
   app.use(webDefaultErrorHandler)
 }
 

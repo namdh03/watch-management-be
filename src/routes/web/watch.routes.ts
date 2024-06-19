@@ -7,21 +7,21 @@ const watchRouter = Router()
 
 /**
  * Description. Get watches page
- * Path: /admin/watch
+ * Path: /admin/watches
  * Method: GET
  */
 watchRouter.get('/', watchController.watchesView)
 
 /**
  * Description. Get create watch page
- * Path: /admin/watch/create
+ * Path: /admin/watches/create
  * Method: GET
  * */
 watchRouter.get('/create', watchController.createWatchView)
 
 /**
  * Description. Create watch
- * Path: /admin/watch/create
+ * Path: /admin/watches/create
  * Method: POST
  * Body: {
  *  watchName: string
@@ -36,14 +36,14 @@ watchRouter.post('/create', bodyWatchValidator, wrapRequestHandler(watchControll
 
 /**
  * Description. Get update watch page
- * Path: /admin/watch/update/:watchId
+ * Path: /admin/watches/update/:watchId
  * Method: GET
  * */
 watchRouter.get('/update/:watchId', wrapRequestHandler(watchController.updateWatchView))
 
 /**
  * Description. Update watch
- * Path: /admin/watch/update/:watchId
+ * Path: /admin/watches/update/:watchId
  * Method: PUT
  * */
 watchRouter.put(
@@ -55,7 +55,7 @@ watchRouter.put(
 
 /**
  * Description. Delete watch
- * Path: /admin/watch/delete/:watchId
+ * Path: /admin/watches/delete/:watchId
  * Method: DELETE
  * */
 watchRouter.delete('/delete/:watchId', watchIdValidator, wrapRequestHandler(watchController.deleteWatch))

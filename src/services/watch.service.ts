@@ -117,6 +117,12 @@ class WatchService {
       brand: brandId
     })
   }
+
+  async checkExistedWatchByAuthorId(authorId: string) {
+    return await Watch.exists({
+      'comments.author': authorId
+    })
+  }
 }
 
 const watchService = new WatchService()

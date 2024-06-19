@@ -9,12 +9,14 @@ import memberRouter from './member.routes'
 import brandRouter from './brand.routes'
 import watchRouter from './watch.routes'
 import searchRouter from './search.routes'
+import commentRouter from './comment.routes'
 
 const webRoutes = (app: Application) => {
   app.use(authRouter)
   app.use(homeRouter)
   app.use('/search', searchRouter)
   app.use('/user', verifyAccessToken, authMiddleware, userRouter)
+  app.use('/comment', verifyAccessToken, authMiddleware, commentRouter)
   app.use('/admin/members', verifyAccessToken, authMiddleware, isAdminMiddleware, memberRouter)
   app.use('/admin/brands', verifyAccessToken, authMiddleware, isAdminMiddleware, brandRouter)
   app.use('/admin/watches', verifyAccessToken, authMiddleware, isAdminMiddleware, watchRouter)

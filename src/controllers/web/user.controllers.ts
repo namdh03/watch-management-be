@@ -8,7 +8,7 @@ import userService from '~/services/user.service'
 // [GET] /:memberName
 const userView = async (req: TypedRequestParams<MemberReqParams>, res: Response) => {
   const member = req.user as MemberDocument
-  res.render('user', { member })
+  res.render('user', { title: `Node.js | ${member.memberName}`, member })
 }
 
 // [PUT] /

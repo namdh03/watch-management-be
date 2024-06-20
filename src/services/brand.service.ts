@@ -6,6 +6,25 @@ import Brand from '~/models/schemas/Brand.schema'
 import watchService from './watch.service'
 
 class BrandService {
+  async getBrandsWithWatchCount() {
+    return await Brand.aggregate([
+      {
+        $lookup: {
+          from: 'watches',
+          localField: '_id',
+          foreignField: 'brand',
+          as: 'watches'
+        }
+      },
+      {
+        $project: {
+          brandName: 1,
+          watchCount: { $size: '$watches' }
+        }
+      }
+    ])
+  }
+
   async getBrands() {
     return await Brand.find({})
   }

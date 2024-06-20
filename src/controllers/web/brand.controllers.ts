@@ -11,8 +11,8 @@ import brandService from '~/services/brand.service'
 
 // [GET] /admin/brands
 const brandsView = async (_req: Request, res: Response) => {
-  const brands = await brandService.getBrands()
-  res.render('brands', { brands })
+  const brands = await brandService.getBrandsWithWatchCount()
+  res.render('brands', { title: 'Node.js | Brands', layout: 'admin', brands })
 }
 
 // [GET] /admin/brands/create

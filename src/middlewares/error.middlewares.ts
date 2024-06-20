@@ -6,7 +6,11 @@ import { ErrorWithStatus } from '~/models/errors'
 export const webDefaultErrorHandler = (err: Error, req: Request, res: Response, _next: NextFunction) => {
   try {
     console.log('webDefaultErrorHandler', req.method, req.originalUrl, err)
+
     if (err instanceof ErrorWithStatus) {
+      res.flash('error', JSON.stringify(err))
+      res.flash('info', JSON.stringify(req.body))
+
       if (err.status === HTTP_STATUS.UNAUTHORIZED) {
         return res.redirect('/sign-in')
       }
@@ -18,7 +22,6 @@ export const webDefaultErrorHandler = (err: Error, req: Request, res: Response, 
         })
       }
 
-      res.flash('error', JSON.stringify(err))
       res.redirect('back')
     } else {
       return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).render('500', {

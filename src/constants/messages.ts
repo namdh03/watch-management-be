@@ -56,7 +56,7 @@ export const USER_MESSAGES = {
   PASSWORD_MUST_BE_STRONG: 'Password must be strong',
   MEMBER_NAME_ALREADY_EXISTS: 'Member name already exists',
   ACCESS_TOKEN_IS_REQUIRED: 'Access token is required',
-  MEMBER_NAME_OR_PASSWORD_IS_INCORRECT: 'Member name or password is incorrect',
+  MEMBER_NAME_OR_PASSWORD_IS_INCORRECT: 'Username or password is incorrect',
   USER_NOT_FOUND: 'User not found',
   MEMBER_NAME_MUST_BE_DIFFERENT: 'Member name must be different',
   MEMBER_NAME_MUST_NOT_CONTAIN_SPACES: 'Member name must not contain spaces',

@@ -5,7 +5,7 @@ import userService from '~/services/user.service'
 
 // [GET] /sign-in
 const signInView = async (_req: Request, res: Response) => {
-  res.render('sign-in')
+  res.render('sign-in', { layout: 'auth', title: 'Node.js | Sign In' })
 }
 
 // [POST] /sign-in

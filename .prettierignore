@@ -3,3 +3,6 @@ dist/
 
 #  SyntaxError: Handlebars partials are not supported
 main.hbs
+
+# Tailwind Config CSS
+auth.hbs

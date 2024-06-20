@@ -33,6 +33,9 @@ const registerHelperHbs = {
   },
   lessThanOrEquals: function (arg1: number, arg2: number, options: HelperOptions) {
     return arg1 <= arg2 ? options.fn(this) : options.inverse(this)
+  },
+  isDefined: function (value: unknown) {
+    return value !== undefined
   }
 }
 

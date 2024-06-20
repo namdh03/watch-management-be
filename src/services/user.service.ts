@@ -161,10 +161,10 @@ class UserService {
     })
   }
 
-  async updateMember(id: string, body: MemberReqBody) {
+  async updateMember(id: string, userName: string, body: MemberReqBody) {
     const isExisted = await this.checkExistMemberName(body.memberName)
 
-    if (isExisted) {
+    if (isExisted && userName !== body.memberName) {
       throw new ErrorWithStatus({
         status: HTTP_STATUS.BAD_REQUEST,
         message: USER_MESSAGES.MEMBER_NAME_ALREADY_EXISTS

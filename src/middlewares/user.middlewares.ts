@@ -235,20 +235,39 @@ export const updateMemberValidator = validate(
       memberName: {
         ...memberNameSchema,
         custom: {
-          options: async (value, { req }) => {
-            const user = (req as Request).user as MemberDocument
-
+          options: async (value) => {
             // Custom validation function to disallow spaces
             if (/\s/.test(value)) {
               throw new Error(USER_MESSAGES.MEMBER_NAME_MUST_NOT_CONTAIN_SPACES)
             }
 
-            if (user.memberName === value) {
-              throw new Error(USER_MESSAGES.MEMBER_NAME_MUST_BE_DIFFERENT)
-            }
-
             return true
           }
+        }
+      },
+      name: {
+        notEmpty: {
+          errorMessage: USER_MESSAGES.NAME_IS_REQUIRED
+        },
+        isString: {
+          errorMessage: USER_MESSAGES.NAME_MUST_BE_A_STRING
+        },
+        trim: true,
+        isLength: {
+          options: {
+            min: 1,
+            max: 50
+          },
+          errorMessage: USER_MESSAGES.NAME_LENGTH_MUST_BE_BETWEEN_1_AND_50
+        }
+      },
+      yob: {
+        isInt: {
+          options: {
+            min: 1900,
+            max: new Date().getFullYear()
+          },
+          errorMessage: USER_MESSAGES.YEAR_OF_BIRTH_MUST_BE_AN_INTEGER_BETWEEN_1900_AND_CURRENT_YEAR
         }
       }
     },

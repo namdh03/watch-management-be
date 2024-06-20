@@ -6,6 +6,8 @@ export interface MemberReqParams extends ParamsDictionary {
 
 export interface MemberReqBody {
   memberName: string
+  name: string
+  yob: number
 }
 
 export interface ChangePasswordReqBody {

@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Request, Response } from 'express'
 import { create } from 'express-handlebars'
 import session from 'express-session'
 import flash from 'express-flash-message'
@@ -29,7 +29,7 @@ app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }))
 // override with POST having ?_method=DELETE
 app.use(methodOverride('_method'))
-app.use(express.static(`${__dirname}/public`))
+app.use(express.static(`${__dirname}/assets`))
 
 // setup express-session
 app.use(
@@ -56,5 +56,10 @@ app.use(
 
 // Routes
 webRoutes(app)
+
+// 404 Not Found
+app.get('*', (_req: Request, res: Response) => {
+  res.render('404')
+})
 
 app.listen(PORT)

@@ -58,7 +58,6 @@ export const USER_MESSAGES = {
   ACCESS_TOKEN_IS_REQUIRED: 'Access token is required',
   MEMBER_NAME_OR_PASSWORD_IS_INCORRECT: 'Username or password is incorrect',
   USER_NOT_FOUND: 'User not found',
-  MEMBER_NAME_MUST_BE_DIFFERENT: 'Member name must be different',
   MEMBER_NAME_MUST_NOT_CONTAIN_SPACES: 'Member name must not contain spaces',
   CONFIRM_PASSWORD_IS_REQUIRED: 'Confirm password is required',
   CONFIRM_PASSWORD_MUST_BE_A_STRING: 'Confirm password must be a string',
@@ -68,7 +67,12 @@ export const USER_MESSAGES = {
   CURRENT_PASSWORD_IS_INCORRECT: 'Current password is incorrect',
   UPDATE_PROFILE_SUCCESS: 'Update profile successfully',
   CHANGE_PASSWORD_SUCCESS: 'Change password successfully',
-  REFRESH_TOKEN_IS_REQUIRED: 'Refresh token is required'
+  REFRESH_TOKEN_IS_REQUIRED: 'Refresh token is required',
+  NAME_IS_REQUIRED: 'Name is required',
+  NAME_MUST_BE_A_STRING: 'Name must be a string',
+  NAME_LENGTH_MUST_BE_BETWEEN_1_AND_50: 'Name length must be between 1 and 50',
+  YEAR_OF_BIRTH_MUST_BE_AN_INTEGER_BETWEEN_1900_AND_CURRENT_YEAR:
+    'Year of birth must be an integer between 1900 and current year'
 }
 
 export const COMMENT_MESSAGES = {

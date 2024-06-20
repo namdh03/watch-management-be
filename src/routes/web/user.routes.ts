@@ -28,6 +28,8 @@ userRouter.get(
  * Method: PUT
  * Body: {
  *  memberName: string
+ *  name: string
+ *  yob: number
  * }
  */
 userRouter.put('/', updateMemberValidator, wrapRequestHandler(userControllers.updateUser))

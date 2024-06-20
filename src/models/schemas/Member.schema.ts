@@ -4,6 +4,8 @@ export interface MemberDocument extends Document {
   memberName: string
   password: string
   isAdmin: boolean
+  name?: string
+  yob?: number
 }
 
 const memberSchema = new Schema(
@@ -19,6 +21,12 @@ const memberSchema = new Schema(
     isAdmin: {
       type: Boolean,
       default: false
+    },
+    name: {
+      type: String
+    },
+    yob: {
+      type: Number
     }
   },
   {

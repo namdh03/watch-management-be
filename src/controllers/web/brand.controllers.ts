@@ -17,7 +17,7 @@ const brandsView = async (_req: Request, res: Response) => {
 
 // [GET] /admin/brands/create
 const createBrandView = (_req: Request, res: Response) => {
-  res.render('create-brand')
+  res.render('create-brand', { title: 'Node.js | Create Brand', layout: 'admin' })
 }
 
 // [POST] /admin/brands/create

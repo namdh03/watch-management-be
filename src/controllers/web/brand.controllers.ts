@@ -30,7 +30,7 @@ const createBrand = async (req: TypedRequestBody<BrandReqBody>, res: Response) =
 // [GET] /admin/brands/update/:brandName
 const updateBrandView = async (req: TypedRequestParams<ViewBrandReqParams>, res: Response) => {
   const brand = await brandService.getBrandByName(req.params.brandName)
-  res.render('update-brand', { brand })
+  res.render('update-brand', { title: `Node.js | Update Brand | ${brand.brandName}`, layout: 'admin', brand })
 }
 
 // [PUT] /admin/brands/update/:brandId

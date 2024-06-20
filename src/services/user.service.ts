@@ -8,7 +8,7 @@ import {
 import HTTP_STATUS from '~/constants/httpStatus'
 import { USER_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/errors'
-import { AuthReqBody } from '~/models/requests/Auth.requests'
+import { SignInReqBody } from '~/models/requests/Auth.requests'
 import { ChangePasswordReqBody, MemberReqBody } from '~/models/requests/Member.requests'
 import Member from '~/models/schemas/Member.schema'
 import RefreshToken from '~/models/schemas/RefreshToken.schema'
@@ -88,7 +88,7 @@ class UserService {
     })
   }
 
-  async signUp(body: AuthReqBody) {
+  async signUp(body: SignInReqBody) {
     // Check if member name already exists
     const member = await Member.findOne({
       memberName: body.memberName
@@ -113,7 +113,7 @@ class UserService {
     })
   }
 
-  async signIn(body: AuthReqBody) {
+  async signIn(body: SignInReqBody) {
     // Check if member is not found
     const member = await Member.findOne({
       memberName: body.memberName

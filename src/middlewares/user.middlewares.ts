@@ -86,11 +86,22 @@ const confirmPasswordSchema: ParamSchema = {
   }
 }
 
-export const authBodyValidator = validate(
+export const signInBodyValidator = validate(
   checkSchema(
     {
       memberName: memberNameSchema,
       password: passwordSchema
+    },
+    ['body']
+  )
+)
+
+export const signUpBodyValidator = validate(
+  checkSchema(
+    {
+      memberName: memberNameSchema,
+      password: passwordSchema,
+      confirmPassword: confirmPasswordSchema
     },
     ['body']
   )

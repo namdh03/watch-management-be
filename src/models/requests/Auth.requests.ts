@@ -8,7 +8,13 @@ export interface TokenPayload extends JwtPayload {
   iat: number
 }
 
-export interface AuthReqBody {
+export interface SignInReqBody {
   memberName: string
   password: string
+}
+
+export interface SignUpReqBody {
+  memberName: string
+  password: string
+  confirmPassword: string
 }

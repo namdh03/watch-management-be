@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { TypedRequestBody } from '~/models/requests'
-import { AuthReqBody } from '~/models/requests/Auth.requests'
+import { SignInReqBody, SignUpReqBody } from '~/models/requests/Auth.requests'
 import userService from '~/services/user.service'
 
 // [GET] /sign-in
@@ -10,7 +10,7 @@ const signInView = async (req: Request, res: Response) => {
 }
 
 // [POST] /sign-in
-const signIn = async (req: TypedRequestBody<AuthReqBody>, res: Response) => {
+const signIn = async (req: TypedRequestBody<SignInReqBody>, res: Response) => {
   const { accessToken, refreshToken } = await userService.signIn(req.body)
   res.cookie('accessToken', accessToken, { httpOnly: true })
   res.cookie('refreshToken', refreshToken, { httpOnly: true })
@@ -24,7 +24,7 @@ const signUpView = async (req: Request, res: Response) => {
 }
 
 // [POST] /sign-up
-const signUp = async (req: TypedRequestBody<AuthReqBody>, res: Response) => {
+const signUp = async (req: TypedRequestBody<SignUpReqBody>, res: Response) => {
   const { accessToken, refreshToken } = await userService.signUp(req.body)
   res.cookie('accessToken', accessToken, { httpOnly: true })
   res.cookie('refreshToken', refreshToken, { httpOnly: true })

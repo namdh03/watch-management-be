@@ -3,6 +3,7 @@ import { create } from 'express-handlebars'
 import session from 'express-session'
 import flash from 'express-flash-message'
 import cookieParser from 'cookie-parser'
+import methodOverride from 'method-override'
 import databaseService from './services/database.service'
 import webRoutes from './routes/web'
 import registerHelperHbs from './utils/registerHelperHbs'
@@ -26,6 +27,8 @@ app.enable('view cache')
 app.use(express.json())
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }))
+// override with POST having ?_method=DELETE
+app.use(methodOverride('_method'))
 app.use(express.static(`${__dirname}/public`))
 
 // setup express-session

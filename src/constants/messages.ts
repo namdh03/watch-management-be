@@ -76,5 +76,7 @@ export const COMMENT_MESSAGES = {
   RATING_MUST_BE_A_NUMBER: 'Rating must be a number',
   RATING_MUST_BE_A_NUMBER_BETWEEN_1_AND_3: 'Rating must be a number between 1 and 3',
   WATCH_CONTENT_LENGTH_MUST_BE_BETWEEN_1_AND_500: 'Watch content length must be between 1 and 500',
-  COMMENT_DOES_NOT_EXIST: 'Comment does not exist'
+  COMMENT_DOES_NOT_EXIST: 'Comment does not exist',
+  COMMENT_SUCCESSFULLY: 'Comment successfully',
+  DELETE_COMMENT_SUCCESSFULLY: 'Delete comment successfully'
 }

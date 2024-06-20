@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import detailControllers from '~/controllers/web/detail.controllers'
+import { wrapRequestHandler } from '~/utils/handlers'
 
 const detailRouter = Router()
 
@@ -8,6 +9,6 @@ const detailRouter = Router()
  * Path: /watch/:watchId
  * Method: GET
  */
-detailRouter.get('/watch/:watchId', detailControllers.watchDetailView)
+detailRouter.get('/watch/:watchId', wrapRequestHandler(detailControllers.watchDetailView))
 
 export default detailRouter

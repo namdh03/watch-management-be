@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { COMMENT_MESSAGES } from '~/constants/messages'
 import { MemberDocument } from '~/models/schemas/Member.schema'
 import commentService from '~/services/comment.service'
 
@@ -6,14 +7,16 @@ import commentService from '~/services/comment.service'
 const commentOnWatch = async (req: Request, res: Response) => {
   const { id } = req.user as MemberDocument
   const watch = await commentService.commentOnWatch(id, req.body)
-  res.render('watch-detail', { watch })
+  res.flash('success', COMMENT_MESSAGES.COMMENT_SUCCESSFULLY)
+  res.redirect(`/watch/${watch.id}`)
 }
 
 // [DELETE] /comment/watch/:commentId
 const deleteCommentOnWatch = async (req: Request, res: Response) => {
   const { id } = req.user as MemberDocument
   const watch = await commentService.deleteCommentOnWatch(id, req.params.commentId)
-  res.render('watch-detail', { watch })
+  res.flash('success', COMMENT_MESSAGES.DELETE_COMMENT_SUCCESSFULLY)
+  res.redirect(`/watch/${watch?.id}`)
 }
 
 export default {

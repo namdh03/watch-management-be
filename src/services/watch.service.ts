@@ -45,7 +45,10 @@ class WatchService {
       })
     }
 
-    const watch = await Watch.findById(watchId).populate('brand', 'brandName')
+    const watch = await Watch.findById(watchId).populate('brand', 'brandName').populate({
+      path: 'comments.author',
+      model: 'Member'
+    })
 
     if (!watch) {
       throw new ErrorWithStatus({
@@ -149,7 +152,7 @@ class WatchService {
     const commentObjectId = new Types.ObjectId(commentId)
     const authorObjectId = new Types.ObjectId(authorId)
 
-    const watch = await Watch.updateOne(
+    const watch = await Watch.findOneAndUpdate(
       {
         'comments._id': commentObjectId,
         'comments.author': authorObjectId

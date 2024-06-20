@@ -4,7 +4,8 @@ import { AuthReqBody } from '~/models/requests/Auth.requests'
 import userService from '~/services/user.service'
 
 // [GET] /sign-in
-const signInView = async (_req: Request, res: Response) => {
+const signInView = async (req: Request, res: Response) => {
+  res.cookie('prevUrl', req.headers.referer || '/', { httpOnly: true })
   res.render('sign-in', { layout: 'auth', title: 'Node.js | Sign In' })
 }
 
@@ -13,11 +14,12 @@ const signIn = async (req: TypedRequestBody<AuthReqBody>, res: Response) => {
   const { accessToken, refreshToken } = await userService.signIn(req.body)
   res.cookie('accessToken', accessToken, { httpOnly: true })
   res.cookie('refreshToken', refreshToken, { httpOnly: true })
-  res.redirect('back')
+  res.redirect(`${req.cookies.prevUrl || '/'}`)
 }
 
 // [GET] /sign-up
-const signUpView = async (_req: Request, res: Response) => {
+const signUpView = async (req: Request, res: Response) => {
+  res.cookie('prevUrl', req.headers.referer || '/', { httpOnly: true })
   res.render('sign-up')
 }
 
@@ -26,7 +28,7 @@ const signUp = async (req: TypedRequestBody<AuthReqBody>, res: Response) => {
   const { accessToken, refreshToken } = await userService.signUp(req.body)
   res.cookie('accessToken', accessToken, { httpOnly: true })
   res.cookie('refreshToken', refreshToken, { httpOnly: true })
-  res.redirect('/')
+  res.redirect(`${req.cookies.prevUrl || '/'}`)
 }
 
 export default {

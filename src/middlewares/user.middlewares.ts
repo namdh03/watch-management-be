@@ -5,6 +5,7 @@ import { JWT_SECRET_ACCESS_TOKEN, JWT_SECRET_REFRESH_TOKEN } from '~/constants/e
 import HTTP_STATUS from '~/constants/httpStatus'
 import { USER_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/errors'
+import { TokenPayload } from '~/models/requests/Auth.requests'
 import { MemberDocument } from '~/models/schemas/Member.schema'
 import userService from '~/services/user.service'
 import { verifyToken } from '~/utils/jwt'
@@ -150,38 +151,33 @@ export const refreshTokenValidator = async (req: Request, res: Response, next: N
 export const accessTokenValidator = async (req: Request, res: Response, next: NextFunction) => {
   const { accessToken } = req.cookies
 
-  if (!accessToken) {
-    return next(
-      new ErrorWithStatus({
-        status: HTTP_STATUS.UNAUTHORIZED,
-        message: USER_MESSAGES.ACCESS_TOKEN_IS_REQUIRED
+  if (accessToken) {
+    try {
+      const decodeAuthorization = await verifyToken({
+        token: accessToken,
+        secretOrPublicKey: JWT_SECRET_ACCESS_TOKEN
       })
-    )
-  }
 
-  try {
-    const decodeAuthorization = await verifyToken({
-      token: accessToken,
-      secretOrPublicKey: JWT_SECRET_ACCESS_TOKEN
-    })
+      req.decodeAuthorization = decodeAuthorization
+      return next()
+    } catch (error) {
+      if (error instanceof JsonWebTokenError) {
+        if (error instanceof TokenExpiredError) {
+          return refreshTokenValidator(req, res, next)
+        }
 
-    req.decodeAuthorization = decodeAuthorization
-    next()
-  } catch (error) {
-    if (error instanceof JsonWebTokenError) {
-      if (error instanceof TokenExpiredError) {
-        return refreshTokenValidator(req, res, next)
+        return next(
+          new ErrorWithStatus({
+            status: HTTP_STATUS.UNAUTHORIZED,
+            message: error.message
+          })
+        )
       }
-
-      return next(
-        new ErrorWithStatus({
-          status: HTTP_STATUS.UNAUTHORIZED,
-          message: error.message
-        })
-      )
+      return next(error)
     }
-    return next(error)
   }
+
+  next()
 }
 
 export const memberNameValidator = validate(
@@ -257,3 +253,15 @@ export const changePasswordValidator = validate(
     ['body']
   )
 )
+
+export const userMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+  const decodeAuthorization = req.decodeAuthorization as TokenPayload | undefined
+  const user = await userService.getUserById(decodeAuthorization?.userId)
+
+  if (user) {
+    req.user = user
+    res.locals.user = user
+  }
+
+  next()
+}

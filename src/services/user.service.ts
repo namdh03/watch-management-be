@@ -140,7 +140,7 @@ class UserService {
     })
   }
 
-  async getUserById(userId: string) {
+  async getUserById(userId?: string) {
     return Member.findById(userId, {
       password: 0
     })

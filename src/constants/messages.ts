@@ -53,7 +53,8 @@ export const USER_MESSAGES = {
   PASSWORD_IS_REQUIRED: 'Password is required',
   PASSWORD_MUST_BE_A_STRING: 'Password must be a string',
   PASSWORD_LENGTH_MUST_BE_BETWEEN_6_AND_50: 'Password length must be between 6 and 50',
-  PASSWORD_MUST_BE_STRONG: 'Password must be strong',
+  PASSWORD_MUST_BE_STRONG:
+    'Password must be strong, must contain at least 6 characters, 1 lowercase letter, 1 uppercase letter, 1 number and 1 symbol',
   MEMBER_NAME_ALREADY_EXISTS: 'Member name already exists',
   ACCESS_TOKEN_IS_REQUIRED: 'Access token is required',
   MEMBER_NAME_OR_PASSWORD_IS_INCORRECT: 'Username or password is incorrect',
@@ -62,7 +63,8 @@ export const USER_MESSAGES = {
   CONFIRM_PASSWORD_IS_REQUIRED: 'Confirm password is required',
   CONFIRM_PASSWORD_MUST_BE_A_STRING: 'Confirm password must be a string',
   CONFIRM_PASSWORD_LENGTH_MUST_BE_BETWEEN_6_AND_50: 'Confirm password length must be between 6 and 50',
-  CONFIRM_PASSWORD_MUST_BE_STRONG: 'Confirm password must be strong',
+  CONFIRM_PASSWORD_MUST_BE_STRONG:
+    'Confirm password must be strong, must contain at least 6 characters, 1 lowercase letter, 1 uppercase letter, 1 number and 1 symbol',
   PASSWORDS_DO_NOT_MATCH: 'Passwords do not match',
   CURRENT_PASSWORD_IS_INCORRECT: 'Current password is incorrect',
   UPDATE_PROFILE_SUCCESS: 'Update profile successfully',

@@ -18,7 +18,7 @@ authRouter.get('/sign-in', guestMiddleware, authControllers.signInView)
  * Path: /sign-in
  * Method: POST
  */
-authRouter.post('/sign-in', guestMiddleware, authBodyValidator, wrapRequestHandler(authControllers.signIn))
+authRouter.post('/sign-in', authBodyValidator, wrapRequestHandler(authControllers.signIn))
 
 /**
  * Description. Get sign up page
@@ -32,6 +32,6 @@ authRouter.get('/sign-up', guestMiddleware, authControllers.signUpView)
  * Path: /sign-up
  * Method: POST
  */
-authRouter.post('/sign-up', guestMiddleware, authBodyValidator, wrapRequestHandler(authControllers.signUp))
+authRouter.post('/sign-up', authBodyValidator, wrapRequestHandler(authControllers.signUp))
 
 export default authRouter

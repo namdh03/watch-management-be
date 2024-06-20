@@ -23,7 +23,7 @@ const watchesView = async (_req: Request, res: Response) => {
 // [GET] /admin/watches/create
 const createWatchView = async (_req: Request, res: Response) => {
   const brands = await brandService.getBrands()
-  res.render('create-watch', { brands })
+  res.render('create-watch', { title: 'Node.js | Create Watch', layout: 'admin', brands })
 }
 
 // [POST] /admin/watches/create

@@ -54,6 +54,7 @@ export const bodyWatchValidator = validate(
         }
       },
       automatic: {
+        optional: true,
         isBoolean: {
           errorMessage: WATCH_MESSAGES.AUTOMATIC_MUST_BE_A_BOOLEAN
         },

@@ -36,6 +36,9 @@ const registerHelperHbs = {
   },
   isDefined: function (value: unknown) {
     return value !== undefined
+  },
+  toLocaleString: function (value: number) {
+    return value.toLocaleString()
   }
 }
 

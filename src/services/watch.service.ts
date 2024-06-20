@@ -10,6 +10,16 @@ import { Pagination } from '~/constants/enum'
 import { CommentReqBody } from '~/models/requests/Comment.requests'
 
 class WatchService {
+  async getAllWatches() {
+    return await Watch.find(
+      {},
+      {
+        comments: 0,
+        watchDescription: 0
+      }
+    ).populate('brand', 'brandName')
+  }
+
   async getWatches() {
     const watches = await Watch.find(
       {},

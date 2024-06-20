@@ -43,7 +43,8 @@ export const WATCH_MESSAGES = {
   UPDATE_WATCH_SUCCESSFULLY: 'Update watch successfully',
   WATCH_ALREADY_COMMENTED: 'Watch already commented',
   WATCH_ID_IS_REQUIRED: 'Watch id is required',
-  WATCH_ID_MUST_BE_A_STRING: 'Watch id must be a string'
+  WATCH_ID_MUST_BE_A_STRING: 'Watch id must be a string',
+  DELETE_WATCH_SUCCESSFULLY: 'Delete watch successfully'
 }
 
 export const USER_MESSAGES = {

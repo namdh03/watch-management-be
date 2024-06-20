@@ -20,7 +20,7 @@ const signIn = async (req: TypedRequestBody<AuthReqBody>, res: Response) => {
 // [GET] /sign-up
 const signUpView = async (req: Request, res: Response) => {
   res.cookie('prevUrl', req.headers.referer || '/', { httpOnly: true })
-  res.render('sign-up')
+  res.render('sign-up', { layout: 'auth', title: 'Node.js | Sign Up' })
 }
 
 // [POST] /sign-up

@@ -121,6 +121,8 @@ export const refreshTokenValidator = async (req: Request, res: Response, next: N
   try {
     const isExistedRefreshToken = await userService.checkExistedRefreshToken(refreshToken)
     if (!isExistedRefreshToken) {
+      res.clearCookie('accessToken')
+      res.clearCookie('refreshToken')
       return next(
         new ErrorWithStatus({
           status: HTTP_STATUS.UNAUTHORIZED,

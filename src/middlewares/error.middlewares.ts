@@ -17,6 +17,7 @@ export const webDefaultErrorHandler = (err: Error, req: Request, res: Response, 
 
       if (err.status === HTTP_STATUS.NOT_FOUND) {
         return res.status(err.status).render('404', {
+          layout: 'auth',
           message: SERVER_MESSAGES.PAGE_NOT_FOUND,
           error: err
         })
@@ -25,12 +26,14 @@ export const webDefaultErrorHandler = (err: Error, req: Request, res: Response, 
       res.redirect('back')
     } else {
       return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).render('500', {
+        layout: 'auth',
         message: SERVER_MESSAGES.INTERNAL_SERVER_ERROR,
         error: err
       })
     }
   } catch (error) {
     return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).render('500', {
+      layout: 'auth',
       message: SERVER_MESSAGES.INTERNAL_SERVER_ERROR,
       error
     })

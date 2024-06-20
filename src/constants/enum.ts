@@ -5,5 +5,5 @@ export enum TokenType {
 
 export enum Pagination {
   DefaultPage = 1,
-  DefaultLimit = 10
+  DefaultLimit = 9
 }

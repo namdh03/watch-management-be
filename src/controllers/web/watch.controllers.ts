@@ -36,7 +36,8 @@ const createWatch = async (req: TypedRequestBody<WatchReqBody>, res: Response) =
 // [GET] /admin/watches/update/:watchId
 const updateWatchView = async (req: TypedRequestParams<UpdateWatchReqParams>, res: Response) => {
   const watch = await watchService.getWatchById(req.params.watchId)
-  res.render('update-watch', { watch })
+  const brands = await brandService.getBrands()
+  res.render('update-watch', { title: `Node.js | Update Watch | ${watch.watchName}`, layout: 'admin', watch, brands })
 }
 
 // [PUT] /admin/watches/update/:watchId

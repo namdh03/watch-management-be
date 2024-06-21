@@ -31,9 +31,18 @@ const signUp = async (req: TypedRequestBody<SignUpReqBody>, res: Response) => {
   res.redirect(`${req.cookies.prevUrl || '/'}`)
 }
 
+// [POST] /sign-out
+const signOut = async (req: Request, res: Response) => {
+  await userService.signOut(req.cookies.refreshToken)
+  res.clearCookie('accessToken')
+  res.clearCookie('refreshToken')
+  res.redirect('/')
+}
+
 export default {
   signInView,
   signIn,
   signUpView,
-  signUp
+  signUp,
+  signOut
 }

@@ -228,6 +228,12 @@ class UserService {
       expires: exp
     })
   }
+
+  async signOut(refreshToken: string) {
+    return await RefreshToken.deleteOne({
+      token: refreshToken
+    })
+  }
 }
 
 const userService = new UserService()

@@ -39,4 +39,11 @@ authRouter.get('/sign-up', guestMiddleware, authControllers.signUpView)
  */
 authRouter.post('/sign-up', signUpBodyValidator, wrapRequestHandler(authControllers.signUp))
 
+/**
+ * Description. Sign out
+ * Path: /sign-out
+ * Method: POST
+ */
+authRouter.post('/sign-out', wrapRequestHandler(authControllers.signOut))
+
 export default authRouter

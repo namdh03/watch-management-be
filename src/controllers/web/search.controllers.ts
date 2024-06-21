@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { Pagination } from '~/constants/enum'
 import { TypedRequestQuery } from '~/models/requests'
 import { SearchWatchQuery } from '~/models/requests/Search.requests'
 import brandService from '~/services/brand.service'
@@ -9,14 +10,20 @@ const searchWatch = async (req: TypedRequestQuery<SearchWatchQuery>, res: Respon
   const { name, brand, page, limit } = req.query
   const { watches, totalPages } = await watchService.searchWatch({ name, brand, page, limit })
   const brands = await brandService.getBrands()
+  const nameQuery = req.query.name
+  const brandQuery = req.query.brand
+  const pageQuery = req.query.page
+  const limitQuery = req.query.limit
 
   res.render('home', {
     title: 'Node.js | Home',
     watches,
     brands,
-    page,
-    limit,
-    totalPages
+    page: Number(pageQuery || Pagination.DefaultPage),
+    limit: limitQuery || Pagination.DefaultLimit,
+    totalPages,
+    name: nameQuery,
+    brand: brandQuery
   })
 }
 

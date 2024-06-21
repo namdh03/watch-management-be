@@ -1,4 +1,5 @@
 import { HelperOptions } from 'handlebars'
+import moment from 'moment'
 
 const registerHelperHbs = {
   setVar: function (varName: string, varValue: unknown, options: HelperOptions) {
@@ -39,6 +40,9 @@ const registerHelperHbs = {
   },
   toLocaleString: function (value: number) {
     return value.toLocaleString()
+  },
+  formatDate: function (date: Date, format: string) {
+    return moment(date).format(format)
   }
 }
 

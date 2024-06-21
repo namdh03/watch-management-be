@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import homeControllers from '~/controllers/web/home.controllers'
+import { wrapRequestHandler } from '~/utils/handlers'
 
 const homeRouter = Router()
 
@@ -8,6 +9,6 @@ const homeRouter = Router()
  * Path: /
  * Method: GET
  */
-homeRouter.get('/', homeControllers.homeView)
+homeRouter.get('/', wrapRequestHandler(homeControllers.homeView))
 
 export default homeRouter

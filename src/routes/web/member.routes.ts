@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import memberControllers from '~/controllers/web/member.controllers'
+import { wrapRequestHandler } from '~/utils/handlers'
 
 const memberRouter = Router()
 
@@ -8,6 +9,6 @@ const memberRouter = Router()
  * Path: /members
  * Method: GET
  */
-memberRouter.get('/', memberControllers.memberView)
+memberRouter.get('/', wrapRequestHandler(memberControllers.memberView))
 
 export default memberRouter

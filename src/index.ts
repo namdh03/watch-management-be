@@ -59,7 +59,7 @@ webRoutes(app)
 
 // 404 Not Found
 app.get('*', (_req: Request, res: Response) => {
-  res.render('404')
+  res.render('404', { layout: false })
 })
 
 app.listen(PORT)

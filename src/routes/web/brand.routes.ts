@@ -10,7 +10,7 @@ const brandRouter = Router()
  * Path: /admin/brands
  * Method: GET
  */
-brandRouter.get('/', brandControllers.brandsView)
+brandRouter.get('/', wrapRequestHandler(brandControllers.brandsView))
 
 /**
  * Description. Get create brand page

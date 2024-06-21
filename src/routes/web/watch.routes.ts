@@ -10,7 +10,7 @@ const watchRouter = Router()
  * Path: /admin/watches
  * Method: GET
  */
-watchRouter.get('/', watchController.watchesView)
+watchRouter.get('/', wrapRequestHandler(watchController.watchesView))
 
 /**
  * Description. Get create watch page

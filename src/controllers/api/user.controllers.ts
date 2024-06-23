@@ -1,8 +1,9 @@
-import { Response } from 'express'
+import { Request, Response } from 'express'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { USER_MESSAGES } from '~/constants/messages'
 import { TypedRequestBody } from '~/models/requests'
-import { SignInReqBody, SignOutReqBody, SignUpReqBody } from '~/models/requests/Auth.requests'
+import { SignInReqBody, SignOutReqBody, SignUpReqBody, TokenPayload } from '~/models/requests/Auth.requests'
+import { MemberReqParams } from '~/models/requests/Member.requests'
 import userService from '~/services/user.service'
 
 // [POST] /users/sign-in
@@ -34,5 +35,15 @@ export const signOutController = async (req: TypedRequestBody<SignOutReqBody>, r
   await userService.signOut(req.body.refreshToken)
   res.json({
     message: USER_MESSAGES.SIGN_OUT_SUCCESS
+  })
+}
+
+// [GET] /users/:memberName
+export const meController = async (req: Request, res: Response) => {
+  const { userId } = req.decodeAuthorization as TokenPayload
+  const user = await userService.getMe(userId)
+  res.json({
+    message: USER_MESSAGES.GET_ME_SUCCESS,
+    data: user
   })
 }

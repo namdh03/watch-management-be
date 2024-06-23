@@ -234,6 +234,12 @@ class UserService {
       token: refreshToken
     })
   }
+
+  async getMe(userId: string) {
+    return Member.findById(userId, {
+      password: 0
+    })
+  }
 }
 
 const userService = new UserService()

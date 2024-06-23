@@ -343,3 +343,44 @@ export const apiRefreshTokenValidator = validate(
     ['body']
   )
 )
+
+export const apiAccessTokenValidator = validate(
+  checkSchema(
+    {
+      Authorization: {
+        trim: true,
+        custom: {
+          options: async (value: string, { req }) => {
+            const accessToken = value.split(' ')[1]
+
+            if (!accessToken) {
+              throw new ErrorWithStatus({
+                status: HTTP_STATUS.UNAUTHORIZED,
+                message: USER_MESSAGES.ACCESS_TOKEN_IS_REQUIRED
+              })
+            }
+
+            try {
+              const decodeAuthorization = await verifyToken({
+                token: accessToken,
+                secretOrPublicKey: JWT_SECRET_ACCESS_TOKEN
+              })
+
+              ;(req as Request).decodeAuthorization = decodeAuthorization
+            } catch (error) {
+              if (error instanceof JsonWebTokenError) {
+                throw new ErrorWithStatus({
+                  status: HTTP_STATUS.UNAUTHORIZED,
+                  message: error.message
+                })
+              }
+            }
+
+            return true
+          }
+        }
+      }
+    },
+    ['headers']
+  )
+)

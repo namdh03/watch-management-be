@@ -56,7 +56,7 @@ app.use(
 )
 
 // Routes
-webRoutes(app)
 apiRoutes(app)
+webRoutes(app)
 
 app.listen(PORT)

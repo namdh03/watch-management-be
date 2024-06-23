@@ -80,7 +80,8 @@ export const USER_MESSAGES = {
   SIGN_UP_SUCCESS: 'Sign up successfully',
   REFRESH_TOKEN_MUST_BE_A_STRING: 'Refresh token must be a string',
   REFRESH_TOKEN_HAS_BEEN_USED_OR_NOT_EXIST: 'Refresh token has been used or does not exist',
-  SIGN_OUT_SUCCESS: 'Sign out successfully'
+  SIGN_OUT_SUCCESS: 'Sign out successfully',
+  GET_ME_SUCCESS: 'Get me successfully'
 }
 
 export const COMMENT_MESSAGES = {

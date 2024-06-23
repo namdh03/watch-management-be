@@ -3,7 +3,7 @@ import HTTP_STATUS from '~/constants/httpStatus'
 import { USER_MESSAGES } from '~/constants/messages'
 import { TypedRequestBody } from '~/models/requests'
 import { SignInReqBody, SignOutReqBody, SignUpReqBody, TokenPayload } from '~/models/requests/Auth.requests'
-import { MemberReqBody, MemberReqParams } from '~/models/requests/Member.requests'
+import { ChangePasswordReqBody, MemberReqBody, MemberReqParams } from '~/models/requests/Member.requests'
 import userService from '~/services/user.service'
 
 // [POST] /users/sign-in
@@ -55,5 +55,14 @@ export const updateMeController = async (req: TypedRequestBody<MemberReqBody>, r
   res.json({
     message: USER_MESSAGES.UPDATE_ME_SUCCESS,
     data: user
+  })
+}
+
+// [PUT] /users/change-password
+export const changePasswordController = async (req: TypedRequestBody<ChangePasswordReqBody>, res: Response) => {
+  const { userId } = req.decodeAuthorization as TokenPayload
+  await userService.changePassword(userId, req.body)
+  res.json({
+    message: USER_MESSAGES.CHANGE_PASSWORD_SUCCESS
   })
 }

@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import {
+  changePasswordController,
   meController,
   signInController,
   signOutController,
@@ -9,6 +10,7 @@ import {
 import {
   apiAccessTokenValidator,
   apiRefreshTokenValidator,
+  changePasswordValidator,
   signInBodyValidator,
   signUpBodyValidator,
   updateMemberValidator
@@ -68,5 +70,22 @@ userRouter.get('/me', apiAccessTokenValidator, wrapRequestHandler(meController))
  * }
  */
 userRouter.put('/me', apiAccessTokenValidator, updateMemberValidator, wrapRequestHandler(updateMeController))
+
+/**
+ * Description. Change password
+ * Path: /users/change-password
+ * Method: PUT
+ * Body: {
+ *   oldPassword: string,
+ *   password: string,
+ *   confirmPassword: string
+ * }
+ */
+userRouter.put(
+  '/change-password',
+  apiAccessTokenValidator,
+  changePasswordValidator,
+  wrapRequestHandler(changePasswordController)
+)
 
 export default userRouter

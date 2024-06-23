@@ -75,7 +75,8 @@ export const USER_MESSAGES = {
   NAME_MUST_BE_A_STRING: 'Name must be a string',
   NAME_LENGTH_MUST_BE_BETWEEN_1_AND_50: 'Name length must be between 1 and 50',
   YEAR_OF_BIRTH_MUST_BE_AN_INTEGER_BETWEEN_1900_AND_CURRENT_YEAR:
-    'Year of birth must be an integer between 1900 and current year'
+    'Year of birth must be an integer between 1900 and current year',
+  SIGN_IN_SUCCESS: 'Sign in successfully'
 }
 
 export const COMMENT_MESSAGES = {

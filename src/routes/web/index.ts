@@ -1,4 +1,4 @@
-import { Application } from 'express'
+import { Application, Request, Response } from 'express'
 import { accessTokenValidator, userMiddleware } from '~/middlewares/user.middlewares'
 import memberControllers from '~/controllers/web/member.controllers'
 import { authMiddleware, isAdminMiddleware } from '~/middlewares/auth.middlewares'
@@ -27,6 +27,10 @@ const webRoutes = (app: Application) => {
   app.use('/admin/brands', authMiddleware, isAdminMiddleware, brandRouter)
   app.use('/admin/watches', authMiddleware, isAdminMiddleware, watchRouter)
   app.use(webDefaultErrorHandler)
+  // 404 Not Found
+  app.get('*', (_req: Request, res: Response) => {
+    res.render('404', { layout: false })
+  })
 }
 
 export default webRoutes

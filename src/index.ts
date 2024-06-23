@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express'
+import express from 'express'
 import { create } from 'express-handlebars'
 import session from 'express-session'
 import flash from 'express-flash-message'
@@ -8,6 +8,7 @@ import databaseService from './services/database.service'
 import webRoutes from './routes/web'
 import registerHelperHbs from './utils/registerHelperHbs'
 import { PORT } from './constants/env'
+import apiRoutes from './routes/api'
 
 const app = express()
 const hbs = create({
@@ -56,10 +57,6 @@ app.use(
 
 // Routes
 webRoutes(app)
-
-// 404 Not Found
-app.get('*', (_req: Request, res: Response) => {
-  res.render('404', { layout: false })
-})
+apiRoutes(app)
 
 app.listen(PORT)

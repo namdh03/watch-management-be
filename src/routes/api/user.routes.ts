@@ -1,13 +1,13 @@
 import { Router } from 'express'
-import { signInController, signUpController } from '~/controllers/api/user.controllers'
-import { signInBodyValidator, signUpBodyValidator } from '~/middlewares/user.middlewares'
+import { signInController, signOutController, signUpController } from '~/controllers/api/user.controllers'
+import { apiRefreshTokenValidator, signInBodyValidator, signUpBodyValidator } from '~/middlewares/user.middlewares'
 import { wrapRequestHandler } from '~/utils/handlers'
 
 const userRouter = Router()
 
 /**
  * Description. Sign in
- * Path: /api/sign-in
+ * Path: /users/sign-in
  * Method: POST
  * Body: {
  *  memberName: string
@@ -18,7 +18,7 @@ userRouter.post('/sign-in', signInBodyValidator, wrapRequestHandler(signInContro
 
 /**
  * Description. Sign up
- * Path: /sign-up
+ * Path: /users/sign-up
  * Method: POST
  * Body: {
  *  memberName: string,
@@ -27,5 +27,15 @@ userRouter.post('/sign-in', signInBodyValidator, wrapRequestHandler(signInContro
  * }
  */
 userRouter.post('/sign-up', signUpBodyValidator, wrapRequestHandler(signUpController))
+
+/**
+ * Description. Sign out
+ * Path: /users/sign-out
+ * Method: POST
+ * Body: {
+ *  refreshToken: string
+ * }
+ */
+userRouter.post('/sign-out', apiRefreshTokenValidator, wrapRequestHandler(signOutController))
 
 export default userRouter

@@ -18,3 +18,7 @@ export interface SignUpReqBody {
   password: string
   confirmPassword: string
 }
+
+export interface SignOutReqBody {
+  refreshToken: string
+}

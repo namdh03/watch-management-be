@@ -2,7 +2,7 @@ import { Response } from 'express'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { USER_MESSAGES } from '~/constants/messages'
 import { TypedRequestBody } from '~/models/requests'
-import { SignInReqBody, SignUpReqBody } from '~/models/requests/Auth.requests'
+import { SignInReqBody, SignOutReqBody, SignUpReqBody } from '~/models/requests/Auth.requests'
 import userService from '~/services/user.service'
 
 // [POST] /users/sign-in
@@ -26,5 +26,13 @@ export const signUpController = async (req: TypedRequestBody<SignUpReqBody>, res
       accessToken,
       refreshToken
     }
+  })
+}
+
+// [POST] /users/sign-out
+export const signOutController = async (req: TypedRequestBody<SignOutReqBody>, res: Response) => {
+  await userService.signOut(req.body.refreshToken)
+  res.json({
+    message: USER_MESSAGES.SIGN_OUT_SUCCESS
   })
 }

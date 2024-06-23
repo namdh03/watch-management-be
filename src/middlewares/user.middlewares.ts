@@ -107,7 +107,7 @@ export const signUpBodyValidator = validate(
   )
 )
 
-export const refreshTokenValidator = async (req: Request, res: Response, next: NextFunction) => {
+export const webRefreshTokenValidator = async (req: Request, res: Response, next: NextFunction) => {
   const { refreshToken } = req.cookies
   if (!refreshToken) {
     return next(
@@ -161,7 +161,7 @@ export const refreshTokenValidator = async (req: Request, res: Response, next: N
   }
 }
 
-export const accessTokenValidator = async (req: Request, res: Response, next: NextFunction) => {
+export const webAccessTokenValidator = async (req: Request, res: Response, next: NextFunction) => {
   const { accessToken } = req.cookies
 
   if (accessToken) {
@@ -176,7 +176,7 @@ export const accessTokenValidator = async (req: Request, res: Response, next: Ne
     } catch (error) {
       if (error instanceof JsonWebTokenError) {
         if (error instanceof TokenExpiredError) {
-          return refreshTokenValidator(req, res, next)
+          return webRefreshTokenValidator(req, res, next)
         }
 
         return next(
@@ -297,3 +297,49 @@ export const userMiddleware = async (req: Request, res: Response, next: NextFunc
 
   next()
 }
+
+export const apiRefreshTokenValidator = validate(
+  checkSchema(
+    {
+      refreshToken: {
+        trim: true,
+        custom: {
+          options: async (value: string, { req }) => {
+            if (!value) {
+              throw new ErrorWithStatus({
+                status: HTTP_STATUS.UNAUTHORIZED,
+                message: USER_MESSAGES.REFRESH_TOKEN_IS_REQUIRED
+              })
+            }
+
+            try {
+              const [decodeRefreshToken, refreshToken] = await Promise.all([
+                verifyToken({ token: value, secretOrPublicKey: JWT_SECRET_REFRESH_TOKEN }),
+                userService.checkExistedRefreshToken(value)
+              ])
+
+              if (!refreshToken) {
+                throw new ErrorWithStatus({
+                  status: HTTP_STATUS.UNAUTHORIZED,
+                  message: USER_MESSAGES.REFRESH_TOKEN_HAS_BEEN_USED_OR_NOT_EXIST
+                })
+              }
+
+              ;(req as Request).decodeRefreshToken = decodeRefreshToken
+            } catch (error) {
+              if (error instanceof JsonWebTokenError) {
+                throw new ErrorWithStatus({
+                  status: HTTP_STATUS.UNAUTHORIZED,
+                  message: error.message
+                })
+              }
+
+              throw error
+            }
+          }
+        }
+      }
+    },
+    ['body']
+  )
+)

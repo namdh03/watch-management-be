@@ -77,7 +77,10 @@ export const USER_MESSAGES = {
   YEAR_OF_BIRTH_MUST_BE_AN_INTEGER_BETWEEN_1900_AND_CURRENT_YEAR:
     'Year of birth must be an integer between 1900 and current year',
   SIGN_IN_SUCCESS: 'Sign in successfully',
-  SIGN_UP_SUCCESS: 'Sign up successfully'
+  SIGN_UP_SUCCESS: 'Sign up successfully',
+  REFRESH_TOKEN_MUST_BE_A_STRING: 'Refresh token must be a string',
+  REFRESH_TOKEN_HAS_BEEN_USED_OR_NOT_EXIST: 'Refresh token has been used or does not exist',
+  SIGN_OUT_SUCCESS: 'Sign out successfully'
 }
 
 export const COMMENT_MESSAGES = {

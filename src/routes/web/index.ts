@@ -1,5 +1,5 @@
 import { Application, Request, Response } from 'express'
-import { accessTokenValidator, userMiddleware } from '~/middlewares/user.middlewares'
+import { webAccessTokenValidator, userMiddleware } from '~/middlewares/user.middlewares'
 import memberControllers from '~/controllers/web/member.controllers'
 import { authMiddleware, isAdminMiddleware } from '~/middlewares/auth.middlewares'
 import { webDefaultErrorHandler } from '~/middlewares/error.middlewares'
@@ -15,7 +15,7 @@ import detailRouter from './detail.routes'
 import { wrapRequestHandler } from '~/utils/handlers'
 
 const webRoutes = (app: Application) => {
-  app.use(accessTokenValidator, userMiddleware)
+  app.use(webAccessTokenValidator, userMiddleware)
   app.use(authRouter)
   app.use(homeRouter)
   app.use(detailRouter)

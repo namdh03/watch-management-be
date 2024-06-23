@@ -39,3 +39,21 @@ export const webDefaultErrorHandler = (err: Error, req: Request, res: Response, 
     })
   }
 }
+
+export const apiDefaultErrorHandler = (err: Error, req: Request, res: Response, _next: NextFunction) => {
+  try {
+    if (err instanceof ErrorWithStatus) {
+      return res.status(err.status).json(err)
+    }
+
+    return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+      message: err.message,
+      errorInfo: err
+    })
+  } catch (error) {
+    return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+      message: SERVER_MESSAGES.INTERNAL_SERVER_ERROR,
+      errorInfo: error
+    })
+  }
+}

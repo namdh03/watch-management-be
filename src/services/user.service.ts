@@ -8,7 +8,7 @@ import {
 import HTTP_STATUS from '~/constants/httpStatus'
 import { USER_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/errors'
-import { SignInReqBody } from '~/models/requests/Auth.requests'
+import { SignInReqBody, SignUpReqBody } from '~/models/requests/Auth.requests'
 import { ChangePasswordReqBody, MemberReqBody } from '~/models/requests/Member.requests'
 import Member from '~/models/schemas/Member.schema'
 import RefreshToken from '~/models/schemas/RefreshToken.schema'
@@ -88,7 +88,7 @@ class UserService {
     })
   }
 
-  async signUp(body: SignInReqBody) {
+  async signUp(body: SignUpReqBody) {
     // Check if member name already exists
     const member = await Member.findOne({
       memberName: body.memberName

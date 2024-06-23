@@ -161,22 +161,28 @@ class UserService {
     })
   }
 
-  async updateMember(id: string, userName: string, body: MemberReqBody) {
+  async updateMember(userId: string, body: MemberReqBody) {
     const isExisted = await this.checkExistMemberName(body.memberName)
 
-    if (isExisted && userName !== body.memberName) {
+    if (isExisted && userId !== String(isExisted._id)) {
       throw new ErrorWithStatus({
         status: HTTP_STATUS.BAD_REQUEST,
         message: USER_MESSAGES.MEMBER_NAME_ALREADY_EXISTS
       })
     }
 
-    return Member.updateOne(
+    return Member.findOneAndUpdate(
       {
-        _id: id
+        _id: userId
       },
       {
         $set: body
+      },
+      {
+        returnDocument: 'after',
+        projection: {
+          password: 0
+        }
       }
     )
   }

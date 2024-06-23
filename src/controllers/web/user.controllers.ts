@@ -14,7 +14,7 @@ const userView = async (req: TypedRequestParams<MemberReqParams>, res: Response)
 // [PUT] /
 const updateUser = async (req: TypedRequestBody<MemberReqBody>, res: Response) => {
   const user = req.user as MemberDocument
-  await userService.updateMember(user.id, user.memberName, req.body)
+  await userService.updateMember(user.id, req.body)
   res.flash('success', USER_MESSAGES.UPDATE_PROFILE_SUCCESS)
   res.redirect(`/user/${req.body.memberName}`)
 }

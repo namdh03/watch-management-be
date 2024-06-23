@@ -1,10 +1,17 @@
 import { Router } from 'express'
-import { meController, signInController, signOutController, signUpController } from '~/controllers/api/user.controllers'
+import {
+  meController,
+  signInController,
+  signOutController,
+  signUpController,
+  updateMeController
+} from '~/controllers/api/user.controllers'
 import {
   apiAccessTokenValidator,
   apiRefreshTokenValidator,
   signInBodyValidator,
-  signUpBodyValidator
+  signUpBodyValidator,
+  updateMemberValidator
 } from '~/middlewares/user.middlewares'
 import { wrapRequestHandler } from '~/utils/handlers'
 
@@ -49,5 +56,17 @@ userRouter.post('/sign-out', apiAccessTokenValidator, apiRefreshTokenValidator, 
  * Method: GET
  */
 userRouter.get('/me', apiAccessTokenValidator, wrapRequestHandler(meController))
+
+/**
+ * Description. Update me
+ * Path: /users/me
+ * Method: PUT
+ * Body: {
+ *  memberName: string
+ *  name: string
+ *  yob: number
+ * }
+ */
+userRouter.put('/me', apiAccessTokenValidator, updateMemberValidator, wrapRequestHandler(updateMeController))
 
 export default userRouter

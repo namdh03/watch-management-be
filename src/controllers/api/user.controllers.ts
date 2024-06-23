@@ -3,7 +3,7 @@ import HTTP_STATUS from '~/constants/httpStatus'
 import { USER_MESSAGES } from '~/constants/messages'
 import { TypedRequestBody } from '~/models/requests'
 import { SignInReqBody, SignOutReqBody, SignUpReqBody, TokenPayload } from '~/models/requests/Auth.requests'
-import { MemberReqParams } from '~/models/requests/Member.requests'
+import { MemberReqBody, MemberReqParams } from '~/models/requests/Member.requests'
 import userService from '~/services/user.service'
 
 // [POST] /users/sign-in
@@ -38,12 +38,22 @@ export const signOutController = async (req: TypedRequestBody<SignOutReqBody>, r
   })
 }
 
-// [GET] /users/:memberName
+// [GET] /users/me
 export const meController = async (req: Request, res: Response) => {
   const { userId } = req.decodeAuthorization as TokenPayload
   const user = await userService.getMe(userId)
   res.json({
     message: USER_MESSAGES.GET_ME_SUCCESS,
+    data: user
+  })
+}
+
+// [PUT] /users/me
+export const updateMeController = async (req: TypedRequestBody<MemberReqBody>, res: Response) => {
+  const { userId } = req.decodeAuthorization as TokenPayload
+  const user = await userService.updateMember(userId, req.body)
+  res.json({
+    message: USER_MESSAGES.UPDATE_ME_SUCCESS,
     data: user
   })
 }

@@ -26,7 +26,8 @@ export const BRAND_MESSAGES = {
   GET_BRANDS_SUCCESS: 'Get brands successfully',
   CREATE_BRAND_SUCCESS: 'Create brand successfully',
   GET_BRAND_SUCCESS: 'Get brand successfully',
-  UPDATE_BRAND_SUCCESS: 'Update brand successfully'
+  UPDATE_BRAND_SUCCESS: 'Update brand successfully',
+  DELETE_BRAND_SUCCESS: 'Delete brand successfully'
 }
 
 export const WATCH_MESSAGES = {

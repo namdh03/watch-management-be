@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import {
   createBrandController,
+  deleteBrandController,
   getBrandController,
   getBrandsController,
   updateBrandController
@@ -40,5 +41,12 @@ brandRouter.get('/:brandId', brandIdValidator, wrapRequestHandler(getBrandContro
  * Method: PUT
  */
 brandRouter.put('/:brandId', brandIdValidator, bodyBrandValidator, wrapRequestHandler(updateBrandController))
+
+/**
+ * Description. Delete brand
+ * Path: /brands/:brandId
+ * Method: DELETE
+ */
+brandRouter.delete('/:brandId', brandIdValidator, wrapRequestHandler(deleteBrandController))
 
 export default brandRouter

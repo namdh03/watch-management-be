@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { createBrandController, getBrandsController } from '~/controllers/api/brand.controllers'
-import { bodyBrandValidator } from '~/middlewares/brand.middlewares'
+import { createBrandController, getBrandController, getBrandsController } from '~/controllers/api/brand.controllers'
+import { bodyBrandValidator, brandIdValidator } from '~/middlewares/brand.middlewares'
 import { wrapRequestHandler } from '~/utils/handlers'
 
 const brandRouter = Router()
@@ -21,5 +21,12 @@ brandRouter.get('/', wrapRequestHandler(getBrandsController))
  * }
  */
 brandRouter.post('/', bodyBrandValidator, wrapRequestHandler(createBrandController))
+
+/**
+ * Description. Get brand
+ * Path: /brands/:brandId
+ * Method: GET
+ */
+brandRouter.get('/:brandId', brandIdValidator, wrapRequestHandler(getBrandController))
 
 export default brandRouter

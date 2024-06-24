@@ -17,10 +17,11 @@ import convertEpochToDateWithOffset from '~/utils/convertEpochToDateWithOffset'
 import { signToken, verifyToken } from '~/utils/jwt'
 
 class UserService {
-  private signAccessToken({ userId }: { userId: string }) {
+  private signAccessToken({ userId, isAdmin }: { userId: string; isAdmin: boolean }) {
     return signToken({
       payload: {
         userId,
+        isAdmin,
         tokenType: TokenType.AccessToken
       },
       privateKey: JWT_SECRET_ACCESS_TOKEN,
@@ -30,10 +31,11 @@ class UserService {
     })
   }
 
-  private signRefreshToken({ userId, exp }: { userId: string; exp?: number }) {
+  private signRefreshToken({ userId, isAdmin, exp }: { userId: string; isAdmin: boolean; exp?: number }) {
     const token = {
       payload: {
         userId,
+        isAdmin,
         tokenType: TokenType.RefreshToken
       },
       privateKey: JWT_SECRET_REFRESH_TOKEN
@@ -57,13 +59,23 @@ class UserService {
     })
   }
 
-  private async signAccessAndRefreshTokens({ userId, expires }: { userId: string; expires?: number }) {
+  private async signAccessAndRefreshTokens({
+    userId,
+    isAdmin,
+    expires
+  }: {
+    userId: string
+    isAdmin: boolean
+    expires?: number
+  }) {
     const [accessToken, refreshToken] = await Promise.all([
       this.signAccessToken({
-        userId
+        userId,
+        isAdmin
       }),
       this.signRefreshToken({
         userId,
+        isAdmin,
         exp: expires
       })
     ])
@@ -101,7 +113,7 @@ class UserService {
     }
 
     // Create member
-    const data = await Member.create({
+    const newMember = await Member.create({
       ...body,
       password: hashPassword(body.password),
       isAdmin: false
@@ -109,7 +121,8 @@ class UserService {
 
     // Sign access and refresh tokens
     return await this.signAccessAndRefreshTokens({
-      userId: data.id
+      userId: newMember.id,
+      isAdmin: newMember.isAdmin
     })
   }
 
@@ -136,7 +149,8 @@ class UserService {
 
     // Sign access and refresh tokens
     return await this.signAccessAndRefreshTokens({
-      userId: member.id
+      userId: member.id,
+      isAdmin: member.isAdmin
     })
   }
 
@@ -224,13 +238,24 @@ class UserService {
     })
   }
 
-  async refreshToken({ refreshToken, userId, exp }: { refreshToken: string; userId: string; exp: number }) {
+  async refreshToken({
+    refreshToken,
+    userId,
+    isAdmin,
+    exp
+  }: {
+    refreshToken: string
+    userId: string
+    isAdmin: boolean
+    exp: number
+  }) {
     await RefreshToken.deleteOne({
       token: refreshToken
     })
 
     return await this.signAccessAndRefreshTokens({
       userId,
+      isAdmin,
       expires: exp
     })
   }
@@ -245,6 +270,18 @@ class UserService {
     return Member.findById(userId, {
       password: 0
     })
+  }
+
+  async getUsers() {
+    return Member.find(
+      {
+        isAdmin: false
+      },
+      {
+        password: 0,
+        isAdmin: 0
+      }
+    )
   }
 }
 

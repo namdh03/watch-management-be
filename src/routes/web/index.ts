@@ -1,7 +1,7 @@
 import { Application, Request, Response } from 'express'
 import { webAccessTokenValidator, userMiddleware } from '~/middlewares/user.middlewares'
 import memberControllers from '~/controllers/web/member.controllers'
-import { authMiddleware, isAdminMiddleware } from '~/middlewares/auth.middlewares'
+import { authMiddleware, webIsAdminMiddleware } from '~/middlewares/auth.middlewares'
 import { webDefaultErrorHandler } from '~/middlewares/error.middlewares'
 import authRouter from './auth.routes'
 import homeRouter from './home.routes'
@@ -23,9 +23,9 @@ const webRoutes = (app: Application) => {
   app.use('/user', authMiddleware, userRouter)
   app.use('/comment', authMiddleware, commentRouter)
   app.get('/admin', wrapRequestHandler(memberControllers.memberView))
-  app.use('/admin/members', authMiddleware, isAdminMiddleware, memberRouter)
-  app.use('/admin/brands', authMiddleware, isAdminMiddleware, brandRouter)
-  app.use('/admin/watches', authMiddleware, isAdminMiddleware, watchRouter)
+  app.use('/admin/members', authMiddleware, webIsAdminMiddleware, memberRouter)
+  app.use('/admin/brands', authMiddleware, webIsAdminMiddleware, brandRouter)
+  app.use('/admin/watches', authMiddleware, webIsAdminMiddleware, watchRouter)
   app.use(webDefaultErrorHandler)
   // 404 Not Found
   app.get('*', (_req: Request, res: Response) => {

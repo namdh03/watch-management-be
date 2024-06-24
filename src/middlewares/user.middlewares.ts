@@ -131,12 +131,13 @@ export const webRefreshTokenValidator = async (req: Request, res: Response, next
       )
     }
 
-    const { userId, exp } = await verifyToken({
+    const { userId, isAdmin, exp } = await verifyToken({
       token: refreshToken,
       secretOrPublicKey: JWT_SECRET_REFRESH_TOKEN
     })
     const { accessToken: newAccessToken, refreshToken: newRefreshToken } = await userService.refreshToken({
       userId,
+      isAdmin,
       refreshToken,
       exp
     })

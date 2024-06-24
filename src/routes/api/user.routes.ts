@@ -1,12 +1,14 @@
 import { Router } from 'express'
 import {
   changePasswordController,
+  getUsersController,
   meController,
   signInController,
   signOutController,
   signUpController,
   updateMeController
 } from '~/controllers/api/user.controllers'
+import { apiIsAdminMiddleware } from '~/middlewares/auth.middlewares'
 import {
   apiAccessTokenValidator,
   apiRefreshTokenValidator,
@@ -87,5 +89,12 @@ userRouter.put(
   changePasswordValidator,
   wrapRequestHandler(changePasswordController)
 )
+
+/**
+ * Description. Get users
+ * Path: /user
+ * Method: GET
+ */
+userRouter.get('/', apiAccessTokenValidator, apiIsAdminMiddleware, wrapRequestHandler(getUsersController))
 
 export default userRouter

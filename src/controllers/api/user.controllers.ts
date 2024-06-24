@@ -66,3 +66,12 @@ export const changePasswordController = async (req: TypedRequestBody<ChangePassw
     message: USER_MESSAGES.CHANGE_PASSWORD_SUCCESS
   })
 }
+
+// [GET] /users
+export const getUsersController = async (_req: Request, res: Response) => {
+  const users = await userService.getUsers()
+  res.json({
+    message: USER_MESSAGES.GET_USERS_SUCCESS,
+    data: users
+  })
+}

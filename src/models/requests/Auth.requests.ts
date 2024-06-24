@@ -3,6 +3,7 @@ import { TokenType } from '~/constants/enum'
 
 export interface TokenPayload extends JwtPayload {
   userId: string
+  isAdmin: boolean
   tokenType: TokenType
   exp: number
   iat: number

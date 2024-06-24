@@ -42,3 +42,11 @@ export const updateWatchController = async (
     data: watch
   })
 }
+
+// [DELETE] /watches/:watchId
+export const deleteWatchController = async (req: TypedRequestParams<WatchReqParams>, res: Response) => {
+  await watchService.deleteWatch(req.params.watchId)
+  res.json({
+    message: WATCH_MESSAGES.DELETE_WATCH_SUCCESSFULLY
+  })
+}

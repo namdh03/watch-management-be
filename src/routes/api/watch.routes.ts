@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import {
   createWatchController,
+  deleteWatchController,
   getWatchController,
   getWatchesController,
   updateWatchController
@@ -49,7 +50,7 @@ watchRouter.get('/:watchId', watchIdValidator, wrapRequestHandler(getWatchContro
 
 /**
  * Description. Update watch
- * Path: /brands/:brandId
+ * Path: /watches/:watchId
  * Method: PUT
  * Body: {
  *  watchName: string
@@ -68,5 +69,12 @@ watchRouter.put(
   bodyWatchValidator,
   wrapRequestHandler(updateWatchController)
 )
+
+/**
+ * Description. Delete watch
+ * Path: /watches/:watchId
+ * Method: DELETE
+ */
+watchRouter.delete('/:watchId', watchIdValidator, wrapRequestHandler(deleteWatchController))
 
 export default watchRouter

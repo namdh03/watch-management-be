@@ -17,9 +17,15 @@ class BrandService {
         }
       },
       {
+        $addFields: {
+          watchCount: {
+            $size: '$watches'
+          }
+        }
+      },
+      {
         $project: {
-          brandName: 1,
-          watchCount: { $size: '$watches' }
+          watches: 0
         }
       }
     ])

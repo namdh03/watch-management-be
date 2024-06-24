@@ -92,7 +92,7 @@ userRouter.put(
 
 /**
  * Description. Get users
- * Path: /user
+ * Path: /users
  * Method: GET
  */
 userRouter.get('/', apiAccessTokenValidator, apiIsAdminMiddleware, wrapRequestHandler(getUsersController))

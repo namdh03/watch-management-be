@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { BRAND_MESSAGES } from '~/constants/messages'
-import { TypedRequestBody, TypedRequestParams } from '~/models/requests'
+import { TypedRequestBody, TypedRequestParams, TypedRequestParamsBody } from '~/models/requests'
 import { BrandReqBody, UpdateBrandReqParams } from '~/models/requests/Brand.requests'
 import brandService from '~/services/brand.service'
 
@@ -28,5 +28,17 @@ export const getBrandController = async (req: TypedRequestParams<UpdateBrandReqP
   res.json({
     message: BRAND_MESSAGES.GET_BRAND_SUCCESS,
     data: brand
+  })
+}
+
+// [PUT] /brands/:brandId
+export const updateBrandController = async (
+  req: TypedRequestParamsBody<UpdateBrandReqParams, BrandReqBody>,
+  res: Response
+) => {
+  const updatedBrand = await brandService.updateBrand(req.params.brandId, req.body)
+  res.json({
+    message: BRAND_MESSAGES.UPDATE_BRAND_SUCCESS,
+    data: updatedBrand
   })
 }

@@ -25,7 +25,8 @@ export const BRAND_MESSAGES = {
   CAN_NOT_DELETE_USED_BRAND: 'Can not delete used brand',
   GET_BRANDS_SUCCESS: 'Get brands successfully',
   CREATE_BRAND_SUCCESS: 'Create brand successfully',
-  GET_BRAND_SUCCESS: 'Get brand successfully'
+  GET_BRAND_SUCCESS: 'Get brand successfully',
+  UPDATE_BRAND_SUCCESS: 'Update brand successfully'
 }
 
 export const WATCH_MESSAGES = {

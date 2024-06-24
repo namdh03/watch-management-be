@@ -76,12 +76,15 @@ class BrandService {
 
   async updateBrand(brandId: string, body: BrandReqBody) {
     await this.checkExistedBrandName(body.brandName)
-    return await Brand.updateOne(
+    return await Brand.findOneAndUpdate(
       {
         _id: brandId
       },
       {
         $set: body
+      },
+      {
+        returnDocument: 'after'
       }
     )
   }

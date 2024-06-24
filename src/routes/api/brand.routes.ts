@@ -1,5 +1,10 @@
 import { Router } from 'express'
-import { createBrandController, getBrandController, getBrandsController } from '~/controllers/api/brand.controllers'
+import {
+  createBrandController,
+  getBrandController,
+  getBrandsController,
+  updateBrandController
+} from '~/controllers/api/brand.controllers'
 import { bodyBrandValidator, brandIdValidator } from '~/middlewares/brand.middlewares'
 import { wrapRequestHandler } from '~/utils/handlers'
 
@@ -28,5 +33,12 @@ brandRouter.post('/', bodyBrandValidator, wrapRequestHandler(createBrandControll
  * Method: GET
  */
 brandRouter.get('/:brandId', brandIdValidator, wrapRequestHandler(getBrandController))
+
+/**
+ * Description. Update brand
+ * Path: /brands/:brandId
+ * Method: PUT
+ */
+brandRouter.put('/:brandId', brandIdValidator, bodyBrandValidator, wrapRequestHandler(updateBrandController))
 
 export default brandRouter

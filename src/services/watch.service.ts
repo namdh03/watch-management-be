@@ -92,10 +92,18 @@ class WatchService {
       })
     }
 
-    const watch = await Watch.findById(watchId).populate('brand', 'brandName').populate({
-      path: 'comments.author',
-      model: 'Member'
-    })
+    const watch = await Watch.findById(watchId)
+      .populate({
+        path: 'brand',
+        model: 'Brand'
+      })
+      .populate({
+        path: 'comments.author',
+        model: 'Member',
+        select: {
+          password: 0
+        }
+      })
 
     if (!watch) {
       throw new ErrorWithStatus({

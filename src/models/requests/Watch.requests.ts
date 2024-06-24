@@ -9,6 +9,6 @@ export interface WatchReqBody {
   brandId: string
 }
 
-export interface UpdateWatchReqParams extends ParamsDictionary {
+export interface WatchReqParams extends ParamsDictionary {
   watchId: string
 }

@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import { Pagination } from '~/constants/enum'
 import { WATCH_MESSAGES } from '~/constants/messages'
 import { TypedRequestBody, TypedRequestParams, TypedRequestParamsBody } from '~/models/requests'
-import { UpdateWatchReqParams, WatchReqBody } from '~/models/requests/Watch.requests'
+import { WatchReqParams, WatchReqBody } from '~/models/requests/Watch.requests'
 import brandService from '~/services/brand.service'
 import watchService from '~/services/watch.service'
 
@@ -34,21 +34,21 @@ const createWatch = async (req: TypedRequestBody<WatchReqBody>, res: Response) =
 }
 
 // [GET] /admin/watches/update/:watchId
-const updateWatchView = async (req: TypedRequestParams<UpdateWatchReqParams>, res: Response) => {
+const updateWatchView = async (req: TypedRequestParams<WatchReqParams>, res: Response) => {
   const watch = await watchService.getWatchById(req.params.watchId)
   const brands = await brandService.getBrands()
   res.render('update-watch', { title: `Node.js | Update Watch | ${watch.watchName}`, layout: 'admin', watch, brands })
 }
 
 // [PUT] /admin/watches/update/:watchId
-const updateWatch = async (req: TypedRequestParamsBody<UpdateWatchReqParams, WatchReqBody>, res: Response) => {
+const updateWatch = async (req: TypedRequestParamsBody<WatchReqParams, WatchReqBody>, res: Response) => {
   await watchService.updateWatch(req.params.watchId, req.body)
   res.flash('success', WATCH_MESSAGES.UPDATE_WATCH_SUCCESSFULLY)
   res.redirect('/admin/watches')
 }
 
 // [DELETE] /admin/watches/delete/:watchId
-const deleteWatch = async (req: TypedRequestParams<UpdateWatchReqParams>, res: Response) => {
+const deleteWatch = async (req: TypedRequestParams<WatchReqParams>, res: Response) => {
   await watchService.deleteWatch(req.params.watchId)
   res.flash('success', WATCH_MESSAGES.DELETE_WATCH_SUCCESSFULLY)
   res.redirect('/admin/watches')

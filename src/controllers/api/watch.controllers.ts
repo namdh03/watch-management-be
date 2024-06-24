@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { WATCH_MESSAGES } from '~/constants/messages'
-import { TypedRequestBody } from '~/models/requests'
-import { WatchReqBody } from '~/models/requests/Watch.requests'
+import { TypedRequestBody, TypedRequestParams } from '~/models/requests'
+import { WatchReqBody, WatchReqParams } from '~/models/requests/Watch.requests'
 import watchService from '~/services/watch.service'
 
 // [GET] /watches
@@ -18,6 +18,15 @@ export const createWatchController = async (req: TypedRequestBody<WatchReqBody>,
   const watch = await watchService.createWatch(req.body)
   res.json({
     message: WATCH_MESSAGES.CREATE_WATCH_SUCCESSFULLY,
+    data: watch
+  })
+}
+
+// [GET] /watches/:watchId
+export const getWatchController = async (req: TypedRequestParams<WatchReqParams>, res: Response) => {
+  const watch = await watchService.getWatchById(req.params.watchId)
+  res.json({
+    message: WATCH_MESSAGES.GET_WATCH_SUCCESSFULLY,
     data: watch
   })
 }

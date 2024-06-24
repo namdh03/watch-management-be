@@ -27,6 +27,11 @@ class BrandService {
         $project: {
           watches: 0
         }
+      },
+      {
+        $sort: {
+          createdAt: -1
+        }
       }
     ])
   }

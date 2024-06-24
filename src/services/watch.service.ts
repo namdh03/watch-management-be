@@ -48,6 +48,11 @@ class WatchService {
           comments: 0,
           watchDescription: 0
         }
+      },
+      {
+        $sort: {
+          createdAt: -1
+        }
       }
     ])
   }

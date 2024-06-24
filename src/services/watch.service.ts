@@ -11,13 +11,45 @@ import { CommentReqBody } from '~/models/requests/Comment.requests'
 
 class WatchService {
   async getAllWatches() {
-    return await Watch.find(
-      {},
+    return await Watch.aggregate([
       {
-        comments: 0,
-        watchDescription: 0
+        $lookup: {
+          from: 'brands',
+          localField: 'brand',
+          foreignField: '_id',
+          as: 'brand'
+        }
+      },
+      {
+        $addFields: {
+          brand: {
+            $map: {
+              input: '$brand',
+              as: 'brand',
+              in: {
+                _id: '$$brand._id',
+                brandName: '$$brand.brandName'
+              }
+            }
+          },
+          commentCount: {
+            $size: '$comments'
+          },
+          averageRating: {
+            $avg: '$comments.rating'
+          }
+        }
+      },
+      {
+        $unwind: '$brand'
+      },
+      {
+        $project: {
+          comments: 0,
+          watchDescription: 0
+        }
       }
-    ).populate('brand', 'brandName')
+    ])
   }
 
   async getWatches() {

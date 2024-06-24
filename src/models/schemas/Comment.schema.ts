@@ -28,6 +28,3 @@ export const commentSchema = new Schema(
     timestamps: true
   }
 )
-const Comment = model<CommentDocument>('Comment', commentSchema)
-
-export default Comment

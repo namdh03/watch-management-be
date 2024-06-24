@@ -118,13 +118,18 @@ class WatchService {
   async updateWatch(watchId: string, body: WatchReqBody) {
     const brand = await brandService.getBrandById(body.brandId)
 
-    return await Watch.updateOne(
+    return await Watch.findOneAndUpdate(
       {
         _id: watchId
       },
       {
-        ...body,
-        brand: brand.id
+        $set: {
+          ...body,
+          brand: brand.id
+        }
+      },
+      {
+        returnDocument: 'after'
       }
     )
   }

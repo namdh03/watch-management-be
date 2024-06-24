@@ -1,5 +1,10 @@
 import { Router } from 'express'
-import { createWatchController, getWatchController, getWatchesController } from '~/controllers/api/watch.controllers'
+import {
+  createWatchController,
+  getWatchController,
+  getWatchesController,
+  updateWatchController
+} from '~/controllers/api/watch.controllers'
 import { apiIsAdminMiddleware } from '~/middlewares/auth.middlewares'
 import { apiAccessTokenValidator } from '~/middlewares/user.middlewares'
 import { bodyWatchValidator, watchIdValidator } from '~/middlewares/watch.middlewares'
@@ -41,5 +46,27 @@ watchRouter.post(
  * Method: GET
  */
 watchRouter.get('/:watchId', watchIdValidator, wrapRequestHandler(getWatchController))
+
+/**
+ * Description. Update watch
+ * Path: /brands/:brandId
+ * Method: PUT
+ * Body: {
+ *  watchName: string
+ *  image: string
+ *  price: number
+ *  automatic: boolean
+ *  watchDescription: string
+ *  brandId: string
+ * }
+ */
+watchRouter.put(
+  '/:watchId',
+  apiAccessTokenValidator,
+  apiIsAdminMiddleware,
+  watchIdValidator,
+  bodyWatchValidator,
+  wrapRequestHandler(updateWatchController)
+)
 
 export default watchRouter

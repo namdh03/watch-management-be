@@ -39,6 +39,9 @@ brandRouter.get('/:brandId', brandIdValidator, wrapRequestHandler(getBrandContro
  * Description. Update brand
  * Path: /brands/:brandId
  * Method: PUT
+ * Body: {
+ *  brandName: string
+ * }
  */
 brandRouter.put('/:brandId', brandIdValidator, bodyBrandValidator, wrapRequestHandler(updateBrandController))
 

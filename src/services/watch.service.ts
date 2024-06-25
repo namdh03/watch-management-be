@@ -7,7 +7,7 @@ import HTTP_STATUS from '~/constants/httpStatus'
 import { Types, isValidObjectId } from 'mongoose'
 import { SearchWatchQuery } from '~/models/requests/Search.requests'
 import { Pagination } from '~/constants/enum'
-import { CommentReqBody } from '~/models/requests/Comment.requests'
+import { CommentWatchReqBody } from '~/models/requests/Comment.requests'
 
 class WatchService {
   async getAllWatches() {
@@ -189,7 +189,7 @@ class WatchService {
     })
   }
 
-  async findByIdAndAddComment(watchId: string, authorId: string, body: CommentReqBody) {
+  async findByIdAndAddComment(watchId: string, authorId: string, body: CommentWatchReqBody) {
     const watch = await Watch.findByIdAndUpdate(
       {
         _id: watchId
@@ -201,8 +201,22 @@ class WatchService {
             author: authorId
           }
         }
+      },
+      {
+        returnDocument: 'after'
       }
     )
+      .populate({
+        path: 'brand',
+        model: 'Brand'
+      })
+      .populate({
+        path: 'comments.author',
+        model: 'Member',
+        select: {
+          password: 0
+        }
+      })
 
     return watch
   }

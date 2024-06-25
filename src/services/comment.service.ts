@@ -1,11 +1,11 @@
-import { CommentReqBody } from '~/models/requests/Comment.requests'
+import { CommentWatchReqBody } from '~/models/requests/Comment.requests'
 import watchService from './watch.service'
 import { ErrorWithStatus } from '~/models/errors'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { COMMENT_MESSAGES, WATCH_MESSAGES } from '~/constants/messages'
 
 class CommentService {
-  async commentOnWatch(authorId: string, body: CommentReqBody) {
+  async commentOnWatch(authorId: string, body: CommentWatchReqBody) {
     const isWatchExistByAuthorId = await watchService.checkExistedWatchByAuthorId(body.watchId, authorId)
 
     if (isWatchExistByAuthorId) {

@@ -100,5 +100,8 @@ export const COMMENT_MESSAGES = {
   WATCH_CONTENT_LENGTH_MUST_BE_BETWEEN_1_AND_500: 'Watch content length must be between 1 and 500',
   COMMENT_DOES_NOT_EXIST: 'Comment does not exist',
   COMMENT_SUCCESSFULLY: 'Comment successfully',
-  DELETE_COMMENT_SUCCESSFULLY: 'Delete comment successfully'
+  DELETE_COMMENT_SUCCESSFULLY: 'Delete comment successfully',
+  COMMENT_ID_IS_REQUIRED: 'Comment id is required',
+  COMMENT_ID_MUST_BE_A_STRING: 'Comment id must be a string',
+  COMMENT_ID_MUST_BE_A_VALID_ID: 'Comment id must be a valid id'
 }

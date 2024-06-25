@@ -3,3 +3,7 @@ export type CommentWatchReqBody = {
   rating: number
   content: string
 }
+
+export type CommentWatchReqParams = {
+  commentId: string
+}

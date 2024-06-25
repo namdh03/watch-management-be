@@ -58,3 +58,29 @@ export const commentOnWatchValidator = validate(
     }
   })
 )
+
+export const deleteCommentWatchValidator = validate(
+  checkSchema({
+    commentId: {
+      notEmpty: {
+        errorMessage: COMMENT_MESSAGES.COMMENT_ID_IS_REQUIRED
+      },
+      isString: {
+        errorMessage: COMMENT_MESSAGES.COMMENT_ID_MUST_BE_A_STRING
+      },
+      trim: true,
+      custom: {
+        options: (value) => {
+          if (!isValidObjectId(value)) {
+            throw new ErrorWithStatus({
+              status: HTTP_STATUS.BAD_REQUEST,
+              message: COMMENT_MESSAGES.COMMENT_ID_MUST_BE_A_VALID_ID
+            })
+          }
+
+          return true
+        }
+      }
+    }
+  })
+)

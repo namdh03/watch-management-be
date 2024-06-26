@@ -153,10 +153,9 @@ class WatchService {
     const brand = query.brand && (await brandService.getBrandIdByName(query.brand))
     const match = {
       ...(query.name && {
-        $text: {
-          $search: query.name,
-          $caseSensitive: false,
-          $diacriticSensitive: false
+        watchName: {
+          $regex: query.name,
+          $options: 'i'
         }
       }),
       ...(brand && {
@@ -225,6 +224,7 @@ class WatchService {
 
     return {
       watches,
+      totalItems: total,
       totalPages
     }
   }

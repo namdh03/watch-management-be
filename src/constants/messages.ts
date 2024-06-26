@@ -33,7 +33,7 @@ export const BRAND_MESSAGES = {
 export const WATCH_MESSAGES = {
   WATCH_NAME_IS_REQUIRED: 'Watch name is required',
   WATCH_NAME_MUST_BE_A_STRING: 'Watch name must be a string',
-  WATCH_NAME_LENGTH_MUST_BE_BETWEEN_1_AND_50: 'Watch name length must be between 1 and 50',
+  WATCH_NAME_LENGTH_MUST_BE_BETWEEN_1_AND_100: 'Watch name length must be between 1 and 100',
   IMAGE_MUST_BE_A_URL: 'Image must be a URL',
   IMAGE_MUST_BE_A_STRING: 'Image must be a string',
   IMAGE_LENGTH_MUST_BE_BETWEEN_1_AND_255: 'Image length must be between 1 and 255',

@@ -19,9 +19,9 @@ export const bodyWatchValidator = validate(
         isLength: {
           options: {
             min: 1,
-            max: 50
+            max: 100
           },
-          errorMessage: WATCH_MESSAGES.WATCH_NAME_LENGTH_MUST_BE_BETWEEN_1_AND_50
+          errorMessage: WATCH_MESSAGES.WATCH_NAME_LENGTH_MUST_BE_BETWEEN_1_AND_100
         }
       },
       image: {

@@ -149,26 +149,79 @@ class WatchService {
     return result
   }
 
-  async searchWatch({ name, brand, page, limit }: SearchWatchQuery) {
-    const brandId = brand && (await brandService.getBrandIdByName(brand))
-    const query = {
-      ...(name && {
-        watchName: {
-          $regex: name,
-          $options: 'i'
+  async searchWatch(query: SearchWatchQuery) {
+    const brand = query.brand && (await brandService.getBrandIdByName(query.brand))
+    const match = {
+      ...(query.name && {
+        $text: {
+          $search: query.name,
+          $caseSensitive: false,
+          $diacriticSensitive: false
         }
       }),
       ...(brand && {
-        brand: brandId
+        brand: brand._id
       })
     }
 
-    const watches = await Watch.find(query)
-      .skip(((Number(page) || Pagination.DefaultPage) - 1) * Number(limit || Pagination.DefaultLimit))
-      .limit(Number(limit || Pagination.DefaultLimit))
-      .populate('brand', 'brandName')
-    const total = await Watch.countDocuments(query)
-    const totalPages = Math.ceil(total / Number(limit || Pagination.DefaultLimit))
+    const [watches, total] = await Promise.all([
+      Watch.aggregate([
+        {
+          $match: match
+        },
+        {
+          $lookup: {
+            from: 'brands',
+            localField: 'brand',
+            foreignField: '_id',
+            as: 'brand'
+          }
+        },
+        {
+          $addFields: {
+            brand: {
+              $map: {
+                input: '$brand',
+                as: 'brand',
+                in: {
+                  _id: '$$brand._id',
+                  brandName: '$$brand.brandName'
+                }
+              }
+            },
+            commentCount: {
+              $size: '$comments'
+            },
+            averageRating: {
+              $avg: '$comments.rating'
+            }
+          }
+        },
+        {
+          $unwind: '$brand'
+        },
+        {
+          $project: {
+            comments: 0,
+            watchDescription: 0
+          }
+        },
+        {
+          $sort: {
+            createdAt: -1
+          }
+        },
+        {
+          $skip: ((Number(query.page) || Pagination.DefaultPage) - 1) * Number(query.limit || Pagination.DefaultLimit)
+        },
+        {
+          $limit: Number(query.limit || Pagination.DefaultLimit)
+        }
+      ]),
+      Watch.countDocuments(match)
+    ])
+
+    const totalPages = Math.ceil(total / Number(query.limit || Pagination.DefaultLimit))
 
     return {
       watches,

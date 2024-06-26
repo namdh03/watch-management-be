@@ -1,4 +1,5 @@
-import { Request, Response } from 'express'
+import { Response } from 'express'
+
 import { Pagination } from '~/constants/enum'
 import { TypedRequestQuery } from '~/models/requests'
 import { SearchWatchQuery } from '~/models/requests/Search.requests'

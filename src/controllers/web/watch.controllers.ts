@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
+
 import { Pagination } from '~/constants/enum'
 import { WATCH_MESSAGES } from '~/constants/messages'
 import { TypedRequestBody, TypedRequestParams, TypedRequestParamsBody } from '~/models/requests'
-import { WatchReqParams, WatchReqBody } from '~/models/requests/Watch.requests'
+import { WatchReqBody, WatchReqParams } from '~/models/requests/Watch.requests'
 import brandService from '~/services/brand.service'
 import watchService from '~/services/watch.service'
 

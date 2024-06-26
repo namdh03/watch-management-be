@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+
 import { TypedRequestBody } from '~/models/requests'
 import { SignInReqBody, SignUpReqBody } from '~/models/requests/Auth.requests'
 import userService from '~/services/user.service'

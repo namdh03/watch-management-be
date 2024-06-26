@@ -1,4 +1,5 @@
 import { Router } from 'express'
+
 import searchControllers from '~/controllers/web/search.controllers'
 import { paginationValidator, searchWatchValidator } from '~/middlewares/search.middlewares'
 import { wrapRequestHandler } from '~/utils/handlers'

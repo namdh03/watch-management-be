@@ -1,13 +1,15 @@
-import { WatchReqBody } from '~/models/requests/Watch.requests'
-import Watch from '~/models/schemas/Watch.schema'
-import brandService from './brand.service'
+import { isValidObjectId, Types } from 'mongoose'
+
+import { Pagination } from '~/constants/enum'
+import HTTP_STATUS from '~/constants/httpStatus'
 import { WATCH_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/errors'
-import HTTP_STATUS from '~/constants/httpStatus'
-import { Types, isValidObjectId } from 'mongoose'
-import { SearchWatchQuery } from '~/models/requests/Search.requests'
-import { Pagination } from '~/constants/enum'
 import { CommentWatchReqBody } from '~/models/requests/Comment.requests'
+import { SearchWatchQuery } from '~/models/requests/Search.requests'
+import { WatchReqBody } from '~/models/requests/Watch.requests'
+import Watch from '~/models/schemas/Watch.schema'
+
+import brandService from './brand.service'
 
 class WatchService {
   async getAllWatches() {

@@ -1,5 +1,5 @@
-import { Query, ParamsDictionary } from 'express-serve-static-core'
 import { NextFunction, Request, RequestHandler, Response } from 'express'
+import { ParamsDictionary, Query } from 'express-serve-static-core'
 
 export const wrapRequestHandler = <P = ParamsDictionary, ResBody = Response, ReqBody = Request, ReqQuery = Query>(
   fn: RequestHandler<P, ResBody, ReqBody, ReqQuery>

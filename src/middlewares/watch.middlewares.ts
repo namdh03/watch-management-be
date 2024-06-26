@@ -1,5 +1,6 @@
-import { checkSchema } from 'express-validator'
 import { isValidObjectId } from 'mongoose'
+import { checkSchema } from 'express-validator'
+
 import HTTP_STATUS from '~/constants/httpStatus'
 import { BRAND_MESSAGES, WATCH_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/errors'

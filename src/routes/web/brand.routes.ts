@@ -1,6 +1,7 @@
 import { Router } from 'express'
+
 import brandControllers from '~/controllers/web/brand.controllers'
-import { bodyBrandValidator, brandNameValidator, brandIdValidator } from '~/middlewares/brand.middlewares'
+import { bodyBrandValidator, brandIdValidator, brandNameValidator } from '~/middlewares/brand.middlewares'
 import { wrapRequestHandler } from '~/utils/handlers'
 
 const brandRouter = Router()

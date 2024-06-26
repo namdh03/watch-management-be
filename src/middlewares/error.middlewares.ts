@@ -1,8 +1,10 @@
 import { NextFunction, Request, Response } from 'express'
+
 import HTTP_STATUS from '~/constants/httpStatus'
 import { SERVER_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/errors'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const webDefaultErrorHandler = (err: Error, req: Request, res: Response, _next: NextFunction) => {
   try {
     console.log('webDefaultErrorHandler', req.method, req.originalUrl, err)
@@ -40,6 +42,7 @@ export const webDefaultErrorHandler = (err: Error, req: Request, res: Response, 
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const apiDefaultErrorHandler = (err: Error, req: Request, res: Response, _next: NextFunction) => {
   try {
     if (err instanceof ErrorWithStatus) {

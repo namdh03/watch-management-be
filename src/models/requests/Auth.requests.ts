@@ -1,4 +1,5 @@
 import { JwtPayload } from 'jsonwebtoken'
+
 import { TokenType } from '~/constants/enum'
 
 export interface TokenPayload extends JwtPayload {

@@ -1,14 +1,15 @@
 import express from 'express'
+import cookieParser from 'cookie-parser'
+import flash from 'express-flash-message'
 import { create } from 'express-handlebars'
 import session from 'express-session'
-import flash from 'express-flash-message'
-import cookieParser from 'cookie-parser'
 import methodOverride from 'method-override'
-import databaseService from './services/database.service'
-import webRoutes from './routes/web'
-import registerHelperHbs from './utils/registerHelperHbs'
+
 import { PORT } from './constants/env'
 import apiRoutes from './routes/api'
+import webRoutes from './routes/web'
+import databaseService from './services/database.service'
+import registerHelperHbs from './utils/registerHelperHbs'
 
 const app = express()
 const hbs = create({
@@ -48,10 +49,10 @@ app.use(
 // setup flash
 app.use(
   flash({
-    sessionKeyName: 'express-flash-message',
+    sessionKeyName: 'express-flash-message'
     // below are optional property you can pass in to track
-    onAddFlash: (type, message) => {},
-    onConsumeFlash: (type: string, messages: string[]) => {}
+    // onAddFlash: (type, message) => {},
+    // onConsumeFlash: (type: string, messages: string[]) => {}
   })
 )
 

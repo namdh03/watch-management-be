@@ -1,4 +1,4 @@
-import { Document, Schema, model } from 'mongoose'
+import { Document, Schema } from 'mongoose'
 
 export interface CommentDocument extends Document {
   rating: number

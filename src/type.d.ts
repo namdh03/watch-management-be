@@ -1,4 +1,3 @@
-import { Request } from 'express'
 import { TokenPayload } from '~/models/requests/Auth.requests'
 import { MemberDocument } from '~/models/schemas/Member.schema'
 

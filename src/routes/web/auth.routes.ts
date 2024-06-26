@@ -1,4 +1,5 @@
 import { Router } from 'express'
+
 import authControllers from '~/controllers/web/auth.controllers'
 import { guestMiddleware } from '~/middlewares/guest.middlewares'
 import { signInBodyValidator, signUpBodyValidator } from '~/middlewares/user.middlewares'

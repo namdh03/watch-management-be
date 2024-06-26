@@ -1,4 +1,5 @@
 import { Response } from 'express'
+
 import { USER_MESSAGES } from '~/constants/messages'
 import { TypedRequestBody, TypedRequestParams } from '~/models/requests'
 import { ChangePasswordReqBody, MemberReqBody, MemberReqParams } from '~/models/requests/Member.requests'

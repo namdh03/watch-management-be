@@ -1,4 +1,5 @@
 import { checkSchema } from 'express-validator'
+
 import { BRAND_MESSAGES, SERVER_MESSAGES, WATCH_MESSAGES } from '~/constants/messages'
 import validate from '~/utils/validate'
 

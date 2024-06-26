@@ -1,6 +1,7 @@
 import { Router } from 'express'
+
 import watchController from '~/controllers/web/watch.controllers'
-import { watchIdValidator, bodyWatchValidator } from '~/middlewares/watch.middlewares'
+import { bodyWatchValidator, watchIdValidator } from '~/middlewares/watch.middlewares'
 import { wrapRequestHandler } from '~/utils/handlers'
 
 const watchRouter = Router()

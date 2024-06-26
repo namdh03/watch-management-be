@@ -1,4 +1,5 @@
 import { Router } from 'express'
+
 import detailControllers from '~/controllers/web/detail.controllers'
 import { wrapRequestHandler } from '~/utils/handlers'
 

@@ -1,14 +1,10 @@
 import { Request, Response } from 'express'
+
 import HTTP_STATUS from '~/constants/httpStatus'
 import { USER_MESSAGES } from '~/constants/messages'
 import { TypedRequestBody } from '~/models/requests'
 import { SignInReqBody, SignOutReqBody, SignUpReqBody, TokenPayload } from '~/models/requests/Auth.requests'
-import {
-  ChangePasswordReqBody,
-  MemberReqBody,
-  MemberReqParams,
-  RefreshTokenReqBody
-} from '~/models/requests/Member.requests'
+import { ChangePasswordReqBody, MemberReqBody, RefreshTokenReqBody } from '~/models/requests/Member.requests'
 import userService from '~/services/user.service'
 
 // [POST] /users/sign-in

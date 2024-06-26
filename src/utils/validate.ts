@@ -1,5 +1,6 @@
 import express from 'express'
-import { validationResult, ValidationChain, ContextRunner } from 'express-validator'
+import { ContextRunner, validationResult } from 'express-validator'
+
 import HTTP_STATUS from '~/constants/httpStatus'
 import { EntityError, ErrorWithStatus } from '~/models/errors'
 

@@ -1,4 +1,5 @@
-import { Document, Schema, model } from 'mongoose'
+import { Document, model, Schema } from 'mongoose'
+
 import { commentSchema } from './Comment.schema'
 
 export interface WatchDocument extends Document {

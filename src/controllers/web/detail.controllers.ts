@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+
 import watchService from '~/services/watch.service'
 
 // [GET] /watch/:watchId

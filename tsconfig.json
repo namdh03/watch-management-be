@@ -7,9 +7,23 @@
     "esModuleInterop": true,
     "strict": true /* Enable all strict type-checking options. */,
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
+    /* Paths */
     "baseUrl": ".", // Đường dẫn base cho các import
     "paths": {
-      "~/*": ["src/*"] // Đường dẫn tương đối cho các import (alias)
+      "~*": ["src/*"],
+      "~apis/*": ["src/apis/*"],
+      "~assets/*": ["src/assets/*"],
+      "~components/*": ["src/components/*"],
+      "~configs/*": ["src/configs/*"],
+      "~contexts/*": ["src/contexts/*"],
+      "~guards/*": ["src/guards/*"],
+      "~hooks/*": ["src/hooks/*"],
+      "~layouts/*": ["src/layouts/*"],
+      "~lib/*": ["src/lib/*"],
+      "~pages/*": ["src/pages/*"],
+      "~routes/*": ["src/routes/*"],
+      "~types/*": ["src/types/*"],
+      "~utils/*": ["src/utils/*"]
     }
   },
   "ts-node": {

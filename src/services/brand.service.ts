@@ -3,6 +3,7 @@ import { BRAND_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/errors'
 import { BrandReqBody } from '~/models/requests/Brand.requests'
 import Brand from '~/models/schemas/Brand.schema'
+
 import watchService from './watch.service'
 
 class BrandService {

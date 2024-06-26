@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
-import { ParamSchema, checkSchema } from 'express-validator'
+import { checkSchema, ParamSchema } from 'express-validator'
 import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken'
+
 import { JWT_SECRET_ACCESS_TOKEN, JWT_SECRET_REFRESH_TOKEN } from '~/constants/env'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { USER_MESSAGES } from '~/constants/messages'

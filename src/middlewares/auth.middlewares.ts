@@ -60,3 +60,18 @@ export const apiIsAdminMiddleware = async (req: Request, _res: Response, next: N
 
   next()
 }
+
+export const apiIsUserMiddleware = async (req: Request, _res: Response, next: NextFunction) => {
+  const { isAdmin } = req.decodeAuthorization as TokenPayload
+
+  if (isAdmin) {
+    return next(
+      new ErrorWithStatus({
+        status: HTTP_STATUS.FORBIDDEN,
+        message: SERVER_MESSAGES.FORBIDDEN
+      })
+    )
+  }
+
+  next()
+}

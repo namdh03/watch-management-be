@@ -90,7 +90,8 @@ export const USER_MESSAGES = {
   SIGN_OUT_SUCCESS: 'Sign out successfully',
   GET_ME_SUCCESS: 'Get me successfully',
   UPDATE_ME_SUCCESS: 'Update me successfully',
-  GET_USERS_SUCCESS: 'Get users successfully'
+  GET_USERS_SUCCESS: 'Get users successfully',
+  REFRESH_TOKEN_SUCCESS: 'Refresh token successfully'
 }
 
 export const COMMENT_MESSAGES = {

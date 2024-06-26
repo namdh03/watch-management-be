@@ -15,3 +15,7 @@ export interface ChangePasswordReqBody {
   password: string
   confirmPassword: string
 }
+
+export interface RefreshTokenReqBody {
+  refreshToken: string
+}

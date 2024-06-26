@@ -3,6 +3,7 @@ import {
   changePasswordController,
   getUsersController,
   meController,
+  refreshTokenController,
   signInController,
   signOutController,
   signUpController,
@@ -96,5 +97,15 @@ userRouter.put(
  * Method: GET
  */
 userRouter.get('/', apiAccessTokenValidator, apiIsAdminMiddleware, wrapRequestHandler(getUsersController))
+
+/**
+ * Description. Refresh token when access token is expired
+ * Path: /users/refresh-token
+ * Method: POST
+ * Body: {
+ *    refreshToken: string
+ * }
+ */
+userRouter.post('/refresh-token', apiRefreshTokenValidator, wrapRequestHandler(refreshTokenController))
 
 export default userRouter

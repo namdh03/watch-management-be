@@ -9,6 +9,8 @@ import {
 } from '~/controllers/api/brand.controllers'
 import { bodyBrandValidator, brandIdValidator } from '~/middlewares/brand.middlewares'
 import { wrapRequestHandler } from '~/utils/handlers'
+import { apiIsAdminMiddleware } from '~middlewares/auth.middlewares'
+import { apiAccessTokenValidator } from '~middlewares/user.middlewares'
 
 const brandRouter = Router()
 
@@ -27,14 +29,26 @@ brandRouter.get('/', wrapRequestHandler(getBrandsController))
  *  brandName: string
  * }
  */
-brandRouter.post('/', bodyBrandValidator, wrapRequestHandler(createBrandController))
+brandRouter.post(
+  '/',
+  apiAccessTokenValidator,
+  apiIsAdminMiddleware,
+  bodyBrandValidator,
+  wrapRequestHandler(createBrandController)
+)
 
 /**
  * Description. Get brand
  * Path: /brands/:brandId
  * Method: GET
  */
-brandRouter.get('/:brandId', brandIdValidator, wrapRequestHandler(getBrandController))
+brandRouter.get(
+  '/:brandId',
+  apiAccessTokenValidator,
+  apiIsAdminMiddleware,
+  brandIdValidator,
+  wrapRequestHandler(getBrandController)
+)
 
 /**
  * Description. Update brand
@@ -44,13 +58,26 @@ brandRouter.get('/:brandId', brandIdValidator, wrapRequestHandler(getBrandContro
  *  brandName: string
  * }
  */
-brandRouter.put('/:brandId', brandIdValidator, bodyBrandValidator, wrapRequestHandler(updateBrandController))
+brandRouter.put(
+  '/:brandId',
+  apiAccessTokenValidator,
+  apiIsAdminMiddleware,
+  brandIdValidator,
+  bodyBrandValidator,
+  wrapRequestHandler(updateBrandController)
+)
 
 /**
  * Description. Delete brand
  * Path: /brands/:brandId
  * Method: DELETE
  */
-brandRouter.delete('/:brandId', brandIdValidator, wrapRequestHandler(deleteBrandController))
+brandRouter.delete(
+  '/:brandId',
+  apiAccessTokenValidator,
+  apiIsAdminMiddleware,
+  brandIdValidator,
+  wrapRequestHandler(deleteBrandController)
+)
 
 export default brandRouter

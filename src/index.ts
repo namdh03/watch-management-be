@@ -1,5 +1,6 @@
 import express from 'express'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
 import flash from 'express-flash-message'
 import { create } from 'express-handlebars'
 import session from 'express-session'
@@ -22,6 +23,7 @@ const hbs = create({
 })
 
 databaseService.connect()
+app.use(cors())
 app.engine('.hbs', hbs.engine)
 app.set('view engine', '.hbs')
 app.set('views', `${__dirname}/views`)
